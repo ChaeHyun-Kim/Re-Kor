@@ -5,25 +5,27 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
-import { Ionicons } from "@expo/vector-icons";
-import { EvilIcons } from "@expo/vector-icons";
+import { WithLocalSvg } from "react-native-svg";
+
+import search from "../icons/Search.svg";
+import user from "../icons/user.svg";
+import logo from "../icons/rekor_logo.svg";
 
 export default function Header() {
   return (
     <View style={styles.fullscreen}>
       <View style={styles.container}>
-        <EvilIcons
-          name="search"
-          style={{ fontSize: responsiveScreenFontSize(3) }}
-          color="black"
+        <WithLocalSvg
+          style={{ fontSize: responsiveScreenFontSize(4) }}
+          asset={search}
         />
-
-        <Text style={styles.maintext}>Re-Kor</Text>
-
-        <Ionicons
-          name="menu"
+        <WithLocalSvg
           style={{ fontSize: responsiveScreenFontSize(3) }}
-          color="black"
+          asset={logo}
+        />
+        <WithLocalSvg
+          style={{ fontSize: responsiveScreenFontSize(4) }}
+          asset={user}
         />
       </View>
     </View>
@@ -38,13 +40,11 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    height: 40,
-    marginTop: 50,
+    height: 63,
+    marginTop: 44,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
   },
   maintext: {
     alignItems: "flex-start",
