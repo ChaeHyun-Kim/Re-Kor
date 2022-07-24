@@ -1,5 +1,6 @@
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -9,10 +10,20 @@ import Header from "../components/Header";
 import Bottom from "../components/Bottom";
 import { WithLocalSvg } from "react-native-svg";
 import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 import user_character from "../icons/user_character.svg";
+import no_heart from "../icons/no_heart.svg";
 
 export default function Explore({ navigation }) {
+  const user_name = useState("Gayoung");
+  const place = require("../image/place1.png");
+  const region = useState("Gapyeong");
+  const place_name = useState("Petite France");
+  const keyword = useState(["Fun", "K-Dramea", "Fun", "Fun", "Fun"]);
+  const place_heart = useState(100);
+  const place_star = useState(4.5);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -21,7 +32,7 @@ export default function Explore({ navigation }) {
         <View style={styles.user_information}>
           <View style={styles.row_view}>
             <Text style={styles.welcome_text}>
-              Hi, Gayoung :){"\n"}I'll recommend it to you again!
+              Hi, {user_name} :){"\n"}I'll recommend it to you again!
             </Text>
             <WithLocalSvg
               style={{ fontSize: responsiveScreenFontSize(4) }}
@@ -52,7 +63,44 @@ export default function Explore({ navigation }) {
               style={{ fontSize: responsiveScreenFontSize(3) }}
               color="#D3D3D3"
             />
-            <View style={styles.picture}></View>
+            <ImageBackground
+              style={styles.picture}
+              source={place}
+              resizeMode="cover"
+            >
+              <View style={styles.left}>
+                <WithLocalSvg
+                  style={{ fontSize: responsiveScreenFontSize(4) }}
+                  asset={no_heart}
+                />
+              </View>
+
+              <View style={styles.place_information}>
+                <Text style={styles.region_text}>{region}</Text>
+                <View style={styles.row_view}>
+                  <View style={styles.leftview}>
+                    <Text style={styles.place_text}>{place_name}</Text>
+                    <View style={styles.row}>
+                      <AntDesign
+                        name="heart"
+                        style={{ fontSize: responsiveScreenFontSize(1.5) }}
+                        color="#FF7272"
+                      />
+                      <Text style={styles.sub_text}>{place_heart}</Text>
+                      <AntDesign
+                        name="star"
+                        style={{ fontSize: responsiveScreenFontSize(1.5) }}
+                        color="#FDB600"
+                      />
+                      <Text style={styles.sub_text}>{place_star}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.right_view}>
+                    <Text style={styles.region_text}>{place_star}</Text>
+                  </View>
+                </View>
+              </View>
+            </ImageBackground>
             <MaterialIcons
               name="keyboard-arrow-down"
               style={{ fontSize: responsiveScreenFontSize(3) }}
@@ -147,6 +195,38 @@ const styles = StyleSheet.create({
   picture: {
     width: responsiveScreenWidth(70),
     height: responsiveScreenWidth(70),
-    backgroundColor: "pink",
+    borderRadius: 20,
+    position: "relative",
+    paddingTop: 20,
+    justifyContent: "space-between",
+  },
+  region_text: {
+    fontWeight: "400",
+    fontSize: 14,
+    color: "white",
+  },
+  place_text: {
+    fontWeight: "700",
+    fontSize: 25,
+    color: "white",
+  },
+  sub_text: {
+    fontWeight: "700",
+    fontSize: 10,
+    color: "white",
+    marginLeft: 5,
+    marginRight: 8,
+  },
+  left: {
+    alignItems: "flex-end",
+    paddingRight: 20,
+  },
+  place_information: {
+    width: "100%",
+    padding: 20,
+  },
+
+  row: {
+    flexDirection: "row",
   },
 });
