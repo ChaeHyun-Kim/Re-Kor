@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import {
   responsiveScreenHeight,
@@ -7,9 +8,10 @@ import {
 } from "react-native-responsive-dimensions";
 import { EvilIcons } from "@expo/vector-icons";
 
-export default function Login() {
+export default function Login({ navigation }) {
   return (
     <View style={styles.fullscreen}>
+      <StatusBar style="auto" />
       <View style={styles.margin} />
       <Text style={styles.Maintext}>Re-Kor</Text>
       <View style={styles.margin} />
@@ -18,7 +20,10 @@ export default function Login() {
       <View style={styles.margin} />
 
       <View style={styles.btnview}>
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("Explore")}
+        >
           <View style={styles.btn}>
             <EvilIcons
               name="search"

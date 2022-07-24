@@ -1,78 +1,107 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
+
 import { WithLocalSvg } from "react-native-svg";
 
-import icon1 from "../icons/explore.svg";
-import icon2 from "../icons/categories.svg";
-import icon3 from "../icons/courselist.svg";
-import icon4 from "../icons/wishlist.svg";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import mapicon from "../icons/map.svg";
 
 export default function Bottom({ num }) {
+  const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
       <View style={styles.menuview}>
         <View style={styles.leftview}>
-          <View style={styles.iconview}>
-            <WithLocalSvg
-              style={{ fontSize: responsiveScreenFontSize(4) }}
-              asset={icon1}
-            />
-            <Text
-              style={
-                num === 1 ? styles.menutext_check : styles.menutext_nocheck
-              }
-            >
-              Explore
-            </Text>
-          </View>
-          <View style={styles.iconview}>
-            <WithLocalSvg
-              style={{ fontSize: responsiveScreenFontSize(4) }}
-              asset={icon2}
-            />
-            <Text
-              style={
-                num === 2 ? styles.menutext_check : styles.menutext_nocheck
-              }
-            >
-              Categories
-            </Text>
-          </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Explore")}
+          >
+            <View style={styles.iconview}>
+              <MaterialIcons
+                name="explore"
+                style={{ fontSize: responsiveScreenFontSize(2.5) }}
+                color={num === 1 ? "#FFCC00" : "#D4D6DD"}
+              />
+              <Text
+                style={
+                  num === 1 ? styles.menutext_check : styles.menutext_nocheck
+                }
+              >
+                Explore
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Categories")}
+          >
+            <View style={styles.iconview}>
+              <AntDesign
+                name="appstore1"
+                style={{ fontSize: responsiveScreenFontSize(2.5) }}
+                color={num === 2 ? "#FFCC00" : "#D4D6DD"}
+              />
+              <Text
+                style={
+                  num === 2 ? styles.menutext_check : styles.menutext_nocheck
+                }
+              >
+                Categories
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.rightview}>
-          <View style={styles.iconview}>
-            <WithLocalSvg
-              style={{ fontSize: responsiveScreenFontSize(4) }}
-              asset={icon3}
-            />
-            <Text
-              style={
-                num === 3 ? styles.menutext_check : styles.menutext_nocheck
-              }
-            >
-              Courselist
-            </Text>
-          </View>
-          <View style={styles.iconview}>
-            <WithLocalSvg
-              style={{ fontSize: responsiveScreenFontSize(4) }}
-              asset={icon4}
-            />
-            <Text
-              style={
-                num === 3 ? styles.menutext_check : styles.menutext_nocheck
-              }
-            >
-              Wishlist
-            </Text>
-          </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Courselist")}
+          >
+            <View style={styles.iconview}>
+              <Octicons
+                name="list-unordered"
+                style={{ fontSize: responsiveScreenFontSize(2.5) }}
+                color={num === 3 ? "#FFCC00" : "#D4D6DD"}
+              />
+              <Text
+                style={
+                  num === 3 ? styles.menutext_check : styles.menutext_nocheck
+                }
+              >
+                Courselist
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Wishlist")}
+          >
+            <View style={styles.iconview}>
+              <MaterialCommunityIcons
+                name="account-heart-outline"
+                style={{ fontSize: responsiveScreenFontSize(2.5) }}
+                color={num === 4 ? "#FFCC00" : "#D4D6DD"}
+              />
+              <Text
+                style={
+                  num === 4 ? styles.menutext_check : styles.menutext_nocheck
+                }
+              >
+                Wishlist
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -84,7 +113,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "red",
+    backgroundColor: "#FAFAFA",
   },
   menuview: {
     width: "100%",
@@ -96,6 +125,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
+    borderColor: "#EEEEEE",
+    borderTopWidth: 1.4,
+    borderStartWidth: 1.4,
+    borderEndWidth: 1.4,
   },
   leftview: {
     justifyContent: "space-between",

@@ -1,15 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Login from "./src/screens/Login";
-import Home from "./src/screens/Home";
+import App from "./src/App";
+import { Text } from "react-native";
+import React from "react";
+// import Loading from "./src/Loading";
 
-export default function App() {
-  return <Home />;
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+
+export default class extends React.Component {
+  render() {
+    return <App />;
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});

@@ -7,25 +7,27 @@ import {
 } from "react-native-responsive-dimensions";
 import { WithLocalSvg } from "react-native-svg";
 
-import search from "../icons/Search.svg";
-import user from "../icons/user.svg";
+import { Ionicons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import logo from "../icons/rekor_logo.svg";
 
 export default function Header() {
   return (
     <View style={styles.fullscreen}>
       <View style={styles.container}>
-        <WithLocalSvg
-          style={{ fontSize: responsiveScreenFontSize(4) }}
-          asset={search}
+        <Ionicons
+          name="ios-search"
+          style={{ fontSize: responsiveScreenFontSize(3) }}
+          color="#2F3036"
         />
         <WithLocalSvg
           style={{ fontSize: responsiveScreenFontSize(3) }}
           asset={logo}
         />
-        <WithLocalSvg
-          style={{ fontSize: responsiveScreenFontSize(4) }}
-          asset={user}
+        <Octicons
+          name="person"
+          style={{ fontSize: responsiveScreenFontSize(3) }}
+          color="#2F3036"
         />
       </View>
     </View>
@@ -37,6 +39,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    borderBottomColor: "#EEEEEE",
+    borderBottomWidth: 1.4,
   },
   container: {
     width: "90%",

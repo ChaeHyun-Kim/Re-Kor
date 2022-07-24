@@ -12,7 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import user_character from "../icons/user_character.svg";
 
-export default function Home() {
+export default function Explore({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -61,7 +61,7 @@ export default function Home() {
           </View>
         </View>
       </View>
-      <Bottom num={1} />
+      <Bottom num={1} navigation={navigation} />
     </View>
   );
 }
@@ -77,13 +77,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   user_information: {
-    backgroundColor: "white",
     width: responsiveScreenWidth(90),
-    height: responsiveScreenWidth(90)/2.5,
+    height: responsiveScreenWidth(90) / 2.5,
     marginTop: 24,
     borderRadius: 30,
     paddingHorizontal: 22,
     paddingVertical: 19,
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 3,
   },
   row_view: {
     justifyContent: "space-between",
