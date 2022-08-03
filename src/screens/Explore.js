@@ -17,7 +17,7 @@ import no_heart from "../icons/no_heart.svg";
 
 export default function Explore({ navigation }) {
   const user_name = useState("Gayoung");
-  const place = require("../image/place1.png");
+  const place = require("../images/place1.png");
   const region = useState("Gapyeong");
   const place_name = useState("Petite France");
   const keyword = useState(["Fun", "K-Dramea", "Fun", "Fun", "Fun"]);
