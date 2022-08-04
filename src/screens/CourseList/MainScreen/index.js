@@ -1,32 +1,29 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
-import Header from "../components/Header";
-import Bottom from "../components/Bottom";
+import Header from "../../../components/Header";
+import Bottom from "../../../components/Bottom";
+import { toSize } from "../../../globalStyle";
 
-export default function Courselist() {
+const CourseListMainScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Header />
-      <View style={styles.mainview}>
+      <Header Title={"CourseList"} />
+      <View style={styles.MainView}>
         <Text style={styles.main_text}>Travel Courses List</Text>
       </View>
       <Bottom num={3} />
     </View>
   );
-}
+};
+export default CourseListMainScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
   },
-  mainview: {
+  MainView: {
     flex: 1,
     backgroundColor: "#FAFAFA",
     paddingHorizontal: 43,

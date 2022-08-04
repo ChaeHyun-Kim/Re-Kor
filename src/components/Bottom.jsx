@@ -1,39 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 
 import { WithLocalSvg } from "react-native-svg";
+import MapIcon from "../icons/map.svg";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-import mapicon from "../icons/map.svg";
+import { toSize } from "../globalStyle";
 
 export default function Bottom({ num }) {
   const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
-      <View style={styles.menuview}>
-        <View style={styles.leftview}>
+      <View style={styles.MenuView}>
+        <View style={styles.LeftView}>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => navigation.navigate("Explore")}
           >
-            <View style={styles.iconview}>
+            <View style={styles.IconView}>
               <MaterialIcons
                 name="explore"
-                style={{ fontSize: responsiveScreenFontSize(2.5) }}
+                style={{ fontSize: toSize(20) }}
                 color={num === 1 ? "#FFCC00" : "#D4D6DD"}
               />
               <Text
                 style={
-                  num === 1 ? styles.menutext_check : styles.menutext_nocheck
+                  num === 1 ? styles.MenuText_check : styles.MenuText_NoCheck
                 }
               >
                 Explore
@@ -45,15 +42,15 @@ export default function Bottom({ num }) {
             activeOpacity={0.8}
             onPress={() => navigation.navigate("Categories")}
           >
-            <View style={styles.iconview}>
+            <View style={styles.IconView}>
               <AntDesign
                 name="appstore1"
-                style={{ fontSize: responsiveScreenFontSize(2.5) }}
+                style={{ fontSize: toSize(20) }}
                 color={num === 2 ? "#FFCC00" : "#D4D6DD"}
               />
               <Text
                 style={
-                  num === 2 ? styles.menutext_check : styles.menutext_nocheck
+                  num === 2 ? styles.MenuText_check : styles.MenuText_NoCheck
                 }
               >
                 Categories
@@ -62,23 +59,34 @@ export default function Bottom({ num }) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.rightview}>
+        <View style={styles.MapIconView}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Courselist")}
+            onPress={() => navigation.navigate("MakeCourse")}
           >
-            <View style={styles.iconview}>
+            <View style={styles.MapBackGround}>
+              <WithLocalSvg style={{ fontSize: toSize(55) }} asset={MapIcon} />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.RightView}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("CourseList")}
+          >
+            <View style={styles.IconView}>
               <Octicons
                 name="list-unordered"
-                style={{ fontSize: responsiveScreenFontSize(2.5) }}
+                style={{ fontSize: toSize(20) }}
                 color={num === 3 ? "#FFCC00" : "#D4D6DD"}
               />
               <Text
                 style={
-                  num === 3 ? styles.menutext_check : styles.menutext_nocheck
+                  num === 3 ? styles.MenuText_check : styles.MenuText_NoCheck
                 }
               >
-                Courselist
+                CourseList
               </Text>
             </View>
           </TouchableOpacity>
@@ -87,15 +95,15 @@ export default function Bottom({ num }) {
             activeOpacity={0.8}
             onPress={() => navigation.navigate("Wishlist")}
           >
-            <View style={styles.iconview}>
+            <View style={styles.IconView}>
               <MaterialCommunityIcons
                 name="account-heart-outline"
-                style={{ fontSize: responsiveScreenFontSize(2.5) }}
+                style={{ fontSize: toSize(20) }}
                 color={num === 4 ? "#FFCC00" : "#D4D6DD"}
               />
               <Text
                 style={
-                  num === 4 ? styles.menutext_check : styles.menutext_nocheck
+                  num === 4 ? styles.MenuText_check : styles.MenuText_NoCheck
                 }
               >
                 Wishlist
@@ -115,46 +123,63 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#FAFAFA",
   },
-  menuview: {
+  MenuView: {
     width: "100%",
     backgroundColor: "white",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    height: 88,
-    padding: 16,
+    borderTopLeftRadius: toSize(20),
+    borderTopRightRadius: toSize(20),
+    height: toSize(88),
+    padding: toSize(16),
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
     borderColor: "#EEEEEE",
-    borderTopWidth: 1.4,
-    borderStartWidth: 1.4,
-    borderEndWidth: 1.4,
+    borderTopWidth: toSize(1.4),
+    borderStartWidth: toSize(1.4),
+    borderEndWidth: toSize(1.4),
   },
-  leftview: {
+  LeftView: {
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
   },
-  rightview: {
+  RightView: {
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
   },
-  iconview: {
+  IconView: {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     width: responsiveScreenWidth(20),
   },
-  menutext_check: {
-    fontSize: responsiveScreenFontSize(1.5),
-    marginTop: 8,
+  MenuText_check: {
+    fontSize: toSize(10),
+    marginTop: toSize(8),
     fontWeight: "bold",
     color: "#FFCC00",
   },
-  menutext_nocheck: {
-    fontSize: responsiveScreenFontSize(1.5),
-    marginTop: 8,
+  MenuText_NoCheck: {
+    fontSize: toSize(10),
+    marginTop: toSize(8),
     color: "#71727A",
+  },
+  MapIconView: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    bottom: toSize(45),
+  },
+  MapBackGround: {
+    width: toSize(55),
+    height: toSize(55),
+    borderRadius: toSize(100) / 2,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: toSize(34),
+    borderEndWidth: toSize(34),
+    borderColor: "#FBFBFB",
   },
 });

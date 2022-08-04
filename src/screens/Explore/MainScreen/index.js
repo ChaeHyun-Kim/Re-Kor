@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   MainView: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: "#FBFBFB",
   },
   user_information: {
     width: responsiveScreenWidth(90),
