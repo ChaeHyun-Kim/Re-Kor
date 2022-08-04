@@ -15,7 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 import user_character from "../../../icons/user_character.svg";
 import no_heart from "../../../icons/no_heart.svg";
 
-const ExploreMainScreen = ({ navigation }) => {
+const ExploreMainScreen = () => {
   const user_name = useState("Gayoung");
   const place = require("../../../images/place1.png");
   const region = useState("Gapyeong");
@@ -109,7 +109,7 @@ const ExploreMainScreen = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <Bottom num={1} navigation={navigation} />
+      <Bottom num={1} />
     </View>
   );
 };

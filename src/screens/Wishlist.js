@@ -12,7 +12,7 @@ export default function Wishlist() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Header />
+      <Header Title={"Wishlist"} />
       <View style={styles.mainview}>
         <Text style={styles.main_text}>Wish Travel List</Text>
       </View>
