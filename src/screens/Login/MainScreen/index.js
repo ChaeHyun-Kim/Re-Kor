@@ -8,7 +8,7 @@ import {
 } from "react-native-responsive-dimensions";
 import { EvilIcons } from "@expo/vector-icons";
 
-export default function Login({ navigation }) {
+const LoginMainScreen = ({ navigation }) => {
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
@@ -22,7 +22,7 @@ export default function Login({ navigation }) {
       <View style={styles.btnview}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => navigation.navigate("Explore")}
+          onPress={() => navigation.navigate("SignUpScreen")}
         >
           <View style={styles.btn}>
             <EvilIcons
@@ -57,9 +57,11 @@ export default function Login({ navigation }) {
       <View style={styles.margin}></View>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
+export default LoginMainScreen;
+
+export const styles = StyleSheet.create({
   fullscreen: {
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
