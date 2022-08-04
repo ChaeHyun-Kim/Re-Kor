@@ -93,7 +93,7 @@ export default function SignUpScreen({ navigation }) {
             activeOpacity={0.8}
             onPress={() => navigation.navigate("SelectTagScreen")}
           >
-            <Text style={styles.BottomButtonText}>submit</Text>
+            <Text style={styles.BottomButtonText}>Submit</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -6,21 +6,21 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
-import Header from "../components/Header";
-import Bottom from "../components/Bottom";
+import Header from "../../../components/Header";
+import Bottom from "../../../components/Bottom";
 import { WithLocalSvg } from "react-native-svg";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
-import user_character from "../icons/user_character.svg";
-import no_heart from "../icons/no_heart.svg";
+import user_character from "../../../icons/user_character.svg";
+import no_heart from "../../../icons/no_heart.svg";
 
-export default function Explore({ navigation }) {
+const ExploreMainScreen = ({ navigation }) => {
   const user_name = useState("Gayoung");
-  const place = require("../images/place1.png");
+  const place = require("../../../images/place1.png");
   const region = useState("Gapyeong");
   const place_name = useState("Petite France");
-  const keyword = useState(["Fun", "K-Dramea", "Fun", "Fun", "Fun"]);
+  const keyword = useState(["Fun", "K-Drama", "Fun", "Fun", "Fun"]);
   const place_heart = useState(100);
   const place_star = useState(4.5);
 
@@ -112,7 +112,9 @@ export default function Explore({ navigation }) {
       <Bottom num={1} navigation={navigation} />
     </View>
   );
-}
+};
+
+export default ExploreMainScreen;
 
 const styles = StyleSheet.create({
   container: {

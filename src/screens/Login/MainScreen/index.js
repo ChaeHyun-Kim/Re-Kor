@@ -8,7 +8,7 @@ import {
 } from "react-native-responsive-dimensions";
 import { EvilIcons } from "@expo/vector-icons";
 
-const MainScreen = ({ navigation }) => {
+const LoginMainScreen = ({ navigation }) => {
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
@@ -59,7 +59,7 @@ const MainScreen = ({ navigation }) => {
   );
 };
 
-export default MainScreen;
+export default LoginMainScreen;
 
 export const styles = StyleSheet.create({
   fullscreen: {

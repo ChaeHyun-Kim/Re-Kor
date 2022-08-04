@@ -1,21 +1,12 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 import { WithLocalSvg } from "react-native-svg";
 import { toSize } from "../../../globalStyle";
-import Form from "../../../components/SignUpForm";
-import { FormStyles } from "../../../styles/FormView";
 
 import male from "../../../icons/icon_male.svg";
 import female from "../../../icons/icon_female.svg";
@@ -34,6 +25,12 @@ export default function SelectTagScreen({ navigation }) {
             Please select the travel tag you want
           </Text>
         </View>
+        <View style={styles.LikedView}>
+          <Text style={styles.LikedMainText}>What did you like about it?</Text>
+          <View style={styles.LikedCheck}>
+            <Text style={styles.TagView}>EASY TO USE</Text>
+          </View>
+        </View>
 
         <View style={styles.BottomView}>
           <TouchableOpacity
@@ -41,7 +38,7 @@ export default function SelectTagScreen({ navigation }) {
             activeOpacity={0.8}
             onPress={() => navigation.navigate("Explore")}
           >
-            <Text style={styles.BottomButtonText}>submit</Text>
+            <Text style={styles.BottomButtonText}>Submit</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -78,17 +75,9 @@ export const styles = StyleSheet.create({
     fontWeight: "400",
     marginTop: toSize(4),
   },
-  FormView: { marginTop: toSize(19) },
-  BottomClickView: {
-    flexDirection: "row",
-  },
-  BottomTextView: {
-    marginLeft: toSize(12),
-  },
   BottomView: {
     justifyContent: "flex-end",
   },
-
   BottomButtonView: {
     backgroundColor: "#FFCC00",
     borderRadius: toSize(12),
@@ -100,5 +89,26 @@ export const styles = StyleSheet.create({
     fontSize: toSize(12),
     color: "#FFFFFF",
     fontWeight: "600",
+  },
+  LikedView: {
+    marginTop: toSize(32),
+  },
+  LikedMainText: {
+    fontWeight: "700",
+    fontSize: toSize(12),
+  },
+  LikedCheck: {
+    marginTop: toSize(16),
+  },
+  TagView: {
+    paddingHorizontal: toSize(8),
+    paddingVertical: toSize(6),
+    backgroundColor: "#EAF2FF",
+    color: "#006FFD",
+    width: toSize(95),
+    borderRadius: toSize(12),
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: toSize(10),
   },
 });

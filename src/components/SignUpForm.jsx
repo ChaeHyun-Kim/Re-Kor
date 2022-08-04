@@ -10,7 +10,7 @@ const SignUpForm = ({ title, placeholder }) => {
       <Text style={FormStyles.FormTitleText}>{title}</Text>
       <View style={FormStyles.FormItemSelectView}>
         <Text style={FormStyles.DefaultText}>{placeholder}</Text>
-        <AntDesign name="down" size={12} color="8F9098" />
+        <AntDesign name="down" size={12} color="#8F9098" />
       </View>
     </View>
   );
