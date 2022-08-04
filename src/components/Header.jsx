@@ -37,8 +37,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    borderBottomColor: "#EEEEEE",
-    borderBottomWidth: toSize(1.4),
   },
   container: {
     width: "90%",
