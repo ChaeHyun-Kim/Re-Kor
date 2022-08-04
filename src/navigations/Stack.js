@@ -6,7 +6,7 @@ import SelectTagScreen from "../screens/Login/SelectTagScreen";
 import Explore from "../screens/Explore/MainScreen/index";
 import Categories from "../screens/Categories";
 import Courselist from "../screens/Courselist";
-import Wishlist from "../screens/Wishlist";
+import Wishlist from "../screens/WishList/MainScreen/index";
 
 import { createStackNavigator } from "@react-navigation/stack";
 

@@ -28,7 +28,7 @@ const ExploreMainScreen = () => {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header />
-      <View style={styles.mainview}>
+      <View style={styles.MainView}>
         <View style={styles.user_information}>
           <View style={styles.row_view}>
             <Text style={styles.welcome_text}>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  mainview: {
+  MainView: {
     flex: 1,
     backgroundColor: "#FAFAFA",
     alignItems: "center",
