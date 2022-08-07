@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -8,8 +9,10 @@ import {
 import { toSize } from "../../../globalStyle";
 import SearchView from "../../../components/SearchView";
 import RecentView from "../../../components/RecentView";
+import { AntDesign } from "@expo/vector-icons";
 
 const SearchTravelScreen = () => {
+  const navigation = useNavigation();
   const [search, setChangeSearch] = useState("");
   const SearchArray = [
     { num: 1, content: "Gapyeong Rail Park" },
@@ -19,7 +22,19 @@ const SearchTravelScreen = () => {
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
       <View style={styles.container}>
-        <SearchView search={search} setChangeSearch={setChangeSearch} />
+        <View style={styles.rowView}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.goBack()}
+          >
+            <AntDesign name="arrowleft" size={toSize(24)} color="#2F3036" />
+          </TouchableOpacity>
+          <SearchView
+            search={search}
+            placeholder={"Search for tags or travel destinations"}
+            setChangeSearch={setChangeSearch}
+          />
+        </View>
         {search == "" && (
           <View style={styles.RecentSearchView}>
             <Text style={styles.recentMainText}>Recent Search</Text>
@@ -52,5 +67,10 @@ const styles = StyleSheet.create({
     fontSize: toSize(12),
     color: "#5F5F5F",
     paddingVertical: toSize(7),
+  },
+  rowView: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
