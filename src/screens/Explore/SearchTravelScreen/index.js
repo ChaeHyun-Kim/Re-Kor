@@ -11,7 +11,7 @@ import SearchView from "../../../components/SearchView";
 import RecentView from "../../../components/RecentView";
 import { AntDesign } from "@expo/vector-icons";
 
-const SearchTravelScreen = () => {  
+const SearchTravelScreen = () => {
   const navigation = useNavigation();
   const [search, setChangeSearch] = useState("");
   const SearchArray = [
@@ -38,8 +38,8 @@ const SearchTravelScreen = () => {
         {search == "" && (
           <View style={styles.RecentSearchView}>
             <Text style={styles.recentMainText}>Recent Search</Text>
-            {SearchArray.map((array) => (
-              <RecentView content={array.content} />
+            {SearchArray.map((array, key) => (
+              <RecentView content={array.content} key={key} />
             ))}
           </View>
         )}
