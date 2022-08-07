@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
@@ -9,21 +15,29 @@ import { AntDesign } from "@expo/vector-icons";
 
 import user_character from "../../../icons/user_character.svg";
 import no_heart from "../../../icons/icon_NoHeart.svg";
-import uparrow from "../../../icons/uparrow.svg";
-import downarrow from "../../../icons/downarrow.svg";
+import heart from "../../../icons/icon_Heart.svg";
+import upArrow from "../../../icons/uparrow.svg";
+import downArrow from "../../../icons/downarrow.svg";
 import { toSize } from "../../../globalStyle";
 
 const ExploreMainScreen = () => {
-  const [user_name, ChangeUserName] = useState("Gayoung", "");
+  const [userData, setUserData] = useState([
+    {
+      user_name: "Gayoung",
+      region: "Gapyeong",
+      place_name: "Petite France",
+      keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
+      place_heart: 100,
+      place_star: 4.5,
+    },
+  ]);
+
   const place = require("../../../images/place1.png");
-  const [region, PutRegion] = useState("Gapyeong", "");
-  const [place_name, PutPlaceName] = useState("Petite France", "");
-  const [keyword, PutKeyWord] = useState(
-    ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
-    []
-  );
-  const [place_heart, PutPlaceHeart] = useState(100, 0);
-  const [place_star, PutPlaceStar] = useState(4.5, 0);
+  const [ClickHeart, setHeartClick] = useState(false);
+
+  const heartClick = () => {
+    setHeartClick(ClickHeart == false ? true : false);
+  };
 
   return (
     <View style={styles.container}>
@@ -33,7 +47,9 @@ const ExploreMainScreen = () => {
         <View style={styles.user_information}>
           <View style={styles.row_view}>
             <View style={styles.line}>
-              <Text style={styles.welcome_text}>Hi, {user_name}</Text>
+              <Text style={styles.welcome_text}>
+                Hi, {userData[0].user_name}
+              </Text>
               <Text style={styles.welcome_text}>
                 I'll recommend it to you again!
               </Text>
@@ -62,46 +78,59 @@ const ExploreMainScreen = () => {
         <View style={styles.recommend_view}>
           <Text style={styles.recommend_title}>Today's recommended place</Text>
           <View style={styles.place_view}>
-            <WithLocalSvg style={{ fontSize: toSize(32) }} asset={uparrow} />
+            <WithLocalSvg style={{ fontSize: toSize(32) }} asset={upArrow} />
             <ImageBackground
               style={styles.picture}
               source={place}
               resizeMode="cover"
+              imageStyle={{ borderRadius: toSize(20) }}
             >
-              <View style={styles.left}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.left}
+                onPress={heartClick}
+              >
                 <WithLocalSvg
                   style={{ fontSize: toSize(34) }}
-                  asset={no_heart}
+                  asset={ClickHeart == false ? no_heart : heart}
                 />
-              </View>
+              </TouchableOpacity>
 
               <View style={styles.place_information}>
-                <Text style={styles.region_text}>{region}</Text>
+                <Text style={styles.region_text}>{userData[0].region}</Text>
                 <View style={styles.row_view}>
                   <View style={styles.leftview}>
-                    <Text style={styles.place_text}>{place_name}</Text>
+                    <Text style={styles.place_text}>
+                      {userData[0].place_name}
+                    </Text>
                     <View style={styles.row}>
                       <AntDesign
                         name="heart"
                         style={{ fontSize: toSize(12) }}
                         color="#FF7272"
                       />
-                      <Text style={styles.sub_text}>{place_heart}</Text>
+                      <Text style={styles.sub_text}>
+                        {userData[0].place_heart}
+                      </Text>
                       <AntDesign
                         name="star"
                         style={{ fontSize: toSize(13) }}
                         color="#FDB600"
                       />
-                      <Text style={styles.sub_text}>{place_star}</Text>
+                      <Text style={styles.sub_text}>
+                        {userData[0].place_star}
+                      </Text>
                     </View>
                   </View>
                   <View style={styles.right_view}>
-                    <Text style={styles.region_text}>{place_star}</Text>
+                    <Text style={styles.region_text}>
+                      {userData[0].place_star}
+                    </Text>
                   </View>
                 </View>
               </View>
             </ImageBackground>
-            <WithLocalSvg style={{ fontSize: toSize(32) }} asset={downarrow} />
+            <WithLocalSvg style={{ fontSize: toSize(32) }} asset={downArrow} />
           </View>
         </View>
       </View>
@@ -120,7 +149,7 @@ const styles = StyleSheet.create({
   MainView: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#FBFBFB",
+    backgroundColor: "#FAFAFA",
   },
   user_information: {
     width: responsiveScreenWidth(90),
@@ -182,7 +211,7 @@ const styles = StyleSheet.create({
   },
   recommend_view: {
     width: responsiveScreenWidth(90),
-    marginTop: toSize(29),
+    marginTop: toSize(20),
   },
   recommend_title: {
     fontWeight: "800",
@@ -195,7 +224,7 @@ const styles = StyleSheet.create({
   },
   picture: {
     width: toSize(328),
-    height: toSize(314),
+    height: toSize(290),
     borderRadius: toSize(20),
     position: "relative",
     paddingTop: 20,
