@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { WithLocalSvg } from "react-native-svg";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -8,14 +9,20 @@ import Logo from "../icons/rekor_logo.svg";
 import { toSize } from "../globalStyle";
 
 export default function Header({ Title }) {
+  const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
       <View style={styles.container}>
-        <Ionicons
-          name="ios-search"
-          style={{ fontSize: toSize(20) }}
-          color="#2F3036"
-        />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("SearchTravelScreen")}
+        >
+          <Ionicons
+            name="ios-search"
+            style={{ fontSize: toSize(20) }}
+            color="#2F3036"
+          />
+        </TouchableOpacity>
         {Title ? (
           <Text style={styles.TabTitleText}>{Title}</Text>
         ) : (

@@ -33,14 +33,19 @@ const LoginMainScreen = ({ navigation }) => {
             <Text style={styles.btntext}>Continue with Google</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.btn}>
-          <EvilIcons
-            name="search"
-            style={{ fontSize: responsiveScreenFontSize(3) }}
-            color="black"
-          />
-          <Text style={styles.btntext}>Continue with Naver</Text>
-        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("Explore")}
+        >
+          <View style={styles.btn}>
+            <EvilIcons
+              name="search"
+              style={{ fontSize: responsiveScreenFontSize(3) }}
+              color="black"
+            />
+            <Text style={styles.btntext}>Continue with Naver</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.btn}>
           <EvilIcons
             name="search"
