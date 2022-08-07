@@ -26,6 +26,14 @@ export const FormStyles = StyleSheet.create({
     fontSize: toSize(14),
     color: "#8F9098",
   },
+  ClickText: {
+    fontSize: toSize(14),
+    color: "#FFCC00",
+  },
+  BirthInputText: {
+    fontSize: toSize(14),
+    color: "#000000",
+  },
   FormPoint: {
     color: "#FFCC00",
   },
@@ -36,6 +44,8 @@ export const FormStyles = StyleSheet.create({
     height: toSize(48),
     paddingLeft: toSize(16),
     fontSize: toSize(14),
+    fontSize: toSize(14),
+    color: "#000000",
   },
   RowView: {
     flexDirection: "row",
@@ -43,6 +53,16 @@ export const FormStyles = StyleSheet.create({
   },
   GenderView: {
     borderColor: "#8F9098",
+    borderWidth: 1.5,
+    borderRadius: toSize(12),
+    height: toSize(48),
+    width: "45%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  GenderClickView: {
+    borderColor: "#FFCC00",
     borderWidth: 1.5,
     borderRadius: toSize(12),
     height: toSize(48),
