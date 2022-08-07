@@ -9,6 +9,7 @@ import CourseList from "../screens/CourseList/MainScreen/index";
 import Wishlist from "../screens/WishList/MainScreen/index";
 import MakeCourse from "../screens/MakeCourse/MainScreen";
 import SearchTravelScreen from "../screens/Explore/SearchTravelScreen/index";
+import MyPageScreen from "../screens/Explore/MyPageScreen/index";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -26,6 +27,7 @@ const StackNavigation = () => {
 
       <Stack.Screen name="Explore" component={Explore} />
       <Stack.Screen name="SearchTravelScreen" component={SearchTravelScreen} />
+      <Stack.Screen name="MyPageScreen" component={MyPageScreen} />
 
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CourseList" component={CourseList} />

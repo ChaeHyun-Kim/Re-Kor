@@ -5,40 +5,33 @@ import { WithLocalSvg } from "react-native-svg";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import Logo from "../icons/rekor_logo.svg";
 import { toSize } from "../globalStyle";
 
-export default function Header({ Title }) {
+export default function MyHeader({ Title }) {
   const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
       <View style={styles.container}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => navigation.navigate("SearchTravelScreen")}
+          onPress={() => navigation.goBack()}
         >
-          <Ionicons
-            name="ios-search"
+          <MaterialIcons
+            name="arrow-back-ios"
             style={{ fontSize: toSize(20) }}
             color="#2F3036"
           />
         </TouchableOpacity>
-        {Title ? (
-          <Text style={styles.TabTitleText}>{Title}</Text>
-        ) : (
-          <WithLocalSvg style={{ fontSize: toSize(23) }} asset={Logo} />
-        )}
 
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate("MyPageScreen")}
-        >
-          <Octicons
-            name="person"
-            style={{ fontSize: toSize(20) }}
-            color="#2F3036"
-          />
-        </TouchableOpacity>
+        <Text style={styles.TabTitleText}>{Title}</Text>
+
+        <MaterialIcons
+          name="arrow-back-ios"
+          style={{ fontSize: toSize(20) }}
+          color="#FFF"
+        />
       </View>
     </View>
   );
