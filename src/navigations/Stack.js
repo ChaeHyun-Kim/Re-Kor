@@ -1,13 +1,11 @@
 import React from "react";
-
 import Login from "../screens/Login/MainScreen/index";
 import SignUpScreen from "../screens/Login/SignUpScreen/index";
 import SelectTagScreen from "../screens/Login/SelectTagScreen";
 import Explore from "../screens/Explore/MainScreen/index";
-import Categories from "../screens/Categories";
+import Categories from "../screens/Category/MainScreen/Categories";
 import Courselist from "../screens/Courselist";
 import Wishlist from "../screens/Wishlist";
-
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
