@@ -7,12 +7,13 @@ import {
 } from "react-native-responsive-dimensions";
 import { toSize } from "../../../globalStyle";
 import SearchView from "../../../components/SearchView";
+import RecentView from "../../../components/RecentView";
 
 const SearchTravelScreen = () => {
   const [search, setChangeSearch] = useState("");
   const SearchArray = [
-    { num: 1, content: "Ga" },
-    { num: 1, content: "YA" },
+    { num: 1, content: "Gapyeong Rail Park" },
+    { num: 2, content: "Kwangwoon University" },
   ];
   return (
     <View style={styles.fullscreen}>
@@ -22,6 +23,9 @@ const SearchTravelScreen = () => {
         {search == "" && (
           <View style={styles.RecentSearchView}>
             <Text style={styles.recentMainText}>Recent Search</Text>
+            {SearchArray.map((array) => (
+              <RecentView content={array.content} />
+            ))}
           </View>
         )}
       </View>
@@ -42,6 +46,11 @@ const styles = StyleSheet.create({
   },
   RecentSearchView: {
     marginTop: toSize(22),
-
+  },
+  recentMainText: {
+    fontWeight: "600",
+    fontSize: toSize(12),
+    color: "#5F5F5F",
+    paddingVertical: toSize(7),
   },
 });
