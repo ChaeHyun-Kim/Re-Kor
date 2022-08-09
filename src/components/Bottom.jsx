@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#FAFAFA",
   },
+
   menuview: {
     width: "100%",
     backgroundColor: "white",
