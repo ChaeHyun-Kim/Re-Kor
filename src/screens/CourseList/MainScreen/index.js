@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     padding: toSize(22),
   },
   main_text: {
-    fontSize: 24,
+    fontSize: toSize(24),
     fontWeight: "700",
     color: "black",
   },
