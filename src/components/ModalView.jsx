@@ -17,11 +17,11 @@ const ModalView = ({ title, placeholder, setChangeBackGround }) => {
   const [text, setChangeText] = useState("");
   const closeModal = () => {
     setVisibleModal(false);
-    console.log("클릭");
+    // console.log("클릭");
     setChangeBackGround(false);
   };
   const textClick = () => {
-    console.log("클릭");
+    // console.log("클릭");
     setChangeText("Hello");
     setVisibleModal(false);
     setChangeBackGround(false);
