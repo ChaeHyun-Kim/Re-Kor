@@ -17,7 +17,9 @@ import { WithLocalSvg } from "react-native-svg";
 import TagForm from "../components/TagForm";
 import heart from "../icons/heart.svg";
 import star from "../icons/star.svg";
+import { useNavigation } from "@react-navigation/native";
 const place = require("../../src/images/place1.png");
+
 const CategoryColorChage = (category) => {
   switch (category) {
     case "K-LANDSCAPE":
@@ -38,6 +40,7 @@ const CategoryColorChage = (category) => {
       return styles.Leisure_Category;
   }
 };
+
 const PlaceForm = ({
   place_name,
   region,
@@ -46,14 +49,15 @@ const PlaceForm = ({
   category,
   tag,
 }) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      // onPress={() =>
-      // navigation.navigate("SelectCategoryScreen", {
-      //   Category: "K-SHOPPING",
-      // })
-      // }
+      onPress={() =>
+        navigation.navigate("DetailedScreen", {
+          Content_ID: "관광지의 Content_ID",
+        })
+      }
     >
       <View style={styles.CategoryView}>
         <Image style={styles.picture} source={place} />
@@ -70,8 +74,9 @@ const PlaceForm = ({
               data={tag}
               renderItem={({ item }) => (
                 <TagForm
-                  tag_name={item.tag_name}
-                  tag_category={item.tag_category}
+                  tag={item}
+                  // tag_name={item.tag_name}
+                  // tag_category={item.tag_category}
                 ></TagForm>
               )}
             ></FlatList>
@@ -93,6 +98,7 @@ const styles = StyleSheet.create({
   CategoryView: {
     width: toSize(328),
     height: toSize(96),
+    flex: 1,
     flexDirection: "row",
     backgroundColor: "#FFFFFF",
     marginBottom: 10,
@@ -113,7 +119,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
-
   picture: {
     width: 96,
     height: 96,
