@@ -18,10 +18,11 @@ const TagColorChage = (tag_category) => {
       return styles.Tag_cat3;
   }
 };
-const TagForm = ({ tag_name, tag_category }) => {
+// const TagForm = ({ tag_name, tag_category }) => {
+const TagForm = ({ tag }) => {
   return (
     <View style={styles.TagView}>
-      <Text style={TagColorChage(tag_category)}>{tag_name}</Text>
+      <Text style={TagColorChage(tag.tag_category)}>{tag.tag_name}</Text>
     </View>
   );
 };
