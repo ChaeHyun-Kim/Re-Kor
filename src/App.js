@@ -7,6 +7,7 @@ import StackNavigation from "./navigations/Stack";
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
+
 const App = () => {
   return (
     <NavigationContainer>
