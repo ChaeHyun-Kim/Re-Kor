@@ -9,7 +9,6 @@ import {
 import { toSize } from "../../../globalStyle";
 import SearchView from "../../../components/SearchView";
 import RecentView from "../../../components/RecentView";
-import { AntDesign } from "@expo/vector-icons";
 
 const SearchTravelScreen = () => {
   const navigation = useNavigation();
@@ -23,16 +22,11 @@ const SearchTravelScreen = () => {
       <StatusBar style="auto" />
       <View style={styles.container}>
         <View style={styles.rowView}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => navigation.goBack()}
-          >
-            <AntDesign name="arrowleft" size={toSize(24)} color="#2F3036" />
-          </TouchableOpacity>
           <SearchView
             search={search}
             placeholder={"Search for tags or travel destinations"}
             setChangeSearch={setChangeSearch}
+            rightIcon={"arrowleft"}
           />
         </View>
         {search == "" && (

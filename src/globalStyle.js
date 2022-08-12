@@ -13,3 +13,7 @@ export const toSize = (input) => {
     return scale * input;
   }
 };
+
+export const images = {
+  MarkerHeart: require("./icons/ic_marker_heart.png"),
+};

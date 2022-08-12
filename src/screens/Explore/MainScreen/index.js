@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -7,18 +7,22 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import { responsiveScreenWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+} from "react-native-responsive-dimensions";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
 import { WithLocalSvg } from "react-native-svg";
 import { AntDesign } from "@expo/vector-icons";
 
-import user_character from "../../../icons/user_character.svg";
 import no_heart from "../../../icons/icon_NoHeart.svg";
 import heart from "../../../icons/icon_Heart.svg";
 import upArrow from "../../../icons/uparrow.svg";
 import downArrow from "../../../icons/downarrow.svg";
 import { toSize } from "../../../globalStyle";
+import UserInfo from "../../../components/Explore/UserInfo";
 
 const ExploreMainScreen = () => {
   const [userData, setUserData] = useState([
@@ -34,64 +38,59 @@ const ExploreMainScreen = () => {
 
   const place = require("../../../images/place1.png");
   const [ClickHeart, setHeartClick] = useState(false);
+  const [HeartShow, setHeartShow] = useState(false);
 
   const heartClick = () => {
     setHeartClick(ClickHeart == false ? true : false);
   };
+
+  useEffect(() => {
+    if (ClickHeart) {
+      setHeartShow(true);
+      setTimeout(function () {
+        setHeartShow(false);
+      }, 1000);
+    }
+  }, [ClickHeart]);
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header />
       <View style={styles.MainView}>
-        <View style={styles.user_information}>
-          <View style={styles.row_view}>
-            <View style={styles.line}>
-              <Text style={styles.welcome_text}>
-                Hi, {userData[0].user_name}
-              </Text>
-              <Text style={styles.welcome_text}>
-                I'll recommend it to you again!
-              </Text>
-            </View>
-            <WithLocalSvg
-              style={{ fontSize: toSize(60) }}
-              asset={user_character}
-            />
-          </View>
-          <View style={styles.row_view_unit}>
-            <View style={styles.column_view}>
-              <Text style={styles.unit}>USD</Text>
-              <Text style={styles.unit_view}>1 $</Text>
-            </View>
-            <View style={styles.column_view}>
-              <Text style={styles.unit}></Text>
-              <Text style={styles.equal}>=</Text>
-            </View>
-            <View style={styles.column_view}>
-              <Text style={styles.unit}>KRW</Text>
-              <Text style={styles.unit_view}>1,301.00 won</Text>
-            </View>
-          </View>
-        </View>
+        <UserInfo userData={userData} />
 
         <View style={styles.recommend_view}>
           <Text style={styles.recommend_title}>Today's recommended place</Text>
           <View style={styles.place_view}>
-            <WithLocalSvg style={{ fontSize: toSize(32) }} asset={upArrow} />
+            <WithLocalSvg
+              width={toSize(36)}
+              height={toSize(10)}
+              asset={upArrow}
+            />
             <ImageBackground
               style={styles.picture}
               source={place}
               resizeMode="cover"
               imageStyle={{ borderRadius: toSize(20) }}
             >
+              {HeartShow && (
+                <View style={styles.HeartShow}>
+                  <AntDesign
+                    name="heart"
+                    style={{ fontSize: toSize(95) }}
+                    color="#FF7272"
+                  />
+                </View>
+              )}
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.left}
                 onPress={heartClick}
               >
                 <WithLocalSvg
-                  style={{ fontSize: toSize(34) }}
+                  width={toSize(34)}
+                  height={toSize(34)}
                   asset={ClickHeart == false ? no_heart : heart}
                 />
               </TouchableOpacity>
@@ -130,7 +129,11 @@ const ExploreMainScreen = () => {
                 </View>
               </View>
             </ImageBackground>
-            <WithLocalSvg style={{ fontSize: toSize(32) }} asset={downArrow} />
+            <WithLocalSvg
+              width={toSize(36)}
+              height={toSize(10)}
+              asset={downArrow}
+            />
           </View>
         </View>
       </View>
@@ -149,65 +152,12 @@ const styles = StyleSheet.create({
   MainView: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#FAFAFA",
-  },
-  user_information: {
-    width: responsiveScreenWidth(90),
-    height: toSize(131),
-    marginTop: toSize(10),
-    borderRadius: toSize(20),
-    paddingHorizontal: toSize(24),
-    paddingVertical: toSize(10),
-    backgroundColor: "#ffffff",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 3,
+    backgroundColor: "#fff",
   },
   row_view: {
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-  },
-  row_view_unit: {
-    flexDirection: "row",
-    margin: toSize(5),
-  },
-  welcome_text: {
-    fontSize: toSize(16),
-    fontWeight: "300",
-    lineHeight: toSize(25),
-  },
-  line: {
-    borderBottomWidth: toSize(1),
-    borderColor: "#EDEDED",
-    paddingBottom: toSize(5),
-  },
-  unit_view: {
-    fontSize: toSize(15),
-    paddingHorizontal: toSize(11),
-    paddingVertical: toSize(4),
-    borderColor: "#D0D0D0",
-    borderWidth: toSize(1),
-    borderRadius: toSize(20),
-    fontWeight: "400",
-    color: "black",
-  },
-  unit: {
-    fontWeight: "700",
-    fontSize: toSize(10),
-    color: "black",
-  },
-  column_view: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  equal: {
-    marginHorizontal: toSize(10),
   },
   recommend_view: {
     width: responsiveScreenWidth(90),
@@ -230,6 +180,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     justifyContent: "space-between",
     marginVertical: toSize(9),
+  },
+  HeartShow: {
+    position: "absolute",
+    top: (toSize(290) - toSize(95)) / 2,
+    left: (toSize(328) - toSize(95)) / 2,
   },
   region_text: {
     fontWeight: "400",
