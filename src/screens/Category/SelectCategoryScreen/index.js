@@ -7,12 +7,12 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
-// import filter_arrow from "../../../icons/filter_arrow.svg";
+import filter_arrow from "../../../icons/filter_arrow.svg";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { toSize } from "../../../globalStyle";
 import Category_Header from "../../../components/Category_Header";
 import SimplePopupMenu from "react-native-simple-popup-menu";
-import PlaceForm from "../../../components/PlaceForm";
+import PlaceForm from "../../../components/PlaceForm/PlaceForm";
 
 const SelectCategoryScreen = ({ route, navigation }) => {
   const { Category } = route.params;
@@ -85,7 +85,7 @@ const SelectCategoryScreen = ({ route, navigation }) => {
             onCancel={() => console.log("onCancel")}
           >
             <View style={styles.filterMenuView}>
-              {/* <WithLocalSvg asset={filter_arrow}></WithLocalSvg> */}
+              <WithLocalSvg asset={filter_arrow}></WithLocalSvg>
               <Text style={styles.filterMenuText}>Order</Text>
               <SimpleLineIcons name="arrow-down" size={12} color="#C5C6CC" />
             </View>
@@ -122,17 +122,18 @@ const styles = StyleSheet.create({
   mainview: {
     width: "90%",
     flex: 1,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
   },
   FilterView: {
     width: "90%",
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#FFFFFF",
     alignItems: "flex-end",
     marginVertical: 10,
   },
   filterMenuView: {
-    width: "20%",
+    width: toSize(95),
+    height: toSize(32),
     paddingHorizontal: 10,
     flexDirection: "row",
     paddingVertical: 4,
@@ -142,9 +143,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   filterMenuText: {
+    color: "#1F2024",
     fontSize: toSize(12),
     fontWeight: "400",
-    // paddingHorizontal: 5,
-    paddingRight: 10,
+    paddingRight: toSize(12),
+    paddingLeft: toSize(8),
   },
 });
