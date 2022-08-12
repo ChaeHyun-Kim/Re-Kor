@@ -12,6 +12,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import logo from "../icons/rekor_logo.svg";
 
+import { toSize } from "../globalStyle";
 export default function Header({ title }) {
   const navigation = useNavigation();
   return (
@@ -62,5 +63,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: "800",
+    fontSize: toSize(14),
+    color: "#1F2024",
   },
 });
