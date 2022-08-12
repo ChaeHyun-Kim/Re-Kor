@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, FlatList, View } from "react-native";
+import { StyleSheet, Text, FlatList, View, Image } from "react-native";
 import { WithLocalSvg } from "react-native-svg";
 import AutoScrollView from "react-native-auto-scroll-view";
 import {
@@ -10,35 +10,16 @@ import {
 } from "react-native-responsive-dimensions";
 import BackHeader from "../../../components/BackHeader";
 import SpecialTipForm from "../../../components/SpecialTipForm";
-import TagForm from "../../../components/TagForm";
+import TagForm from "../../../components/PlaceForm/TagForm";
+import { AntDesign } from "@expo/vector-icons";
 
-import heart from "../../../icons/heart.svg";
-import star from "../../../icons/star.svg";
-import no_heart from "../../../icons/no_heart.svg";
+import no_heart from "../../../icons/icon_NoHeart.svg";
+import heart from "../../../icons/icon_Heart.svg";
 import { Feather } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import go_map from "../../../icons/go_map.svg";
 import { toSize } from "../../../globalStyle";
-const CategoryColorChage = (category) => {
-  switch (category) {
-    case "K-LANDSCAPE":
-      return styles.Landscape_Category;
-    case "K-CULTURE":
-      return styles.Drama_Category;
-    case "K-FOOD":
-      return styles.Food_Category;
-    case "K-SHOPPING":
-      return styles.Shopping_Category;
-    case "K-POP":
-      return styles.Pop_Category;
-    case "K-DRAMA":
-      return styles.Drama_Category;
-    case "K-FESTIVAL":
-      return styles.Festival_Category;
-    case "K-LEISURE":
-      return styles.Leisure_Category;
-  }
-};
+import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 
 const DetailedScreen = ({ route, navigation }) => {
   const { Content_ID } = route.params;
@@ -55,7 +36,7 @@ const DetailedScreen = ({ route, navigation }) => {
         { tag_name: "#Fun3", tag_category: "A" },
         { tag_name: "#Fun32", tag_category: "C" },
       ],
-      image: [],
+      image: ["../../../../src/images/place1.png"],
       intro:
         'Gapyeong Rail Bike is a round-trip course from Gapyeong Station to Bukhangang River Railway Bridge, Zelkova Tunnel, which varies depending on the season, and Gyeonggang Station, the filming location of the movie "Letter", and return to Gapyeong Station. As you step on the abandoned moon along the 30-meter-high Bukhangang River railroad bridge across the Bukhangang River, you can see a quiet rural village and a beautiful blue riverside alternately in front of you.',
       location_info: [
@@ -96,25 +77,40 @@ const DetailedScreen = ({ route, navigation }) => {
         <View style={styles.firstView}>
           <Text style={styles.Place_text}>{arr[0].place_name}</Text>
           <View style={styles.iconView}>
-            <WithLocalSvg asset={no_heart}></WithLocalSvg>
-            <WithLocalSvg asset={go_map}></WithLocalSvg>
+            <WithLocalSvg
+              width={toSize(30)}
+              height={toSize(30)}
+              asset={no_heart}
+            ></WithLocalSvg>
+            <WithLocalSvg
+              width={toSize(30)}
+              height={toSize(30)}
+              asset={go_map}
+            ></WithLocalSvg>
           </View>
         </View>
         <View style={styles.secondView}>
           <View style={styles.region_score_View}>
             <Text style={styles.Region_Text}>{arr[0].region}</Text>
             <View style={styles.ScoreView}>
-              <WithLocalSvg asset={heart}></WithLocalSvg>
+              <AntDesign
+                name="heart"
+                style={{ fontSize: toSize(12) }}
+                color="#FF7272"
+              />
               <Text style={styles.Score_Text}>{arr[0].heartscore}</Text>
-              <WithLocalSvg asset={star}></WithLocalSvg>
+              <AntDesign
+                name="star"
+                style={{ fontSize: toSize(13) }}
+                color="#FDB600"
+              />
               <Text style={styles.Score_Text}>{arr[0].starscore}</Text>
             </View>
           </View>
-          <View style={styles.tagView}>
-            <Text style={CategoryColorChage(arr[0].category)}>
-              {arr[0].category}
-            </Text>
+          <View style={styles.CategoryView}>
+            <CategoryColorForm category={arr[0].category}></CategoryColorForm>
           </View>
+
           <View style={styles.tagView}>
             <FlatList
               horizontal={true}
@@ -125,11 +121,12 @@ const DetailedScreen = ({ route, navigation }) => {
           </View>
         </View>
       </View>
-      {/* <View style={styles.shadow}></View> */}
+      <View style={styles.shadow}></View>
       <AutoScrollView
         contentContainerStyle={{ alignItems: "center" }}
         style={styles.informationView}
       >
+        {/* <Image style={styles.picture} source={place} /> */}
         <View style={styles.infoView}>
           <Text style={styles.TitleText}>Intro</Text>
           <Text style={styles.IntroText}>{arr[0].intro}</Text>
@@ -196,9 +193,9 @@ const styles = StyleSheet.create({
   },
   mainview: {
     width: "90%",
-    height: "15%",
+    height: toSize(130),
     // flex: 1,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#FFFFFF",
     alignItems: "center",
   },
   firstView: {
@@ -206,7 +203,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingBottom: 1,
+    paddingBottom: toSize(6),
   },
   secondView: {
     width: "100%",
@@ -218,7 +215,7 @@ const styles = StyleSheet.create({
   region_score_View: {
     width: "100%",
     flexDirection: "row",
-    // alignItems: "flex-start",
+    paddingBottom: toSize(6),
     justifyContent: "space-between",
   },
   iconView: {
@@ -227,14 +224,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  picture: {
+    width: toSize(96),
+    height: toSize(96),
+    borderRadius: 17,
+  },
   shadow: {
     width: "100%",
-    height: 1,
+    height: toSize(2),
+    marginBottom: toSize(2),
     backgroundColor: "#FAFAFA",
     shadowColor: "#000",
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.8,
-    elevation: 5,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.9,
+    shadowRadius: 10.32,
+
+    elevation: 10,
   },
   separator: {
     backgroundColor: "#e0e0e0",
@@ -242,7 +250,8 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   informationView: {
-    width: "90%",
+    width: "100%",
+    backgroundColor: "#FFFFFF",
   },
   TipTitleText: {
     width: toSize(125),
@@ -258,9 +267,9 @@ const styles = StyleSheet.create({
   },
   infoView: {
     paddingVertical: toSize(17),
-    width: "100%",
+    width: "90%",
     flex: 1,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#FFFFFF",
     justifyContent: "flex-start",
   },
   mapInfoView: {
@@ -304,61 +313,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
+    paddingBottom: toSize(20),
   },
-  Drama_Category: {
-    color: "#FFF",
-    backgroundColor: "#FDD692",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Landscape_Category: {
-    color: "#FFF",
-    backgroundColor: "#CFF09E",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Culture_Category: {
-    color: "#FFF",
-    backgroundColor: "#D09E88",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Food_Category: {
-    color: "#FFF",
-    backgroundColor: "#F26D5B",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Pop_Category: {
-    color: "#FFF",
-    backgroundColor: "#A593E0",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Festival_Category: {
-    color: "#FFF",
-    backgroundColor: "#F7AA97",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Leisure_Category: {
-    color: "#FFF",
-    backgroundColor: "#52616A",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Shopping_Category: {
-    color: "#FFF",
-    backgroundColor: "#A3DAFF",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
+  CategoryView: {
+    paddingBottom: toSize(6),
   },
 });
