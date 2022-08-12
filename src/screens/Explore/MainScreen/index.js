@@ -1,41 +1,61 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
 import { WithLocalSvg } from "react-native-svg";
-import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 import user_character from "../../../icons/user_character.svg";
-import no_heart from "../../../icons/no_heart.svg";
+import no_heart from "../../../icons/icon_NoHeart.svg";
+import heart from "../../../icons/icon_Heart.svg";
+import upArrow from "../../../icons/uparrow.svg";
+import downArrow from "../../../icons/downarrow.svg";
+import { toSize } from "../../../globalStyle";
 
-const ExploreMainScreen = ({ navigation }) => {
-  const user_name = useState("Gayoung");
+const ExploreMainScreen = () => {
+  const [userData, setUserData] = useState([
+    {
+      user_name: "Gayoung",
+      region: "Gapyeong",
+      place_name: "Petite France",
+      keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
+      place_heart: 100,
+      place_star: 4.5,
+    },
+  ]);
+
   const place = require("../../../images/place1.png");
-  const region = useState("Gapyeong");
-  const place_name = useState("Petite France");
-  const keyword = useState(["Fun", "K-Drama", "Fun", "Fun", "Fun"]);
-  const place_heart = useState(100);
-  const place_star = useState(4.5);
+  const [ClickHeart, setHeartClick] = useState(false);
+
+  const heartClick = () => {
+    setHeartClick(ClickHeart == false ? true : false);
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header />
-      <View style={styles.mainview}>
+      <View style={styles.MainView}>
         <View style={styles.user_information}>
           <View style={styles.row_view}>
-            <Text style={styles.welcome_text}>
-              Hi, {user_name} :){"\n"}I'll recommend it to you again!
-            </Text>
+            <View style={styles.line}>
+              <Text style={styles.welcome_text}>
+                Hi, {userData[0].user_name}
+              </Text>
+              <Text style={styles.welcome_text}>
+                I'll recommend it to you again!
+              </Text>
+            </View>
             <WithLocalSvg
-              style={{ fontSize: responsiveScreenFontSize(4) }}
+              style={{ fontSize: toSize(60) }}
               asset={user_character}
             />
           </View>
@@ -58,58 +78,63 @@ const ExploreMainScreen = ({ navigation }) => {
         <View style={styles.recommend_view}>
           <Text style={styles.recommend_title}>Today's recommended place</Text>
           <View style={styles.place_view}>
-            <MaterialIcons
-              name="keyboard-arrow-up"
-              style={{ fontSize: responsiveScreenFontSize(3) }}
-              color="#D3D3D3"
-            />
+            <WithLocalSvg style={{ fontSize: toSize(32) }} asset={upArrow} />
             <ImageBackground
               style={styles.picture}
               source={place}
               resizeMode="cover"
+              imageStyle={{ borderRadius: toSize(20) }}
             >
-              <View style={styles.left}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.left}
+                onPress={heartClick}
+              >
                 <WithLocalSvg
-                  style={{ fontSize: responsiveScreenFontSize(4) }}
-                  asset={no_heart}
+                  style={{ fontSize: toSize(34) }}
+                  asset={ClickHeart == false ? no_heart : heart}
                 />
-              </View>
+              </TouchableOpacity>
 
               <View style={styles.place_information}>
-                <Text style={styles.region_text}>{region}</Text>
+                <Text style={styles.region_text}>{userData[0].region}</Text>
                 <View style={styles.row_view}>
                   <View style={styles.leftview}>
-                    <Text style={styles.place_text}>{place_name}</Text>
+                    <Text style={styles.place_text}>
+                      {userData[0].place_name}
+                    </Text>
                     <View style={styles.row}>
                       <AntDesign
                         name="heart"
-                        style={{ fontSize: responsiveScreenFontSize(1.5) }}
+                        style={{ fontSize: toSize(12) }}
                         color="#FF7272"
                       />
-                      <Text style={styles.sub_text}>{place_heart}</Text>
+                      <Text style={styles.sub_text}>
+                        {userData[0].place_heart}
+                      </Text>
                       <AntDesign
                         name="star"
-                        style={{ fontSize: responsiveScreenFontSize(1.5) }}
+                        style={{ fontSize: toSize(13) }}
                         color="#FDB600"
                       />
-                      <Text style={styles.sub_text}>{place_star}</Text>
+                      <Text style={styles.sub_text}>
+                        {userData[0].place_star}
+                      </Text>
                     </View>
                   </View>
                   <View style={styles.right_view}>
-                    <Text style={styles.region_text}>{place_star}</Text>
+                    <Text style={styles.region_text}>
+                      {userData[0].place_star}
+                    </Text>
                   </View>
                 </View>
               </View>
             </ImageBackground>
-            <MaterialIcons
-              name="keyboard-arrow-down"
-              style={{ fontSize: responsiveScreenFontSize(3) }}
-              color="#D3D3D3"
-            />
+            <WithLocalSvg style={{ fontSize: toSize(32) }} asset={downArrow} />
           </View>
         </View>
       </View>
-      <Bottom num={1} navigation={navigation} />
+      <Bottom num={1} />
     </View>
   );
 };
@@ -121,18 +146,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  mainview: {
+  MainView: {
     flex: 1,
-    backgroundColor: "#FAFAFA",
     alignItems: "center",
+    backgroundColor: "#FAFAFA",
   },
   user_information: {
     width: responsiveScreenWidth(90),
-    height: responsiveScreenWidth(90) / 2.5,
-    marginTop: 24,
-    borderRadius: 30,
-    paddingHorizontal: 22,
-    paddingVertical: 19,
+    height: toSize(131),
+    marginTop: toSize(10),
+    borderRadius: toSize(20),
+    paddingHorizontal: toSize(24),
+    paddingVertical: toSize(10),
     backgroundColor: "#ffffff",
     shadowColor: "#000",
     shadowOffset: {
@@ -150,28 +175,31 @@ const styles = StyleSheet.create({
   },
   row_view_unit: {
     flexDirection: "row",
-    margin: 10,
+    margin: toSize(5),
   },
   welcome_text: {
-    fontSize: 18,
+    fontSize: toSize(16),
     fontWeight: "300",
-    lineHeight: 30,
-    borderBottomWidth: 1,
+    lineHeight: toSize(25),
+  },
+  line: {
+    borderBottomWidth: toSize(1),
     borderColor: "#EDEDED",
+    paddingBottom: toSize(5),
   },
   unit_view: {
-    fontSize: 15,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    fontSize: toSize(15),
+    paddingHorizontal: toSize(11),
+    paddingVertical: toSize(4),
     borderColor: "#D0D0D0",
-    borderWidth: 1,
-    borderRadius: 20,
+    borderWidth: toSize(1),
+    borderRadius: toSize(20),
     fontWeight: "400",
     color: "black",
   },
   unit: {
     fontWeight: "700",
-    fontSize: 10,
+    fontSize: toSize(10),
     color: "black",
   },
   column_view: {
@@ -179,55 +207,55 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   equal: {
-    marginHorizontal: 10,
+    marginHorizontal: toSize(10),
   },
   recommend_view: {
     width: responsiveScreenWidth(90),
-    marginTop: 29,
+    marginTop: toSize(20),
   },
   recommend_title: {
     fontWeight: "800",
-    fontSize: 18,
+    fontSize: toSize(18),
     color: "black",
   },
   place_view: {
-    marginVertical: 10,
+    marginTop: toSize(10),
     alignItems: "center",
   },
   picture: {
-    width: responsiveScreenWidth(70),
-    height: responsiveScreenWidth(70),
-    borderRadius: 20,
+    width: toSize(328),
+    height: toSize(290),
+    borderRadius: toSize(20),
     position: "relative",
     paddingTop: 20,
     justifyContent: "space-between",
+    marginVertical: toSize(9),
   },
   region_text: {
     fontWeight: "400",
-    fontSize: 14,
+    fontSize: toSize(14),
     color: "white",
   },
   place_text: {
     fontWeight: "700",
-    fontSize: 25,
+    fontSize: toSize(25),
     color: "white",
   },
   sub_text: {
     fontWeight: "700",
-    fontSize: 10,
+    fontSize: toSize(10),
     color: "white",
-    marginLeft: 5,
-    marginRight: 8,
+    marginLeft: toSize(5),
+    marginRight: toSize(8),
   },
   left: {
     alignItems: "flex-end",
-    paddingRight: 20,
+    paddingRight: toSize(20),
   },
   place_information: {
     width: "100%",
-    padding: 20,
+    padding: toSize(20),
   },
-
   row: {
     flexDirection: "row",
   },

@@ -10,22 +10,46 @@ import {
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
-import { WithLocalSvg } from "react-native-svg";
 import { toSize } from "../../../globalStyle";
 import Form from "../../../components/SignUpForm";
+import ModalView from "../../../components/ModalView";
 import { FormStyles } from "../../../styles/FormView";
 
-import male from "../../../icons/icon_male.svg";
-import female from "../../../icons/icon_female.svg";
+import { Foundation } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { SignUp } from "./function";
 
 export default function SignUpScreen({ navigation }) {
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [nickname, setChangeNickname] = useState("");
+  const [birth, setChangeBirth] = useState("DD/MM/YYYY");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [gender, setChangeGender] = useState(0);
+  const [checkBox, setChangeCheckBox] = useState(false);
+  const [background, setChangeBackGround] = useState(false);
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    hideDatePicker();
+    setChangeBirth(
+      String(date.getDate()).padStart(2, "0") +
+        "/" +
+        String(date.getMonth() + 1).padStart(2, "0") +
+        "/" +
+        String(date.getFullYear())
+    );
+  };
+
+  const ClickCheckBox = () => {
+    checkBox == false ? setChangeCheckBox(true) : setChangeCheckBox(false);
+  };
 
   return (
-    <View style={styles.fullscreen}>
+    <View style={background === false ? styles.fullscreen : styles.fullOpacity}>
       <StatusBar style="auto" />
       <View style={styles.container}>
         <View style={styles.FirstView}>
@@ -39,54 +63,130 @@ export default function SignUpScreen({ navigation }) {
             <Text style={FormStyles.FormTitleText}>Name</Text>
             <TextInput
               style={FormStyles.FormInput}
-              //onChangeText={onChangeNumber}
-              //value={number}
+              onChangeText={setChangeNickname}
+              value={nickname}
               placeholder="NickName"
-              keyboardType="numeric"
             />
           </View>
 
           <View style={FormStyles.FormOneView}>
             <Text style={FormStyles.FormTitleText}>Birth</Text>
-            <View style={FormStyles.FormItemSelectView}>
-              <Text style={FormStyles.DefaultText}>DD/MM/YYYY</Text>
-            </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                setDatePickerVisibility(true);
+              }}
+            >
+              <View style={FormStyles.FormItemSelectView}>
+                <Text
+                  style={
+                    birth == "DD/MM/YYYY"
+                      ? FormStyles.DefaultText
+                      : FormStyles.BirthInputText
+                  }
+                >
+                  {birth}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
           </View>
 
           <View style={FormStyles.FormOneView}>
             <Text style={FormStyles.FormTitleText}>Gender</Text>
             <View style={FormStyles.RowView}>
-              <View style={FormStyles.GenderView}>
-                <WithLocalSvg style={{ fontSize: toSize(3) }} asset={male} />
-                <Text style={FormStyles.DefaultText}>Male</Text>
-              </View>
-              <View style={FormStyles.GenderView}>
-                <WithLocalSvg style={{ fontSize: toSize(3) }} asset={female} />
-                <Text style={FormStyles.DefaultText}>Female</Text>
-              </View>
-            </View>
-          </View>
-          <Form title={"Country"} placeholder={"Country"} />
-          <Form title={"Language"} placeholder={"Language"} />
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  setChangeGender(1);
+                }}
+                style={
+                  gender == 1
+                    ? FormStyles.GenderClickView
+                    : FormStyles.GenderView
+                }
+              >
+                <Foundation
+                  name="male-symbol"
+                  size={toSize(20)}
+                  color={gender == 1 ? "#FFCC00" : "#8F9098"}
+                  style={{ marginRight: toSize(4) }}
+                />
 
-          <View style={styles.BottomClickView}>
-            <MaterialCommunityIcons
-              name="checkbox-blank-outline" // checkbox-intermediate
-              size={toSize(24)}
-              color="#C5C6CC"
-            />
-            <View style={styles.BottomTextView}>
-              <Text style={FormStyles.DefaultText}>
-                I've read and agree with the{" "}
-                <Text style={FormStyles.FormPoint}>Terms and</Text> {"\n"}
-                <Text style={FormStyles.FormPoint}>Conditions</Text> and the{" "}
-                <Text style={FormStyles.FormPoint}>Privacy Policy</Text>.
-              </Text>
+                <Text
+                  style={
+                    gender == 1 ? FormStyles.ClickText : FormStyles.DefaultText
+                  }
+                >
+                  Male
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  setChangeGender(2);
+                }}
+                style={
+                  gender == 2
+                    ? FormStyles.GenderClickView
+                    : FormStyles.GenderView
+                }
+              >
+                <Foundation
+                  name="female-symbol"
+                  size={toSize(20)}
+                  color={gender == 2 ? "#FFCC00" : "#8F9098"}
+                  style={{ marginRight: toSize(4) }}
+                />
+
+                <Text
+                  style={
+                    gender == 2 ? FormStyles.ClickText : FormStyles.DefaultText
+                  }
+                >
+                  Female
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
+          <ModalView
+            title={"Country"}
+            placeholder={"Country"}
+            setChangeBackGround={setChangeBackGround}
+          />
+          <ModalView
+            title={"Language"}
+            placeholder={"Language"}
+            setChangeBackGround={setChangeBackGround}
+          />
+
+          <TouchableOpacity activeOpacity={0.8} onPress={ClickCheckBox}>
+            <View style={styles.BottomClickView}>
+              <MaterialCommunityIcons
+                name={
+                  checkBox == false
+                    ? "checkbox-blank-outline"
+                    : "checkbox-intermediate"
+                }
+                size={toSize(24)}
+                color={checkBox == false ? "#C5C6CC" : "#FFCC00"}
+              />
+              <View style={styles.BottomTextView}>
+                <Text style={FormStyles.DefaultText}>
+                  I've read and agree with the{" "}
+                  <Text style={FormStyles.FormPoint}>Terms and</Text> {"\n"}
+                  <Text style={FormStyles.FormPoint}>Conditions</Text> and the{" "}
+                  <Text style={FormStyles.FormPoint}>Privacy Policy</Text>.
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
         </View>
-
-        <View style={{ flex: 1 }}></View>
         <View style={styles.BottomView}>
           <TouchableOpacity
             style={styles.BottomButtonView}
@@ -106,6 +206,15 @@ export const styles = StyleSheet.create({
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
     alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    paddingBottom: toSize(24),
+  },
+  fullOpacity: {
+    height: responsiveScreenHeight(100),
+    width: responsiveScreenWidth(100),
+    alignItems: "center",
+    opacity: 0.4,
+    paddingBottom: toSize(24),
   },
   container: {
     width: "90%",
@@ -139,6 +248,7 @@ export const styles = StyleSheet.create({
   },
   BottomView: {
     justifyContent: "flex-end",
+    height: responsiveScreenHeight(18),
   },
 
   BottomButtonView: {
