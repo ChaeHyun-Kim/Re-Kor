@@ -58,6 +58,12 @@ const LoginMainScreen = ({ navigation }) => {
           <Text style={styles.selectext}>Don’t you have an account? </Text>
           <Text style={styles.selectext}>Log in as a Guest</Text>
         </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("Categories")}
+        >
+          <Text>카테고리 화면가기(임시)</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.margin}></View>
     </View>

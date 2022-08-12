@@ -23,13 +23,22 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-native": "0.68.2",
+<<<<<<< HEAD
     "react-native-double-click": "^1.0.5",
+=======
+    "react-native-auto-scroll-view": "^1.0.1",
+    "react-native-dropdown-picker": "^5.4.2",
+>>>>>>> d46f004da3448111f8bf1594695662d34557893b
     "react-native-gesture-handler": "~2.2.1",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^13.1.2",
     "react-native-responsive-dimensions": "^3.1.1",
+<<<<<<< HEAD
     "react-native-simple-modal": "^9.0.1",
+=======
+    "react-native-simple-popup-menu": "^1.0.3",
+>>>>>>> d46f004da3448111f8bf1594695662d34557893b
     "react-native-svg": "^12.4.0",
     "react-native-web": "0.17.7",
     "use-double-click": "^1.0.5"

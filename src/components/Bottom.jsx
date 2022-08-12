@@ -123,7 +123,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#FAFAFA",
   },
+<<<<<<< HEAD
   MenuView: {
+=======
+
+  menuview: {
+>>>>>>> d46f004da3448111f8bf1594695662d34557893b
     width: "100%",
     backgroundColor: "white",
     borderTopLeftRadius: toSize(20),
