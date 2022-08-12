@@ -93,7 +93,7 @@ export default function Bottom({ num }) {
 
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Wishlist")}
+            onPress={() => navigation.navigate("WishList")}
           >
             <View style={styles.IconView}>
               <MaterialCommunityIcons

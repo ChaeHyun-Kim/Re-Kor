@@ -6,7 +6,7 @@ import SelectTagScreen from "../screens/Login/SelectTagScreen";
 import Explore from "../screens/Explore/MainScreen/index";
 import Categories from "../screens/Category/MainScreen/index";
 import CourseList from "../screens/CourseList/MainScreen/index";
-// import WishList from "../screens/WishList/MainScreen";
+import WishList from "../screens/WishList/MainScreen";
 import MakeCourse from "../screens/MakeCourse/MainScreen";
 import SearchTravelScreen from "../screens/Explore/SearchTravelScreen/index";
 import MyPageScreen from "../screens/Explore/MyPageScreen/index";
@@ -36,7 +36,7 @@ const StackNavigation = () => {
 
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CourseList" component={CourseList} />
-      <Stack.Screen name="WishList" component={MakeCourse} />
+      <Stack.Screen name="WishList" component={WishList} />
       <Stack.Screen name="MakeCourse" component={MakeCourse} />
     </Stack.Navigator>
   );

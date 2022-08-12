@@ -6,7 +6,7 @@ import SelectTagScreen from "../screens/Login/SelectTagScreen";
 import Explore from "../screens/Explore/MainScreen/index";
 import Categories from "../screens/Categories";
 import CourseList from "../screens/CourseList";
-import Wishlist from "../screens/Wishlist";
+import WishList from "../screens/WishList";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -24,7 +24,7 @@ const StackNavigation = () => {
       <Stack.Screen name="Explore" component={Explore} />
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CourseList" component={CourseList} />
-      <Stack.Screen name="Wishlist" component={Wishlist} />
+      <Stack.Screen name="WishList" component={WishList} />
     </Stack.Navigator>
   );
 };
