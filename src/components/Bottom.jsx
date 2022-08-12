@@ -12,11 +12,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { toSize } from "../globalStyle";
 
-export default function Bottom({ num }) {
+export default function Bottom({ num, border }) {
   const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
-      <View style={styles.MenuView}>
+      <View
+        style={[styles.MenuView, border === false ? null : styles.borderOn]}
+      >
         <View style={styles.LeftView}>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -64,7 +66,14 @@ export default function Bottom({ num }) {
             activeOpacity={0.8}
             onPress={() => navigation.navigate("MakeCourse")}
           >
-            <View style={styles.MapBackGround}>
+            <View
+              style={[
+                styles.MapBackGround,
+                border === false
+                  ? { borderColor: "#FFF" }
+                  : { borderColor: "#FBFBFB" },
+              ]}
+            >
               <WithLocalSvg style={{ fontSize: toSize(55) }} asset={MapIcon} />
             </View>
           </TouchableOpacity>
@@ -133,6 +142,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
+  },
+  borderOn: {
     borderColor: "#EEEEEE",
     borderTopWidth: toSize(1.4),
     borderStartWidth: toSize(1.4),
@@ -179,7 +190,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: toSize(34),
-    borderEndWidth: toSize(34),
-    borderColor: "#FBFBFB",
   },
 });
