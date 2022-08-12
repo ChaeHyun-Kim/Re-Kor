@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
   Tag_cat1: {
     color: "#5CCEFF",
     fontWeight: "400",
+    fontsize: toSize(8),
     borderColor: "#5CCEFF",
     borderWidth: 2,
     borderRadius: 20,
@@ -44,12 +45,14 @@ const styles = StyleSheet.create({
     color: "#FFD15C",
     fontWeight: "400",
     borderColor: "#FFD15C",
+    fontsize: toSize(8),
     borderWidth: 2,
     borderRadius: 20,
     paddingHorizontal: 10,
   },
   Tag_cat3: {
     color: "#FFB2B2",
+    fontsize: toSize(8),
     fontWeight: "400",
     borderColor: "#FFB2B2",
     borderWidth: 2,

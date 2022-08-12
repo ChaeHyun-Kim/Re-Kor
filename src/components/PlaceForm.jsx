@@ -64,7 +64,7 @@ const PlaceForm = ({
         <View style={styles.PlaceView}>
           <View style={styles.Category_Place_View}>
             <Text style={styles.Place_Text}>{place_name}</Text>
-            <Text style={CategoryColorChage(category)}>{category}</Text>
+            {/* <Text style={CategoryColorChage(category)}>{category}</Text> */}
           </View>
           <Text style={styles.Region_Text}>{region}</Text>
           <View style={styles.ScoreView}>

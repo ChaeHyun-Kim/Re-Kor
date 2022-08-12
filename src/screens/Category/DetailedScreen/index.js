@@ -9,13 +9,14 @@ import {
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 import BackHeader from "../../../components/BackHeader";
-import PlaceForm from "../../../components/PlaceForm";
+import SpecialTipForm from "../../../components/SpecialTipForm";
 import TagForm from "../../../components/TagForm";
 
 import heart from "../../../icons/heart.svg";
 import star from "../../../icons/star.svg";
 import no_heart from "../../../icons/no_heart.svg";
-import yes_heart from "../../../icons/yes_heart.svg";
+import { Feather } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import go_map from "../../../icons/go_map.svg";
 import { toSize } from "../../../globalStyle";
 const CategoryColorChage = (category) => {
@@ -55,11 +56,23 @@ const DetailedScreen = ({ route, navigation }) => {
         { tag_name: "#Fun32", tag_category: "C" },
       ],
       image: [],
-      intro: "인트로입니다.",
+      intro:
+        'Gapyeong Rail Bike is a round-trip course from Gapyeong Station to Bukhangang River Railway Bridge, Zelkova Tunnel, which varies depending on the season, and Gyeonggang Station, the filming location of the movie "Letter", and return to Gapyeong Station. As you step on the abandoned moon along the 30-meter-high Bukhangang River railroad bridge across the Bukhangang River, you can see a quiet rural village and a beautiful blue riverside alternately in front of you.',
       location_info: [
-        { adress: "주소", phone: "031-582-7768", honmapge: "https://www.~" },
+        {
+          adress: "14 Jangteo-gil, Gapyeong-eup, Gapyeong-gun, Gyeonggi-do",
+          phone: "031-582-7768",
+          homepage: "https://www.railpark.co.kr/rail/rail3_01",
+        },
       ],
-      special_tip: ["First Tip", "Second Tip", "Third Tip", "Fourth Tip"],
+      special_tip: [
+        "Course Guide\nGapyeong Station --> Bukhan Steel Bridge --> Zelkova Tunnel --> Gyeonggang Station\nGyeonggang Station --> Zelkova Tunnel --> Bukhangang Railway Bridge --> Gapyeong Station",
+        "Second Tip",
+        "Third Tip",
+        "Fourth Tip",
+      ],
+
+      // special_tip: ["First Tip", "Second Tip", "Third Tip", "Fourth Tip"],
       review: [
         {
           reviewer: "닉네임",
@@ -112,9 +125,62 @@ const DetailedScreen = ({ route, navigation }) => {
           </View>
         </View>
       </View>
+      {/* <View style={styles.shadow}></View> */}
+      <AutoScrollView
+        contentContainerStyle={{ alignItems: "center" }}
+        style={styles.informationView}
+      >
+        <View style={styles.infoView}>
+          <Text style={styles.TitleText}>Intro</Text>
+          <Text style={styles.IntroText}>{arr[0].intro}</Text>
+        </View>
+        <View style={styles.separator}></View>
 
-      <AutoScrollView>
-        <Text>123</Text>
+        <View style={styles.infoView}>
+          <Text style={styles.TitleText}>Location Information</Text>
+          <View style={styles.mapInfoView}>
+            <Feather name="map-pin" size={15} color="black" />
+            <View style={styles.mapTitleView}>
+              <Text style={styles.mapInfoText}>Adress</Text>
+            </View>
+            <Text style={styles.loca_Text}>
+              {arr[0].location_info[0].adress}
+            </Text>
+          </View>
+          <View style={styles.mapInfoView}>
+            <Feather name="phone" size={15} color="black" />
+
+            <View style={styles.mapTitleView}>
+              <Text style={styles.mapInfoText}>Phone</Text>
+            </View>
+            <Text style={styles.loca_Text}>
+              {arr[0].location_info[0].phone}
+            </Text>
+          </View>
+          <View style={styles.mapInfoView}>
+            <Feather name="home" size={15} color="black" />
+            <View style={styles.mapTitleView}>
+              <Text style={styles.mapInfoText}>HomdPage</Text>
+            </View>
+            <Text style={styles.loca_Text}>
+              {arr[0].location_info[0].homepage}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.separator}></View>
+        <View style={styles.infoView}>
+          <Text style={styles.TipTitleText}>{"  "}A specail Tip!</Text>
+          <FlatList
+            keyExtractor={(item) => item.toString()}
+            data={arr[0].special_tip}
+            renderItem={({ item, key }) => (
+              <SpecialTipForm tip={item} key={key} />
+            )}
+          />
+        </View>
+        <View style={styles.separator}>
+          <Text>123</Text>
+        </View>
       </AutoScrollView>
     </View>
   );
@@ -132,11 +198,8 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "15%",
     // flex: 1,
-    // backgroundColor: "#FAFAFA",
     backgroundColor: "#FAFAFA",
     alignItems: "center",
-    // alignContent: "space-between",
-    // justifyContent: "space-between",
   },
   firstView: {
     width: "100%",
@@ -164,6 +227,59 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  shadow: {
+    width: "100%",
+    height: 1,
+    backgroundColor: "#FAFAFA",
+    shadowColor: "#000",
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.8,
+    elevation: 5,
+  },
+  separator: {
+    backgroundColor: "#e0e0e0",
+    height: 1,
+    width: "90%",
+  },
+  informationView: {
+    width: "90%",
+  },
+  TipTitleText: {
+    width: toSize(125),
+    fontSize: toSize(18),
+    fontWeight: "800",
+    marginBottom: toSize(11),
+    backgroundColor: "#FDB600",
+  },
+  TitleText: {
+    fontSize: toSize(18),
+    fontWeight: "800",
+    marginBottom: toSize(11),
+  },
+  infoView: {
+    paddingVertical: toSize(17),
+    width: "100%",
+    flex: 1,
+    backgroundColor: "#FAFAFA",
+    justifyContent: "flex-start",
+  },
+  mapInfoView: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: toSize(3),
+  },
+  mapInfoText: {
+    fontSize: toSize(10),
+    fontWeight: "700",
+  },
+  mapTitleView: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: toSize(60),
+    justifyContent: "center",
+  },
+  loca_Text: { fontSize: toSize(8), fontWeight: "400", color: "#929292" },
+  IntroText: { fontSize: toSize(10), fontWeight: "400", width: "90%" },
 
   Place_text: {
     paddingTop: 4,

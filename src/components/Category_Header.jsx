@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import logo from "../icons/rekor_logo.svg";
-
+import { toSize } from "../globalStyle";
 export default function Header({ title }) {
   const navigation = useNavigation();
   return (
@@ -25,7 +25,6 @@ export default function Header({ title }) {
             navigation.goBack();
           }}
         />
-
         <Text style={styles.titleText}>{title}</Text>
         <Ionicons
           name="ios-search"
@@ -36,6 +35,7 @@ export default function Header({ title }) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   fullscreen: {
     width: "100%",
@@ -62,5 +62,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: "800",
+    fontSize: toSize(14),
+    color: "#1F2024",
   },
 });

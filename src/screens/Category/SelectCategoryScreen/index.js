@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, FlatList } from "react-native";
+import { WithLocalSvg } from "react-native-svg";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
+// import filter_arrow from "../../../icons/filter_arrow.svg";
+import { SimpleLineIcons } from "@expo/vector-icons";
+import { toSize } from "../../../globalStyle";
 import Category_Header from "../../../components/Category_Header";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import PlaceForm from "../../../components/PlaceForm";
@@ -25,8 +29,6 @@ const SelectCategoryScreen = ({ route, navigation }) => {
       starscore: 4.5,
       category: "K-POP",
       tag: [
-        // ["Fun3", "A"],
-        // ["123", "B"],
         { tag_name: "#Fun3", tag_category: "A" },
         { tag_name: "#Fun32", tag_category: "C" },
       ],
@@ -38,8 +40,6 @@ const SelectCategoryScreen = ({ route, navigation }) => {
       starscore: 4.5,
       category: "K-DRAMA",
       tag: [
-        // ["#Fun3a", "A"],
-        // ["#Fun3ab", "A"],
         { tag_name: "#Fun3", tag_category: "A" },
         { tag_name: "#Fun32", tag_category: "C" },
       ],
@@ -51,7 +51,6 @@ const SelectCategoryScreen = ({ route, navigation }) => {
       starscore: 4.5,
       category: "K-DRAMA",
       tag: [
-        // ["#Fun3", "A"],
         { tag_name: "#Fun3", tag_category: "A" },
         { tag_name: "#Fun3", tag_category: "B" },
         { tag_name: "#Fun32", tag_category: "C" },
@@ -85,8 +84,10 @@ const SelectCategoryScreen = ({ route, navigation }) => {
             }}
             onCancel={() => console.log("onCancel")}
           >
-            <View style={styles.FilterText}>
-              <Text>Order</Text>
+            <View style={styles.filterMenuView}>
+              {/* <WithLocalSvg asset={filter_arrow}></WithLocalSvg> */}
+              <Text style={styles.filterMenuText}>Order</Text>
+              <SimpleLineIcons name="arrow-down" size={12} color="#C5C6CC" />
             </View>
           </SimplePopupMenu>
         </View>
@@ -130,10 +131,20 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     marginVertical: 10,
   },
-  FilterText: {
-    paddingHorizontal: 20,
+  filterMenuView: {
+    width: "20%",
+    paddingHorizontal: 10,
+    flexDirection: "row",
     paddingVertical: 4,
     borderColor: "#E9E9E9",
     borderWidth: 2,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  filterMenuText: {
+    fontSize: toSize(12),
+    fontWeight: "400",
+    // paddingHorizontal: 5,
+    paddingRight: 10,
   },
 });

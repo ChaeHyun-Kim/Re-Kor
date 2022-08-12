@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   mainview: {
     flex: 1,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#fff",
     paddingVertical: 31,
     paddingHorizontal: 43,
   },
