@@ -25,6 +25,8 @@
     "react-native-dropdown-picker": "^5.4.2",
     "react-native-gesture-handler": "~2.2.1",
     "react-native-linear-gradient": "^2.6.2",
+    "react-native-modal": "^13.0.1",
+    "react-native-modal-datetime-picker": "^13.1.2",
     "react-native-responsive-dimensions": "^3.1.1",
     "react-native-simple-popup-menu": "^1.0.3",
     "react-native-svg": "^12.4.0",
