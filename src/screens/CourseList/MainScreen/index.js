@@ -7,7 +7,7 @@ import ListView from "../../../components/Course/FirstView";
 import { toSize } from "../../../globalStyle";
 
 const CourseListMainScreen = () => {
-  const data = [{ name: "My First Trip" }, { name: "My Second Trip" }];
+  const data = [{ name: "My First Trip" }];
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />

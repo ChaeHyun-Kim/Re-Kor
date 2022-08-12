@@ -5,22 +5,20 @@ import { AntDesign } from "@expo/vector-icons";
 import SecondView from "./SecondView";
 
 const CourseListView = ({ data }) => {
-  const dataLength = useState(data.length);
   const [click, setClick] = useState(false);
   return (
     <>
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => setClick(click === false ? true : false)}
+        style={styles.ListView}
       >
-        <View style={styles.ListView}>
-          <AntDesign name="right" size={toSize(12)} color="#8F9098" />
-          <View style={styles.textView}>
-            <Text style={styles.mainText}>Recent travel courses created</Text>
-            <Text style={styles.numText}>{dataLength}</Text>
-          </View>
-          <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
+        <AntDesign name="right" size={toSize(12)} color="#8F9098" />
+        <View style={styles.textView}>
+          <Text style={styles.mainText}>Recent travel courses created </Text>
+          <Text style={styles.numText}>{data.length}</Text>
         </View>
+        <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
       </TouchableOpacity>
       {click === true &&
         data.map((data, key) => <SecondView data={data} key={key} />)}
