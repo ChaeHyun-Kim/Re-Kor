@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-// import { toSize } from "../globalStyle";
+import { toSize } from "../globalStyle";
 import Modal from "react-native-modal";
 import Form from "./SignUpForm";
 

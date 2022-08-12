@@ -18,7 +18,7 @@ import { FormStyles } from "../../../styles/FormView";
 
 import { Foundation } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+// import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { SignUp } from "./function";
 
 export default function SignUpScreen({ navigation }) {
@@ -89,12 +89,12 @@ export default function SignUpScreen({ navigation }) {
                 </Text>
               </View>
             </TouchableOpacity>
-            <DateTimePickerModal
+            {/* <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
-            />
+            /> */}
           </View>
 
           <View style={FormStyles.FormOneView}>

@@ -6,13 +6,12 @@ import SelectTagScreen from "../screens/Login/SelectTagScreen";
 import Explore from "../screens/Explore/MainScreen/index";
 import Categories from "../screens/Category/MainScreen/index";
 import CourseList from "../screens/CourseList/MainScreen/index";
-import Wishlist from "../screens/WishList/MainScreen/index";
+// import WishList from "../screens/WishList/MainScreen";
 import MakeCourse from "../screens/MakeCourse/MainScreen";
 import SearchTravelScreen from "../screens/Explore/SearchTravelScreen/index";
 import MyPageScreen from "../screens/Explore/MyPageScreen/index";
 import SelectCategoryScreen from "../screens/Category/SelectCategoryScreen/index";
 import DetailedScreen from "../screens/Category/DetailedScreen/index";
-import Wishlist from "../screens/Wishlist";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
@@ -37,7 +36,7 @@ const StackNavigation = () => {
 
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CourseList" component={CourseList} />
-      <Stack.Screen name="Wishlist" component={Wishlist} />
+      <Stack.Screen name="WishList" component={MakeCourse} />
       <Stack.Screen name="MakeCourse" component={MakeCourse} />
     </Stack.Navigator>
   );
