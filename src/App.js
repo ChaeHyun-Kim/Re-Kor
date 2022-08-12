@@ -4,6 +4,7 @@ import "react-native-gesture-handler";
 import { Text } from "react-native";
 import StackNavigation from "./navigation/Stack";
 
+//text 사이즈 고정
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
