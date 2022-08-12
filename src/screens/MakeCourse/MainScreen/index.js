@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
+
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import {
   responsiveScreenHeight,
@@ -9,6 +10,8 @@ import {
 import SearchView from "../../../components/SearchView";
 import Bottom from "../../../components/Bottom";
 import { toSize } from "../../../globalStyle";
+import star from "../../../icons/star.svg";
+import MarkerCustom from "../../../components/Map/MarkerCustom";
 // import Geolocation from "react-native-geolocation-service";
 
 const MakeCourseMainScreen = () => {
@@ -29,14 +32,7 @@ const MakeCourseMainScreen = () => {
           longitudeDelta: 0.0421,
         }}
       >
-        <Marker
-          coordinate={{
-            latitude: location.lat,
-            longitude: location.lng,
-          }}
-          title="this is a marker"
-          description="this is a marker example"
-        />
+        <MarkerCustom location={location} icon={"Heart"} num={1} />
       </MapView>
 
       <View style={styles.container}>
@@ -47,7 +43,7 @@ const MakeCourseMainScreen = () => {
       </View>
 
       <View style={styles.bottomView}>
-        <Bottom num={5} />
+        <Bottom num={5} border={false} />
       </View>
     </View>
   );
