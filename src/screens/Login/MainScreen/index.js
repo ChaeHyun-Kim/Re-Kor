@@ -33,14 +33,19 @@ const LoginMainScreen = ({ navigation }) => {
             <Text style={styles.btntext}>Continue with Google</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.btn}>
-          <EvilIcons
-            name="search"
-            style={{ fontSize: responsiveScreenFontSize(3) }}
-            color="black"
-          />
-          <Text style={styles.btntext}>Continue with Naver</Text>
-        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("Explore")}
+        >
+          <View style={styles.btn}>
+            <EvilIcons
+              name="search"
+              style={{ fontSize: responsiveScreenFontSize(3) }}
+              color="black"
+            />
+            <Text style={styles.btntext}>Continue with Naver</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.btn}>
           <EvilIcons
             name="search"
@@ -53,12 +58,6 @@ const LoginMainScreen = ({ navigation }) => {
           <Text style={styles.selectext}>Don’t you have an account? </Text>
           <Text style={styles.selectext}>Log in as a Guest</Text>
         </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate("Categories")}
-        >
-          <Text>카테고리 화면가기(임시)</Text>
-        </TouchableOpacity>
       </View>
       <View style={styles.margin}></View>
     </View>
