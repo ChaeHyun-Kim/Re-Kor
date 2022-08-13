@@ -1,6 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, FlatList, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  View,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MarkerCustom from "../../../components/Map/MarkerCustom";
 import { WithLocalSvg } from "react-native-svg";
 import AutoScrollView from "react-native-auto-scroll-view";
 import {
@@ -21,7 +30,9 @@ import go_map from "../../../icons/go_map.svg";
 import { toSize } from "../../../globalStyle";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 
-const DetailedScreen = ({ route, navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+const DetailedScreen = ({ route }) => {
+  const navigation = useNavigation();
   const { Content_ID } = route.params;
   // Content_ID로 데이터 받아옴
   const arr = [
@@ -41,6 +52,8 @@ const DetailedScreen = ({ route, navigation }) => {
         'Gapyeong Rail Bike is a round-trip course from Gapyeong Station to Bukhangang River Railway Bridge, Zelkova Tunnel, which varies depending on the season, and Gyeonggang Station, the filming location of the movie "Letter", and return to Gapyeong Station. As you step on the abandoned moon along the 30-meter-high Bukhangang River railroad bridge across the Bukhangang River, you can see a quiet rural village and a beautiful blue riverside alternately in front of you.',
       location_info: [
         {
+          lat: 37.619186395690605,
+          lng: 127.05828868985176,
           adress: "14 Jangteo-gil, Gapyeong-eup, Gapyeong-gun, Gyeonggi-do",
           phone: "031-582-7768",
           homepage: "https://www.railpark.co.kr/rail/rail3_01",
@@ -68,7 +81,26 @@ const DetailedScreen = ({ route, navigation }) => {
     },
   ];
 
-  // const [heartState, setHeartState] = useState(false);
+  const [ClickHeart, setHeartClick] = useState(false);
+  const [HeartShow, setHeartShow] = useState(false);
+
+  const heartClick = () => {
+    setHeartClick(ClickHeart == false ? true : false);
+  };
+
+  useEffect(() => {
+    if (ClickHeart) {
+      setHeartShow(true);
+      setTimeout(function () {
+        setHeartShow(false);
+      }, 1000);
+    }
+  }, [ClickHeart]);
+  const fixedLocation = {
+    lat: arr[0].location_info[0].lat,
+    lng: arr[0].location_info[0].lng,
+  };
+  const [location, setLocation] = useState(fixedLocation);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -77,16 +109,28 @@ const DetailedScreen = ({ route, navigation }) => {
         <View style={styles.firstView}>
           <Text style={styles.Place_text}>{arr[0].place_name}</Text>
           <View style={styles.iconView}>
-            <WithLocalSvg
-              width={toSize(30)}
-              height={toSize(30)}
-              asset={no_heart}
-            ></WithLocalSvg>
-            <WithLocalSvg
-              width={toSize(30)}
-              height={toSize(30)}
-              asset={go_map}
-            ></WithLocalSvg>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.left}
+              onPress={heartClick}
+            >
+              <WithLocalSvg
+                width={toSize(30)}
+                height={toSize(30)}
+                asset={ClickHeart == false ? no_heart : heart}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.left}
+              onPress={() => navigation.navigate("MakeCourse")}
+            >
+              <WithLocalSvg
+                width={toSize(30)}
+                height={toSize(30)}
+                asset={go_map}
+              ></WithLocalSvg>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.secondView}>
@@ -121,20 +165,39 @@ const DetailedScreen = ({ route, navigation }) => {
           </View>
         </View>
       </View>
-      <View style={styles.shadow}></View>
+      {/* <View style={styles.shadow}></View> */}
       <AutoScrollView
         contentContainerStyle={{ alignItems: "center" }}
         style={styles.informationView}
       >
+        <Image
+          source={{
+            uri: "https://velog.velcdn.com/images/eojine94/post/189018d7-fe6e-4d88-afec-c31865a5a8ff/ReactNative.png",
+          }}
+        />
         {/* <Image style={styles.picture} source={place} /> */}
         <View style={styles.infoView}>
           <Text style={styles.TitleText}>Intro</Text>
           <Text style={styles.IntroText}>{arr[0].intro}</Text>
         </View>
         <View style={styles.separator}></View>
-
         <View style={styles.infoView}>
           <Text style={styles.TitleText}>Location Information</Text>
+
+          <View style={{ borderRadius: 25 }}>
+            <MapView
+              style={styles.map}
+              provider={PROVIDER_GOOGLE}
+              initialRegion={{
+                latitude: location.lat,
+                longitude: location.lng,
+                latitudeDelta: 0.0421,
+                longitudeDelta: 0.0421,
+              }}
+            >
+              <MarkerCustom location={location} icon={"Heart"} num={1} />
+            </MapView>
+          </View>
           <View style={styles.mapInfoView}>
             <Feather name="map-pin" size={15} color="black" />
             <View style={styles.mapTitleView}>
@@ -166,18 +229,27 @@ const DetailedScreen = ({ route, navigation }) => {
         </View>
         <View style={styles.separator}></View>
         <View style={styles.infoView}>
-          <Text style={styles.TipTitleText}>{"  "}A specail Tip!</Text>
-          <FlatList
-            keyExtractor={(item) => item.toString()}
-            data={arr[0].special_tip}
-            renderItem={({ item, key }) => (
-              <SpecialTipForm tip={item} key={key} />
-            )}
-          />
+          <Text style={styles.TipTitleText}>{"  "}A special Tip!</Text>
+          {arr[0].special_tip.map((item) => (
+            <SpecialTipForm tip={item} />
+          ))}
         </View>
-        <View style={styles.separator}>
-          <Text>123</Text>
-        </View>
+        {/* </View> */}
+        <View
+          style={{
+            width: "100%",
+            height: "5%",
+            marginBottom: "10%",
+            backgroundColor: "#FFFFFF",
+            borderColor: "#ECECEC",
+            borderBottomWidth: 2,
+            borderEndWidth: 2,
+            borderStartWidth: 2,
+            borderBottomEndRadius: 28,
+            borderBottomStartRadius: 28,
+          }}
+        ></View>
+        <Text>123456</Text>
       </AutoScrollView>
     </View>
   );
@@ -192,21 +264,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   mainview: {
-    width: "90%",
+    width: "100%",
     height: toSize(130),
     // flex: 1,
     backgroundColor: "#FFFFFF",
     alignItems: "center",
+    borderBottomColor: "rgba(213, 213, 213, 0.2)",
+    borderBottomWidth: 5,
   },
   firstView: {
-    width: "100%",
+    width: "90%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingBottom: toSize(6),
   },
   secondView: {
-    width: "100%",
+    width: "90%",
     flex: 1,
     flexDirection: "column",
     alignItems: "flex-start",
@@ -244,6 +318,21 @@ const styles = StyleSheet.create({
 
     elevation: 10,
   },
+  finalshadow: {
+    borderRadius: 28,
+    width: "100%",
+    height: "20%",
+    backgroundColor: "#FFF",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0,
+    shadowRadius: 10.32,
+
+    elevation: 8,
+  },
   separator: {
     backgroundColor: "#e0e0e0",
     height: 1,
@@ -252,6 +341,7 @@ const styles = StyleSheet.create({
   informationView: {
     width: "100%",
     backgroundColor: "#FFFFFF",
+    paddingBottom: toSize(50),
   },
   TipTitleText: {
     width: toSize(125),
@@ -288,7 +378,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   loca_Text: { fontSize: toSize(8), fontWeight: "400", color: "#929292" },
-  IntroText: { fontSize: toSize(10), fontWeight: "400", width: "90%" },
+  IntroText: { fontSize: toSize(10), fontWeight: "400", width: "95%" },
 
   Place_text: {
     paddingTop: 4,
@@ -317,5 +407,10 @@ const styles = StyleSheet.create({
   },
   CategoryView: {
     paddingBottom: toSize(6),
+    width: "90%",
+  },
+  map: {
+    height: responsiveScreenHeight(20),
+    width: responsiveScreenWidth(90),
   },
 });
