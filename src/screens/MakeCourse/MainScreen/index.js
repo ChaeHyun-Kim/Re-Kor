@@ -13,12 +13,16 @@ import { toSize } from "../../../globalStyle";
 import star from "../../../icons/star.svg";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
 // import Geolocation from "react-native-geolocation-service";
+import FirstPlaceView from "../../../components/Map/FirstPlaceView";
+import FullMakeCourse from "../../../components/Map/FullMakeCourse";
 
-const MakeCourseMainScreen = () => {
+export default function MakeCourseMainScreen() {
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
 
   const [location, setLocation] = useState(fixedLocation);
+  const [FirstPlace, setFirstPlace] = useState(true);
 
+  const fixedLocation1 = { lat: 37.62152994129975, lng: 127.05627425222845 };
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
@@ -33,6 +37,7 @@ const MakeCourseMainScreen = () => {
         }}
       >
         <MarkerCustom location={location} icon={"Heart"} num={1} />
+        <MarkerCustom location={fixedLocation1} icon={"Heart"} num={1} />
       </MapView>
 
       <View style={styles.container}>
@@ -43,12 +48,23 @@ const MakeCourseMainScreen = () => {
       </View>
 
       <View style={styles.bottomView}>
+        {FirstPlace && (
+          <FirstPlaceView
+            FirstPlace={FirstPlace}
+            setFirstPlace={setFirstPlace}
+          />
+        )}
+        {!FirstPlace && (
+          <FullMakeCourse
+            FirstPlace={FirstPlace}
+            setFirstPlace={setFirstPlace}
+          />
+        )}
         <Bottom num={5} border={false} />
       </View>
     </View>
   );
-};
-export default MakeCourseMainScreen;
+}
 
 const styles = StyleSheet.create({
   fullscreen: {
