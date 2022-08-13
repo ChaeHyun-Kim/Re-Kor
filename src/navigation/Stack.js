@@ -1,6 +1,7 @@
 import React from "react";
 
 import Login from "../screens/Login/MainScreen/index";
+import LoginKakaoScreen from "../screens/Login/KakaoScreen";
 import SignUpScreen from "../screens/Login/SignUpScreen/index";
 import SelectTagScreen from "../screens/Login/SelectTagScreen";
 import Explore from "../screens/Explore/MainScreen/index";
@@ -22,6 +23,7 @@ const StackNavigation = () => {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="LoginKakaoScreen" component={LoginKakaoScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       <Stack.Screen name="SelectTagScreen" component={SelectTagScreen} />
 
