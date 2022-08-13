@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   MainView: {
     flex: 1,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#FFFFFF",
     padding: toSize(22),
   },
   main_text: {

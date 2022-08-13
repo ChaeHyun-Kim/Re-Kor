@@ -46,10 +46,8 @@ const WishListMainScreen = () => {
       <StatusBar style="auto" />
       <Header Title={"Wishlist"} />
       <View style={styles.MainView}>
-        <FlatList
-          keyExtractor={(item) => item.toString()}
-          data={arr}
-          renderItem={({ item, key }) => (
+        {arr.map((item, index) => {
+          return (
             <WishPlaceForm
               place_name={item.place_name}
               region={item.region}
@@ -57,10 +55,10 @@ const WishListMainScreen = () => {
               starscore={item.starscore}
               category={item.category}
               tag={item.tag}
-              key={key}
+              key={index}
             />
-          )}
-        />
+          );
+        })}
       </View>
       <Bottom num={4} />
     </View>
@@ -77,11 +75,10 @@ const styles = StyleSheet.create({
   MainView: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    width: "90%",
+    padding: toSize(22),
   },
   main_text: {
-    fontSize: 24,
+    fontSize: toSize(24),
     fontWeight: "700",
     color: "black",
   },
