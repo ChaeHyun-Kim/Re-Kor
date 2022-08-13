@@ -145,6 +145,6 @@ const styles = StyleSheet.create({
   PlaceListView: {
     width: responsiveScreenWidth(100),
     paddingHorizontal: toSize(24),
-    backgroundColor: "pink",
+    backgroundColor: "#fff",
   },
 });
