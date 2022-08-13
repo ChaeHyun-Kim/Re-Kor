@@ -4,6 +4,9 @@ import { Marker } from "react-native-maps";
 import { toSize, images } from "../../globalStyle.js";
 
 export default function MarkerCustom({ location, icon, num }) {
+  // const MarkerSelect =(marker)=>{
+  //   switch()
+  // }
   return (
     <Marker
       coordinate={{

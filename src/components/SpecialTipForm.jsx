@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
   },
   TipText: {
     fontSize: toSize(10),
-
+    width: "90%",
+    backgroundColor: "#FFFFFF",
     paddingHorizontal: toSize(5),
     alignItems: "flex-end",
   },
