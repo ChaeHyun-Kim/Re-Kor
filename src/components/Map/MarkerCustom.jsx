@@ -4,9 +4,6 @@ import { Marker } from "react-native-maps";
 import { toSize, images } from "../../globalStyle.js";
 
 export default function MarkerCustom({ location, icon, num }) {
-  // const MarkerSelect =(marker)=>{
-  //   switch()
-  // }
   return (
     <Marker
       coordinate={{
@@ -16,14 +13,16 @@ export default function MarkerCustom({ location, icon, num }) {
       style={{ zIndex: 100 }}
     >
       <View style={styles.center}>
-        <View
-          style={[
-            styles.circle,
-            icon === "Heart" ? { backgroundColor: "#FF7272" } : null,
-          ]}
-        >
-          <Text style={styles.text}>{num}</Text>
-        </View>
+        {num && (
+          <View
+            style={[
+              styles.circle,
+              icon === "Heart" ? { backgroundColor: "#FF7272" } : null,
+            ]}
+          >
+            <Text style={styles.text}>{num}</Text>
+          </View>
+        )}
         <Image
           source={icon === "Heart" ? images.MarkerHeart : null}
           style={{ width: toSize(20) }}

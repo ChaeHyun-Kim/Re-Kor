@@ -6,6 +6,7 @@ import {
   FlatList,
   View,
   Image,
+  ImageBackground,
   TouchableOpacity,
 } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
@@ -81,6 +82,7 @@ const DetailedScreen = ({ route }) => {
     },
   ];
 
+  const place = require("../../../images/place1.png");
   const [ClickHeart, setHeartClick] = useState(false);
   const [HeartShow, setHeartShow] = useState(false);
 
@@ -166,16 +168,27 @@ const DetailedScreen = ({ route }) => {
         </View>
       </View>
       {/* <View style={styles.shadow}></View> */}
+
       <AutoScrollView
         contentContainerStyle={{ alignItems: "center" }}
         style={styles.informationView}
       >
-        <Image
+        <View style={{ width: "90%", marginTop: toSize(30) }}>
+          <AutoScrollView style={styles.PictureinfoView} horizontal={true}>
+            <Image style={styles.picture} source={place} />
+            <Image style={styles.picture} source={place} />
+            <Image style={styles.picture} source={place} />
+            <Image style={styles.picture} source={place} />
+            <Image style={styles.picture} source={place} />
+            <Image style={styles.picture} source={place} />
+          </AutoScrollView>
+        </View>
+        {/* <Image
           source={{
-            uri: "https://velog.velcdn.com/images/eojine94/post/189018d7-fe6e-4d88-afec-c31865a5a8ff/ReactNative.png",
+            uri: "https://s0.2mdn.net/simgad/1842640088179983051",
           }}
-        />
-        {/* <Image style={styles.picture} source={place} /> */}
+        /> */}
+
         <View style={styles.infoView}>
           <Text style={styles.TitleText}>Intro</Text>
           <Text style={styles.IntroText}>{arr[0].intro}</Text>
@@ -195,7 +208,7 @@ const DetailedScreen = ({ route }) => {
                 longitudeDelta: 0.0421,
               }}
             >
-              <MarkerCustom location={location} icon={"Heart"} num={1} />
+              <MarkerCustom location={location} icon={"Heart"} />
             </MapView>
           </View>
           <View style={styles.mapInfoView}>
@@ -209,10 +222,10 @@ const DetailedScreen = ({ route }) => {
           </View>
           <View style={styles.mapInfoView}>
             <Feather name="phone" size={15} color="black" />
-
             <View style={styles.mapTitleView}>
               <Text style={styles.mapInfoText}>Phone</Text>
             </View>
+
             <Text style={styles.loca_Text}>
               {arr[0].location_info[0].phone}
             </Text>
@@ -234,22 +247,55 @@ const DetailedScreen = ({ route }) => {
             <SpecialTipForm tip={item} />
           ))}
         </View>
-        {/* </View> */}
-        <View
-          style={{
-            width: "100%",
-            height: "5%",
-            marginBottom: "10%",
-            backgroundColor: "#FFFFFF",
-            borderColor: "#ECECEC",
-            borderBottomWidth: 2,
-            borderEndWidth: 2,
-            borderStartWidth: 2,
-            borderBottomEndRadius: 28,
-            borderBottomStartRadius: 28,
-          }}
-        ></View>
-        <Text>123456</Text>
+
+        <View style={styles.separator}></View>
+
+        <View style={styles.finalinfoView}>
+          <Text style={styles.TitleText}>Review</Text>
+        </View>
+        <View style={styles.Bottomborder}></View>
+        <View style={styles.Topborder}></View>
+        <View style={styles.recommendinfoView}>
+          <Text style={styles.TitleText}>Recommend a similar place</Text>
+          <View style={styles.recommedView}>
+            <AutoScrollView
+              style={styles.recommendScrollView}
+              horizontal={true}
+            >
+              <ImageBackground
+                // source={{ uri:}}
+                source={place}
+                style={styles.recommedImage}
+                resizeMode="cover"
+                imageStyle={{ borderRadius: toSize(20) }}
+              >
+                <Text style={styles.recommend_Place}>Gapyeong pine</Text>
+                <Text style={styles.recommend_Region}>Gapyeong</Text>
+              </ImageBackground>
+              <ImageBackground
+                // source={{ uri:}}
+                source={place}
+                style={styles.recommedImage}
+                resizeMode="cover"
+                imageStyle={{ borderRadius: toSize(20) }}
+              >
+                <Text style={styles.recommend_Place}>Gapyeong pine</Text>
+                <Text style={styles.recommend_Region}>Gapyeong</Text>
+              </ImageBackground>
+              <ImageBackground
+                // source={{ uri:}}
+                source={place}
+                style={styles.recommedImage}
+                resizeMode="cover"
+                imageStyle={{ borderRadius: toSize(20) }}
+              >
+                <Text style={styles.recommend_Place}>Gapyeong pine</Text>
+                <Text style={styles.recommend_Region}>Gapyeong</Text>
+              </ImageBackground>
+            </AutoScrollView>
+          </View>
+        </View>
+        <View style={{ marginBottom: "20%" }}></View>
       </AutoScrollView>
     </View>
   );
@@ -299,8 +345,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   picture: {
-    width: toSize(96),
-    height: toSize(96),
+    width: responsiveScreenWidth(40),
+    height: responsiveScreenWidth(40),
+    marginRight: toSize(10),
     borderRadius: 17,
   },
   shadow: {
@@ -341,7 +388,6 @@ const styles = StyleSheet.create({
   informationView: {
     width: "100%",
     backgroundColor: "#FFFFFF",
-    paddingBottom: toSize(50),
   },
   TipTitleText: {
     width: toSize(125),
@@ -355,8 +401,21 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     marginBottom: toSize(11),
   },
+  PictureinfoView: {
+    // height: responsiveScreenWidth(75),
+    width: "100%",
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
   infoView: {
     paddingVertical: toSize(17),
+    width: "90%",
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "flex-start",
+  },
+  finalinfoView: {
+    paddingTop: toSize(17),
     width: "90%",
     flex: 1,
     backgroundColor: "#FFFFFF",
@@ -412,5 +471,59 @@ const styles = StyleSheet.create({
   map: {
     height: responsiveScreenHeight(20),
     width: responsiveScreenWidth(90),
+  },
+  recommendinfoView: {
+    // paddingVertical: toSize(17),
+    width: "90%",
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "flex-start",
+  },
+
+  recommendScrollView: {},
+  recommedView: {
+    flexDirection: "row",
+  },
+  recommedImage: {
+    paddingLeft: toSize(15),
+    paddingBottom: toSize(3),
+    width: toSize(185),
+    height: toSize(115),
+    marginRight: toSize(11),
+    borderRadius: 10,
+    justifyContent: "flex-end",
+  },
+  recommend_Place: {
+    color: "#FFFFFF",
+    fontSize: toSize(16),
+    fontWeight: "700",
+  },
+  recommend_Region: {
+    color: "#FFFFFF",
+    fontSize: toSize(14),
+    fontWeight: "400",
+  },
+  Bottomborder: {
+    width: "100%",
+    height: "3%",
+    marginBottom: "10%",
+    backgroundColor: "#FFFFFF",
+    borderColor: "#ECECEC",
+    borderBottomWidth: 2,
+    borderEndWidth: 2,
+    borderStartWidth: 2,
+    borderBottomEndRadius: 28,
+    borderBottomStartRadius: 28,
+  },
+  Topborder: {
+    width: "100%",
+    height: "3%",
+    backgroundColor: "#FFFFFF",
+    borderColor: "#ECECEC",
+    borderTopWidth: 2,
+    borderEndWidth: 2,
+    borderStartWidth: 2,
+    borderTopEndRadius: 28,
+    borderTopStartRadius: 28,
   },
 });
