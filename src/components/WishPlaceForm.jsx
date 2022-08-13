@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,19 +7,37 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { toSize } from "../../globalStyle";
+import { toSize } from "../globalStyle";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 import { AntDesign } from "@expo/vector-icons";
-import TagForm from "./TagForm";
+import TagForm from "../components/PlaceForm/TagForm";
+
+import { WithLocalSvg } from "react-native-svg";
+import no_heart from "../icons/icon_NoHeart.svg";
+import heart from "../icons/icon_Heart.svg";
 import { useNavigation } from "@react-navigation/native";
-const place = require("../../../src/images/place1.png");
+const place = require("../../src/images/place1.png");
 const PlaceForm = ({ place_name, region, heartscore, starscore, tag }) => {
   const navigation = useNavigation();
-  console.log("1234567897986546");
+  const [ClickHeart, setHeartClick] = useState(true);
+  const [HeartShow, setHeartShow] = useState(false);
+
+  const heartClick = () => {
+    setHeartClick(ClickHeart == false ? true : false);
+  };
+
+  useEffect(() => {
+    if (ClickHeart) {
+      setHeartShow(true);
+      setTimeout(function () {
+        setHeartShow(false);
+      }, 1000);
+    }
+  }, [ClickHeart]);
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -34,6 +52,17 @@ const PlaceForm = ({ place_name, region, heartscore, starscore, tag }) => {
         <View style={styles.PlaceView}>
           <View style={styles.PlaceNameView}>
             <Text style={styles.Place_Text}>{place_name}</Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.left}
+              onPress={heartClick}
+            >
+              <WithLocalSvg
+                width={toSize(30)}
+                height={toSize(30)}
+                asset={ClickHeart == false ? no_heart : heart}
+              />
+            </TouchableOpacity>
           </View>
 
           <Text style={styles.Region_Text}>{region}</Text>
@@ -77,12 +106,16 @@ const styles = StyleSheet.create({
   },
   PlaceView: {
     flex: 1,
+    backgroundColor: "#FFFFFF",
     paddingLeft: 16,
     flexDirection: "column",
     justifyContent: "center",
   },
   PlaceNameView: {
     flexDirection: "row",
+    width: "20%",
+    backgroundColor: "#FFFFFF",
+    // flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
     marginVertical: toSize(1),
