@@ -18,7 +18,7 @@ import { FormStyles } from "../../../styles/FormView";
 
 import { Foundation } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { SignUp } from "./function";
 
 export default function SignUpScreen({ navigation }) {
@@ -53,14 +53,17 @@ export default function SignUpScreen({ navigation }) {
       <StatusBar style="auto" />
       <View style={styles.container}>
         <View style={styles.FirstView}>
-          <Text style={styles.MainText}>Sign up</Text>
+          <Text style={styles.MainText}>Join us</Text>
           <Text style={styles.MainSubText}>
             Create an account to get started
           </Text>
         </View>
         <View style={styles.FormView}>
           <View style={FormStyles.FormOneView}>
-            <Text style={FormStyles.FormTitleText}>Name</Text>
+            <View style={styles.RowView}>
+              <Text style={FormStyles.FormTitleText}>Name</Text>
+              <Text style={FormStyles.EssentialText}>*</Text>
+            </View>
             <TextInput
               style={FormStyles.FormInput}
               onChangeText={setChangeNickname}
@@ -70,7 +73,10 @@ export default function SignUpScreen({ navigation }) {
           </View>
 
           <View style={FormStyles.FormOneView}>
-            <Text style={FormStyles.FormTitleText}>Birth</Text>
+            <View style={styles.RowView}>
+              <Text style={FormStyles.FormTitleText}>Birth</Text>
+              <Text style={FormStyles.EssentialText}>*</Text>
+            </View>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => {
@@ -89,12 +95,12 @@ export default function SignUpScreen({ navigation }) {
                 </Text>
               </View>
             </TouchableOpacity>
-            {/* <DateTimePickerModal
+            <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
-            /> */}
+            />
           </View>
 
           <View style={FormStyles.FormOneView}>
@@ -154,6 +160,7 @@ export default function SignUpScreen({ navigation }) {
               </TouchableOpacity>
             </View>
           </View>
+
           <ModalView
             title={"Country"}
             placeholder={"Country"}
@@ -166,7 +173,7 @@ export default function SignUpScreen({ navigation }) {
           />
 
           <TouchableOpacity activeOpacity={0.8} onPress={ClickCheckBox}>
-            <View style={styles.BottomClickView}>
+            <View style={styles.RowView}>
               <MaterialCommunityIcons
                 name={
                   checkBox == false
@@ -240,7 +247,7 @@ export const styles = StyleSheet.create({
     marginTop: toSize(4),
   },
   FormView: { marginTop: toSize(19) },
-  BottomClickView: {
+  RowView: {
     flexDirection: "row",
   },
   BottomTextView: {

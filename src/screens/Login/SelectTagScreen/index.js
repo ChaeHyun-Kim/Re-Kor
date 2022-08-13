@@ -8,9 +8,6 @@ import {
 import { WithLocalSvg } from "react-native-svg";
 import { toSize } from "../../../globalStyle";
 
-import male from "../../../icons/icon_male.svg";
-import female from "../../../icons/icon_female.svg";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function SelectTagScreen({ navigation }) {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);

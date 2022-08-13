@@ -7,7 +7,12 @@ import { FormStyles } from "../styles/FormView";
 const SignUpForm = ({ title, placeholder, text }) => {
   return (
     <View style={FormStyles.FormOneView}>
-      <Text style={FormStyles.FormTitleText}>{title}</Text>
+      <View style={{ flexDirection: "row" }}>
+        <Text style={FormStyles.FormTitleText}>{title}</Text>
+        {title === "Language" && (
+          <Text style={FormStyles.EssentialText}>*</Text>
+        )}
+      </View>
       <View style={FormStyles.FormItemSelectView}>
         <Text
           style={

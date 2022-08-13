@@ -2,27 +2,28 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle.js";
 import { Fontisto } from "@expo/vector-icons";
+import { MapStyles } from "../../styles/MapView";
 
-export default function FirstPlaceView({ FirstPlace, setFirstPlace }) {
+export default function FirstPlaceView({ SelectView, setSelectView, back }) {
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      onPress={() => setFirstPlace(FirstPlace === false ? true : false)}
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <View style={styles.line} />
-      <View style={styles.SelectBtn}>
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => setSelectView(back ? SelectView - 1 : SelectView + 1)}
+        style={styles.SelectBtn}
+      >
         <Fontisto name="map-marker-alt" size={toSize(15)} color="black" />
         <Text style={styles.btnText}>Select the first place</Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    height: toSize(108),
     width: "100%",
+    paddingBottom: toSize(30),
     paddingHorizontal: toSize(24),
     alignItems: "center",
     borderTopStartRadius: 45,

@@ -1,65 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
-import { EvilIcons } from "@expo/vector-icons";
+import { toSize } from "../../../globalStyle";
+import LoginTypeSelect from "../../../components/Login/LoginTypeSelect";
 
-const LoginMainScreen = ({ navigation }) => {
+const LoginMainScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
-      <View style={styles.margin} />
-      <Text style={styles.Maintext}>Re-Kor</Text>
-      <View style={styles.margin} />
-
-      <Text style={styles.Subtext}>Log in</Text>
-      <View style={styles.margin} />
-
-      <View style={styles.btnview}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate("SignUpScreen")}
-        >
-          <View style={styles.btn}>
-            <EvilIcons
-              name="search"
-              style={{ fontSize: responsiveScreenFontSize(3) }}
-              color="black"
-            />
-            <Text style={styles.btntext}>Continue with Google</Text>
+      <View style={styles.container}>
+        <View style={styles.pictureView} />
+        <View style={styles.bottomView}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Explore")}
+          >
+            <Text style={styles.Welcome}>Welcome!</Text>
+          </TouchableOpacity>
+          <View style={styles.BtnView}>
+            <LoginTypeSelect type={"kakao"} />
+            <LoginTypeSelect type={"Re-Kor"} />
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate("Explore")}
-        >
-          <View style={styles.btn}>
-            <EvilIcons
-              name="search"
-              style={{ fontSize: responsiveScreenFontSize(3) }}
-              color="black"
-            />
-            <Text style={styles.btntext}>Continue with Naver</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.btn}>
-          <EvilIcons
-            name="search"
-            style={{ fontSize: responsiveScreenFontSize(3) }}
-            color="black"
-          />
-          <Text style={styles.btntext}>Continue with KaKao</Text>
-        </View>
-        <View style={styles.selectview}>
-          <Text style={styles.selectext}>Don’t you have an account? </Text>
-          <Text style={styles.selectext}>Log in as a Guest</Text>
         </View>
       </View>
-      <View style={styles.margin}></View>
     </View>
   );
 };
@@ -71,47 +40,27 @@ export const styles = StyleSheet.create({
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
     alignItems: "center",
+    backgroundColor: "#fff",
   },
-  btnview: {
-    width: "80%",
-    justifyContent: "space-between",
-  },
-  btn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 60,
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "black",
+  container: {
     width: "100%",
-    marginBottom: 20,
-    padding: 10,
+    marginTop: toSize(44),
   },
-  Maintext: {
-    alignItems: "flex-start",
-    fontSize: responsiveScreenFontSize(4),
-    alignItems: "center",
-    color: "#000000",
-    justifyContent: "center",
-    fontWeight: "bold",
+  pictureView: {
+    height: responsiveScreenHeight(50),
+    width: "100%",
+    backgroundColor: "#EAF2FF",
   },
-  Subtext: {
-    alignItems: "flex-start",
-    fontSize: responsiveScreenFontSize(3),
-    alignItems: "center",
-    color: "#000000",
-    justifyContent: "center",
-    fontWeight: "bold",
+  bottomView: {
+    marginHorizontal: toSize(24),
+    marginVertical: toSize(27),
   },
-  btntext: { fontSize: responsiveScreenFontSize(2) },
-  selectext: { fontSize: responsiveScreenFontSize(1.5) },
-  margin: {
-    height: responsiveScreenHeight(10),
+  Welcome: {
+    fontWeight: "800",
+    fontSize: toSize(24),
+    color: "#000",
   },
-  selectview: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    margin: 10,
+  BtnView: {
+    marginTop: toSize(18),
   },
 });
