@@ -189,6 +189,6 @@ const styles = StyleSheet.create({
     borderRadius: toSize(100) / 2,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: toSize(34),
+    borderWidth: toSize(32),
   },
 });
