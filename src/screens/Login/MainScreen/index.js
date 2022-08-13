@@ -1,6 +1,7 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -9,13 +10,19 @@ import { toSize } from "../../../globalStyle";
 import LoginTypeSelect from "../../../components/Login/LoginTypeSelect";
 
 const LoginMainScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
       <View style={styles.container}>
         <View style={styles.pictureView} />
         <View style={styles.bottomView}>
-          <Text style={styles.Welcome}>Welcome!</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Explore")}
+          >
+            <Text style={styles.Welcome}>Welcome!</Text>
+          </TouchableOpacity>
           <View style={styles.BtnView}>
             <LoginTypeSelect type={"kakao"} />
             <LoginTypeSelect type={"Re-Kor"} />
