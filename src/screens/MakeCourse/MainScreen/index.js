@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -10,19 +9,19 @@ import {
 import SearchView from "../../../components/SearchView";
 import Bottom from "../../../components/Bottom";
 import { toSize } from "../../../globalStyle";
-import star from "../../../icons/star.svg";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
-// import Geolocation from "react-native-geolocation-service";
 import FirstPlaceView from "../../../components/Map/FirstPlaceView";
 import FullMakeCourse from "../../../components/Map/FullMakeCourse";
+import SelectMakeCourse from "../../../components/Map/SelectMakeCourse";
+import SetMakeCourse from "../../../components/Map/SetMakeCourse";
 
 export default function MakeCourseMainScreen() {
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
+  const fixedLocation1 = { lat: 37.62152994129975, lng: 127.05627425222845 };
 
   const [location, setLocation] = useState(fixedLocation);
-  const [FirstPlace, setFirstPlace] = useState(true);
+  const [SelectView, setSelectView] = useState(0);
 
-  const fixedLocation1 = { lat: 37.62152994129975, lng: 127.05627425222845 };
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
@@ -48,16 +47,28 @@ export default function MakeCourseMainScreen() {
       </View>
 
       <View style={styles.bottomView}>
-        {FirstPlace && (
+        {SelectView === 0 && (
           <FirstPlaceView
-            FirstPlace={FirstPlace}
-            setFirstPlace={setFirstPlace}
+            SelectView={SelectView}
+            setSelectView={setSelectView}
           />
         )}
-        {!FirstPlace && (
+        {SelectView === 1 && (
           <FullMakeCourse
-            FirstPlace={FirstPlace}
-            setFirstPlace={setFirstPlace}
+            SelectView={SelectView}
+            setSelectView={setSelectView}
+          />
+        )}
+        {SelectView === 2 && (
+          <SelectMakeCourse
+            SelectView={SelectView}
+            setSelectView={setSelectView}
+          />
+        )}
+        {SelectView === 3 && (
+          <SetMakeCourse
+            SelectView={SelectView}
+            setSelectView={setSelectView}
           />
         )}
         <Bottom num={5} border={false} />
