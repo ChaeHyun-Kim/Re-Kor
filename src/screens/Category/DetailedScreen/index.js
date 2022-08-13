@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
-  FlatList,
+  ScrollView,
   View,
   Image,
   ImageBackground,
@@ -12,7 +12,6 @@ import {
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
 import { WithLocalSvg } from "react-native-svg";
-import AutoScrollView from "react-native-auto-scroll-view";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -131,7 +130,7 @@ const DetailedScreen = ({ route }) => {
                 width={toSize(30)}
                 height={toSize(30)}
                 asset={go_map}
-              ></WithLocalSvg>
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -158,30 +157,27 @@ const DetailedScreen = ({ route }) => {
           </View>
 
           <View style={styles.tagView}>
-            <FlatList
-              horizontal={true}
-              keyExtractor={(item) => item.toString()}
-              data={arr[0].tag}
-              renderItem={({ item }) => <TagForm tag={item}></TagForm>}
-            ></FlatList>
+            {arr[0].tag.map((item, index) => {
+              return <TagForm tag={item} key={index} />;
+            })}
           </View>
         </View>
       </View>
       {/* <View style={styles.shadow}></View> */}
 
-      <AutoScrollView
+      <ScrollView
         contentContainerStyle={{ alignItems: "center" }}
         style={styles.informationView}
       >
         <View style={{ width: "90%", marginTop: toSize(30) }}>
-          <AutoScrollView style={styles.PictureinfoView} horizontal={true}>
+          <ScrollView style={styles.PictureinfoView} horizontal={true}>
             <Image style={styles.picture} source={place} />
             <Image style={styles.picture} source={place} />
             <Image style={styles.picture} source={place} />
             <Image style={styles.picture} source={place} />
             <Image style={styles.picture} source={place} />
             <Image style={styles.picture} source={place} />
-          </AutoScrollView>
+          </ScrollView>
         </View>
         {/* <Image
           source={{
@@ -243,8 +239,8 @@ const DetailedScreen = ({ route }) => {
         <View style={styles.separator}></View>
         <View style={styles.infoView}>
           <Text style={styles.TipTitleText}>{"  "}A special Tip!</Text>
-          {arr[0].special_tip.map((item) => (
-            <SpecialTipForm tip={item} />
+          {arr[0].special_tip.map((item, key) => (
+            <SpecialTipForm tip={item} key={key} />
           ))}
         </View>
 
@@ -258,10 +254,7 @@ const DetailedScreen = ({ route }) => {
         <View style={styles.recommendinfoView}>
           <Text style={styles.TitleText}>Recommend a similar place</Text>
           <View style={styles.recommedView}>
-            <AutoScrollView
-              style={styles.recommendScrollView}
-              horizontal={true}
-            >
+            <ScrollView style={styles.recommendScrollView} horizontal={true}>
               <ImageBackground
                 // source={{ uri:}}
                 source={place}
@@ -292,11 +285,11 @@ const DetailedScreen = ({ route }) => {
                 <Text style={styles.recommend_Place}>Gapyeong pine</Text>
                 <Text style={styles.recommend_Region}>Gapyeong</Text>
               </ImageBackground>
-            </AutoScrollView>
+            </ScrollView>
           </View>
         </View>
         <View style={{ marginBottom: "20%" }}></View>
-      </AutoScrollView>
+      </ScrollView>
     </View>
   );
 };

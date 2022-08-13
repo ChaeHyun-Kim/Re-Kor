@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   picture: {
     width: toSize(96),
     height: "100%",
-    borderRadius: toSize(7),
+    borderRadius: 7,
   },
   PlaceView: {
     flex: 1,

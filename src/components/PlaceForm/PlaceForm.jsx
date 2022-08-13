@@ -1,23 +1,12 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
 import { AntDesign } from "@expo/vector-icons";
 import TagForm from "./TagForm";
 import { useNavigation } from "@react-navigation/native";
 const place = require("../../../src/images/place1.png");
-const PlaceForm = ({ place_name, region, heartscore, starscore, tag }) => {
+
+const PlaceForm = ({ place_name, region, heartScore, starScore, tag }) => {
   const navigation = useNavigation();
   console.log("1234567897986546");
   return (
@@ -28,37 +17,33 @@ const PlaceForm = ({ place_name, region, heartscore, starscore, tag }) => {
           Content_ID: "관광지의 Content_ID",
         })
       }
+      style={styles.CategoryView}
     >
-      <View style={styles.CategoryView}>
-        <Image style={styles.picture} source={place} />
-        <View style={styles.PlaceView}>
-          <View style={styles.PlaceNameView}>
-            <Text style={styles.Place_Text}>{place_name}</Text>
-          </View>
+      <Image style={styles.picture} source={place} />
+      <View style={styles.PlaceView}>
+        <View style={styles.PlaceNameView}>
+          <Text style={styles.Place_Text}>{place_name}</Text>
+        </View>
 
-          <Text style={styles.Region_Text}>{region}</Text>
-          <View style={styles.ScoreView}>
-            <FlatList
-              horizontal={true}
-              keyExtractor={(item) => item.toString()}
-              data={tag}
-              renderItem={({ item }) => <TagForm tag={item}></TagForm>}
-            ></FlatList>
-          </View>
-          <View style={styles.ScoreView}>
-            <AntDesign
-              name="heart"
-              style={{ fontSize: toSize(12) }}
-              color="#FF7272"
-            />
-            <Text style={styles.Score_Text}>{heartscore}</Text>
-            <AntDesign
-              name="star"
-              style={{ fontSize: toSize(13) }}
-              color="#FDB600"
-            />
-            <Text style={styles.Score_Text}>{starscore}</Text>
-          </View>
+        <Text style={styles.Region_Text}>{region}</Text>
+        <View style={styles.ScoreView}>
+          {tag.map((item, index) => {
+            return <TagForm key={index} tag={item} />;
+          })}
+        </View>
+        <View style={styles.ScoreView}>
+          <AntDesign
+            name="heart"
+            style={{ fontSize: toSize(12) }}
+            color="#FF7272"
+          />
+          <Text style={styles.Score_Text}>{heartScore}</Text>
+          <AntDesign
+            name="star"
+            style={{ fontSize: toSize(13) }}
+            color="#FDB600"
+          />
+          <Text style={styles.Score_Text}>{starScore}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -68,17 +53,19 @@ export default PlaceForm;
 
 const styles = StyleSheet.create({
   CategoryView: {
-    width: responsiveScreenWidth(325),
+    width: "100%",
     height: toSize(96),
-    flex: 1,
     flexDirection: "row",
-    backgroundColor: "#FFFFFF",
-    marginBottom: 10,
+    marginBottom: toSize(10),
+  },
+  picture: {
+    width: toSize(96),
+    height: "100%",
+    borderRadius: 17,
   },
   PlaceView: {
     flex: 1,
-    paddingLeft: 16,
-    flexDirection: "column",
+    paddingLeft: toSize(16),
     justifyContent: "center",
   },
   PlaceNameView: {
@@ -93,11 +80,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: toSize(1),
   },
-  picture: {
-    width: toSize(96),
-    height: toSize(96),
-    borderRadius: 17,
-  },
+
   Place_Text: {
     fontSize: toSize(14),
     fontWeight: "800",

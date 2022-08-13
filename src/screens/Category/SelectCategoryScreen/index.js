@@ -91,21 +91,21 @@ const SelectCategoryScreen = ({ route, navigation }) => {
             </View>
           </SimplePopupMenu>
         </View>
-        <FlatList
-          keyExtractor={(item) => item.toString()}
-          data={arr}
-          renderItem={({ item, key }) => (
-            <PlaceForm
-              place_name={item.place_name}
-              region={item.region}
-              heartscore={item.heartscore}
-              starscore={item.starscore}
-              category={item.category}
-              tag={item.tag}
-              key={key}
-            />
-          )}
-        />
+        <View style={{ width: "100%" }}>
+          {arr.map((item, index) => {
+            return (
+              <PlaceForm
+                place_name={item.place_name}
+                region={item.region}
+                heartScore={item.heartscore}
+                starScore={item.starscore}
+                category={item.category}
+                tag={item.tag}
+                key={index}
+              />
+            );
+          })}
+        </View>
       </View>
     </View>
   );
