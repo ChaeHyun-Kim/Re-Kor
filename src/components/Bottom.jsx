@@ -5,6 +5,7 @@ import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 
 import { WithLocalSvg } from "react-native-svg";
 import MapIcon from "../icons/map.svg";
+import MapNoIcon from "../icons/MapNoIcon.svg";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -74,7 +75,10 @@ export default function Bottom({ num, border }) {
                   : { borderColor: "#FBFBFB" },
               ]}
             >
-              <WithLocalSvg style={{ fontSize: toSize(55) }} asset={MapIcon} />
+              <WithLocalSvg
+                style={{ fontSize: toSize(55) }}
+                asset={num === 5 ? MapIcon : MapNoIcon}
+              />
             </View>
           </TouchableOpacity>
         </View>
