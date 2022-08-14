@@ -27,7 +27,7 @@ export default function Categories({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Header />
+      <Header Title={"Category"} />
       <AutoScrollView style={styles.mainview}>
         <Text style={styles.main_text}>Choose category</Text>
 
