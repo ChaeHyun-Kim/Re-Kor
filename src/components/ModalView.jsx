@@ -13,7 +13,6 @@ const ModalView = ({ title, placeholder, setChangeBackGround }) => {
         activeOpacity={0.8}
         onPress={() => {
           setVisibleModal(true);
-          setChangeBackGround(true);
         }}
       >
         <Form title={title} placeholder={placeholder} text={text} />
