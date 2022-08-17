@@ -8,7 +8,6 @@ const place = require("../../../src/images/place1.png");
 
 const PlaceForm = ({ place_name, region, heartScore, starScore, tag }) => {
   const navigation = useNavigation();
-  console.log("1234567897986546");
   return (
     <TouchableOpacity
       activeOpacity={0.8}

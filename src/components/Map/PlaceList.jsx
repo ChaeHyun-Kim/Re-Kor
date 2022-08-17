@@ -7,28 +7,9 @@ import heart from "../../icons/heart.svg";
 import star from "../../icons/star.svg";
 import { useNavigation } from "@react-navigation/native";
 const place = require("../../../src/images/place1.png");
+import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-
-const CategoryColorChage = (category) => {
-  switch (category) {
-    case "K-LANDSCAPE":
-      return styles.Landscape_Category;
-    case "K-CULTURE":
-      return styles.Drama_Category;
-    case "K-FOOD":
-      return styles.Food_Category;
-    case "K-SHOPPING":
-      return styles.Shopping_Category;
-    case "K-POP":
-      return styles.Pop_Category;
-    case "K-DRAMA":
-      return styles.Drama_Category;
-    case "K-FESTIVAL":
-      return styles.Festival_Category;
-    case "K-LEISURE":
-      return styles.Leisure_Category;
-  }
-};
+import CategoryColorForm from "../PlaceForm/CategoryColorForm";
 
 const PlaceList = ({
   place_name,
@@ -138,7 +119,7 @@ const PlaceList = ({
         <View style={styles.PlaceView}>
           <View style={styles.Category_Place_View}>
             <Text style={styles.Place_Text}>{place_name}</Text>
-            <Text style={CategoryColorChage(category)}>{category}</Text>
+            <CategoryColorForm category={category}></CategoryColorForm>
           </View>
           <Text style={styles.Region_Text}>{region}</Text>
           <View style={styles.ScoreView}>
@@ -148,9 +129,17 @@ const PlaceList = ({
           </View>
           {heartScore && (
             <View style={styles.ScoreView}>
-              <WithLocalSvg asset={heart} />
+              <AntDesign
+                name="heart"
+                style={{ fontSize: toSize(12) }}
+                color="#FF7272"
+              />
               <Text style={styles.Score_Text}>{heartScore}</Text>
-              <WithLocalSvg asset={star} />
+              <AntDesign
+                name="star"
+                style={{ fontSize: toSize(13) }}
+                color="#FDB600"
+              />
               <Text style={styles.Score_Text}>{starScore}</Text>
             </View>
           )}
@@ -189,75 +178,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
+    marginVertical: toSize(1),
   },
-
   Place_Text: {
     fontSize: toSize(12),
     fontWeight: "800",
   },
   Region_Text: {
+    fontSize: toSize(10),
     color: "#71727A",
     fontWeight: "400",
+    marginVertical: toSize(1),
   },
   Score_Text: {
     marginLeft: 5,
     marginRight: 10,
-  },
-  Drama_Category: {
-    color: "#FFF",
-    backgroundColor: "#FDD692",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Landscape_Category: {
-    color: "#FFF",
-    backgroundColor: "#CFF09E",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Culture_Category: {
-    color: "#FFF",
-    backgroundColor: "#D09E88",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Food_Category: {
-    color: "#FFF",
-    backgroundColor: "#F26D5B",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Pop_Category: {
-    color: "#FFF",
-    backgroundColor: "#A593E0",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Festival_Category: {
-    color: "#FFF",
-    backgroundColor: "#F7AA97",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Leisure_Category: {
-    color: "#FFF",
-    backgroundColor: "#52616A",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
-  },
-  Shopping_Category: {
-    color: "#FFF",
-    backgroundColor: "#A3DAFF",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingHorizontal: 10,
   },
   circle: {
     width: toSize(17),

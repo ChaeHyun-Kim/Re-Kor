@@ -5,6 +5,7 @@ import {
   Text,
   View,
   ImageBackground,
+  TouchableWithoutFeedback,
   TouchableOpacity,
 } from "react-native";
 import {
@@ -23,6 +24,8 @@ import upArrow from "../../../icons/uparrow.svg";
 import downArrow from "../../../icons/downarrow.svg";
 import { toSize } from "../../../globalStyle";
 import UserInfo from "../../../components/Explore/UserInfo";
+import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
+import TagForm from "../../../components/PlaceForm/TagForm";
 
 const ExploreMainScreen = () => {
   const [userData, setUserData] = useState([
@@ -33,6 +36,12 @@ const ExploreMainScreen = () => {
       keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
       place_heart: 100,
       place_star: 4.5,
+      category: "K-DRAMA",
+      tag: [
+        { tag_name: "#Fun3", tag_category: "A" },
+        { tag_name: "#Theme Parks", tag_category: "C" },
+        { tag_name: "#Fun", tag_category: "B" },
+      ],
     },
   ]);
 
@@ -53,6 +62,18 @@ const ExploreMainScreen = () => {
     }
   }, [ClickHeart]);
 
+  var lastTap = null;
+
+  const HandleDoubleTap = () => {
+    const now = Date.now();
+    const DOUBLE_PRESS_DELAY = 300;
+    //두번째 tap이 지난 tap을 한지 0.03초 이내에 이뤄졌을 때 -> Double tap
+    if (lastTap && now - lastTap < DOUBLE_PRESS_DELAY) {
+      heartClick();
+    } else {
+      lastTap = now;
+    }
+  };
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -68,40 +89,42 @@ const ExploreMainScreen = () => {
               height={toSize(10)}
               asset={upArrow}
             />
-            <ImageBackground
-              style={styles.picture}
-              source={place}
-              resizeMode="cover"
-              imageStyle={{ borderRadius: toSize(20) }}
-            >
-              {HeartShow && (
-                <View style={styles.HeartShow}>
-                  <AntDesign
-                    name="heart"
-                    style={{ fontSize: toSize(95) }}
-                    color="#FF7272"
-                  />
-                </View>
-              )}
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.left}
-                onPress={heartClick}
+            <TouchableWithoutFeedback onPress={HandleDoubleTap}>
+              <ImageBackground
+                style={styles.picture}
+                source={place}
+                resizeMode="cover"
+                imageStyle={{ borderRadius: toSize(20) }}
               >
-                <WithLocalSvg
-                  width={toSize(34)}
-                  height={toSize(34)}
-                  asset={ClickHeart == false ? no_heart : heart}
-                />
-              </TouchableOpacity>
+                {HeartShow && (
+                  <View style={styles.HeartShow}>
+                    <AntDesign
+                      name="heart"
+                      style={{ fontSize: toSize(95) }}
+                      color="#FF7272"
+                    />
+                  </View>
+                )}
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={styles.left}
+                  onPress={heartClick}
+                >
+                  <WithLocalSvg
+                    width={toSize(34)}
+                    height={toSize(34)}
+                    asset={ClickHeart == false ? no_heart : heart}
+                  />
+                </TouchableOpacity>
 
-              <View style={styles.place_information}>
-                <Text style={styles.region_text}>{userData[0].region}</Text>
-                <View style={styles.row_view}>
-                  <View style={styles.leftview}>
+                <View style={styles.fullView}>
+                  <View style={styles.place_information}>
+                    <Text style={styles.region_text}>{userData[0].region}</Text>
+
                     <Text style={styles.place_text}>
                       {userData[0].place_name}
                     </Text>
+
                     <View style={styles.row}>
                       <AntDesign
                         name="heart"
@@ -121,14 +144,23 @@ const ExploreMainScreen = () => {
                       </Text>
                     </View>
                   </View>
-                  <View style={styles.right_view}>
-                    <Text style={styles.region_text}>
-                      {userData[0].place_star}
-                    </Text>
+
+                  <View style={styles.place_information2}>
+                    <View style={{ paddingBottom: toSize(2) }}>
+                      <CategoryColorForm
+                        category={userData[0].category}
+                      ></CategoryColorForm>
+                    </View>
+
+                    <View style={styles.tagView}>
+                      {userData[0].tag.map((item, index) => {
+                        return <TagForm tag={item} key={index} />;
+                      })}
+                    </View>
                   </View>
                 </View>
-              </View>
-            </ImageBackground>
+              </ImageBackground>
+            </TouchableWithoutFeedback>
             <WithLocalSvg
               width={toSize(36)}
               height={toSize(10)}
@@ -172,6 +204,13 @@ const styles = StyleSheet.create({
     marginTop: toSize(10),
     alignItems: "center",
   },
+  fullView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "flex-end",
+    alignItems: "flex-end",
+    padding: toSize(20),
+  },
   picture: {
     width: toSize(328),
     height: toSize(290),
@@ -188,13 +227,14 @@ const styles = StyleSheet.create({
   },
   region_text: {
     fontWeight: "400",
-    fontSize: toSize(14),
+    fontSize: toSize(13),
     color: "white",
   },
   place_text: {
     fontWeight: "700",
-    fontSize: toSize(25),
+    fontSize: toSize(16),
     color: "white",
+    paddingBottom: toSize(3),
   },
   sub_text: {
     fontWeight: "700",
@@ -208,10 +248,20 @@ const styles = StyleSheet.create({
     paddingRight: toSize(20),
   },
   place_information: {
-    width: "100%",
-    padding: toSize(20),
+    flex: 0.4,
+    justifyContent: "flex-end",
+  },
+  place_information2: {
+    flex: 0.6,
+    justifyContent: "flex-end",
   },
   row: {
     flexDirection: "row",
+  },
+  tagView: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexWrap: "wrap",
   },
 });
