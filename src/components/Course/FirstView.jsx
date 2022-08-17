@@ -3,9 +3,23 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import SecondView from "./SecondView";
+import SimplePopupMenu from "react-native-simple-popup-menu";
 
-const CourseListView = ({ data }) => {
+const CourseListView = ({ folder, course }) => {
   const [click, setClick] = useState(false);
+  const items = [
+    { id: "move", label: "Move to a folder sequence" },
+    { id: "rename", label: "Rename a folder" },
+  ];
+  const onMenuPress = (id) => {
+    if (id === "move") {
+      console.log(id);
+    } else if (id === "rename") {
+    }
+
+    console.log(arr);
+  };
+
   return (
     <>
       <TouchableOpacity
@@ -13,15 +27,36 @@ const CourseListView = ({ data }) => {
         onPress={() => setClick(click === false ? true : false)}
         style={styles.ListView}
       >
-        <AntDesign name="right" size={toSize(12)} color="#8F9098" />
+        {(click && (
+          <AntDesign name="down" size={toSize(12)} color="#8F9098" />
+        )) || <AntDesign name="right" size={toSize(12)} color="#8F9098" />}
+
         <View style={styles.textView}>
-          <Text style={styles.mainText}>Recent travel courses created </Text>
-          <Text style={styles.numText}>{data.length}</Text>
+          <Text style={styles.mainText}>
+            {folder}
+            {"  "}
+          </Text>
+          <Text style={styles.numText}>{course.length}</Text>
         </View>
-        <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
+        <SimplePopupMenu
+          items={items}
+          style={styles.button}
+          onSelect={(items) => {
+            onMenuPress(items.id);
+          }}
+          onCancel={() => console.log("onCancel")}
+        >
+          <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
+        </SimplePopupMenu>
       </TouchableOpacity>
       {click === true &&
-        data.map((data, key) => <SecondView data={data} key={key} />)}
+        course.map((item, key) => (
+          <SecondView
+            course_name={item.course_name}
+            course_info={item.course_info}
+            key={key}
+          />
+        ))}
     </>
   );
 };

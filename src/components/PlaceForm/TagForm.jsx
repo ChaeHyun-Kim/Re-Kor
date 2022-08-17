@@ -6,8 +6,6 @@ import {
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 
-// tag_name={item.tag_name}
-// tag_category={item.tag_category}
 const TagViewColor = (tag_category) => {
   switch (tag_category) {
     case "A":
@@ -28,7 +26,6 @@ const TagTextColor = (tag_category) => {
       return styles.Tag_cat3;
   }
 };
-// const TagForm = ({ tag_name, tag_category }) => {
 const TagForm = ({ tag }) => {
   return (
     <View style={styles.TagView}>
@@ -43,12 +40,14 @@ export default TagForm;
 const styles = StyleSheet.create({
   TagView: {
     marginRight: 3,
+    marginTop: toSize(1),
   },
 
   Tag_cat1View: {
     borderColor: "#5CCEFF",
     borderWidth: 2,
     borderRadius: 20,
+    backgroundColor: "#FFFFFF",
   },
 
   Tag_cat1: {
@@ -63,6 +62,7 @@ const styles = StyleSheet.create({
     borderColor: "#FFD15C",
     borderWidth: 2,
     borderRadius: 20,
+    backgroundColor: "#FFFFFF",
   },
 
   Tag_cat2: {
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     borderColor: "#FFB2B2",
     borderWidth: 2,
     borderRadius: 20,
+    backgroundColor: "#FFFFFF",
   },
 
   Tag_cat3: {

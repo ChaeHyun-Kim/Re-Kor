@@ -3,47 +3,35 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+// import { Entypo } from "@expo/vector-icons";
+import { WithLocalSvg } from "react-native-svg";
+import full_course_icon from "../../icons/full_course_icon.svg";
 import SimplePopupMenu from "react-native-simple-popup-menu";
-import SecondSmallView from "./SecondSmallView";
-import SecondBigView from "./SecondBigView";
-const SecondView = ({ course_name, course_info }) => {
-  const [click, setClick] = useState(false);
+const SecondBigView = ({ course_info }) => {
   const place = require("../../images/place1.png");
-  const items = [
-    { id: "move", label: "Move to a different folder" },
-    { id: "rename", label: "Rename a course" },
-  ];
-  return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => setClick(click === false ? true : false)}
-    >
-      <View style={styles.ListView}>
-        <View style={styles.courseNameView}>
-          {(click && (
-            <AntDesign name="down" size={toSize(12)} color="#8F9098" />
-          )) || <AntDesign name="right" size={toSize(12)} color="#8F9098" />}
-          <Text style={styles.mainText}>{course_name}</Text>
-          <SimplePopupMenu
-            items={items}
-            style={styles.button}
-            onSelect={(items) => {
-              // onMenuPress(items.id);
-            }}
-            onCancel={() => console.log("onCancel")}
-          >
-            <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
-          </SimplePopupMenu>
-        </View>
 
-        {(click && (
-          <SecondBigView course_info={course_info}></SecondBigView>
-        )) || <SecondSmallView course_info={course_info}></SecondSmallView>}
+  return (
+    <View style={styles.rowView_space}>
+      <View style={styles.rowView_start}>
+        <View style={styles.rowView}>
+          <Feather name="map-pin" size={toSize(12)} color="black" />
+          <View style={styles.rowView_place}>
+            <Text style={styles.boldText}>3 </Text>
+            <Text style={styles.normalText}>places</Text>
+          </View>
+        </View>
+        <View style={styles.border}></View>
+        <View style={styles.rowView}>
+          <Text style={styles.boldText}>Total </Text>
+          <Text style={styles.normalText}>10km</Text>
+        </View>
       </View>
-    </TouchableOpacity>
+      {/* <Entypo name="map" size={20} color="black" /> */}
+      <WithLocalSvg asset={full_course_icon}></WithLocalSvg>
+    </View>
   );
 };
-export default SecondView;
+export default SecondBigView;
 const styles = StyleSheet.create({
   ListView: {
     backgroundColor: "#FFFFFF",
@@ -81,9 +69,10 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   border: {
+    height: toSize(12),
     borderColor: "#D4D6DD",
     borderWidth: toSize(1),
-    marginVertical: toSize(4),
+    marginHorizontal: toSize(4),
   },
   rowView: {
     flexDirection: "row",
@@ -100,6 +89,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+  },
+  rowView_start: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   boldText: {
     fontSize: toSize(10),
