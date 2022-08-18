@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import {
   responsiveScreenHeight,
@@ -27,12 +28,16 @@ import UserInfo from "../../../components/Explore/UserInfo";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 import TagForm from "../../../components/PlaceForm/TagForm";
 
+import { Ionicons } from "@expo/vector-icons";
+
 const ExploreMainScreen = () => {
-  const [userData, setUserData] = useState([
+  const userData = {
+    user_name: "Gayoung",
+  };
+  const placeArray = [
     {
-      user_name: "Gayoung",
-      region: "Gapyeong",
       place_name: "Petite France",
+      region: "Gapyeong",
       keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
       place_heart: 100,
       place_star: 4.5,
@@ -42,12 +47,33 @@ const ExploreMainScreen = () => {
         { tag_name: "#Theme Parks", tag_category: "C" },
         { tag_name: "#Fun", tag_category: "B" },
       ],
+      picture: require("../../../images/place2.png"),
+      heart: true,
     },
-  ]);
-
-  const place = require("../../../images/place1.png");
-  const [ClickHeart, setHeartClick] = useState(false);
+    {
+      place_name: "Petite France",
+      region: "Gapyeong",
+      keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
+      place_heart: 120,
+      place_star: 4.5,
+      category: "K-DRAMA",
+      tag: [
+        { tag_name: "#Fun3", tag_category: "A" },
+        { tag_name: "#Theme Parks", tag_category: "C" },
+        { tag_name: "#Fun", tag_category: "B" },
+      ],
+      picture: require("../../../images/place1.png"),
+      heart: false,
+    },
+  ];
+  const arrayNum = placeArray.length;
+  const [placeNumber, setPlaceNumber] = useState(0);
+  const [ClickHeart, setHeartClick] = useState(placeArray[placeNumber]);
   const [HeartShow, setHeartShow] = useState(false);
+
+  const HomeBack = require("../../../icons/ic_homeBack.png");
+
+  var lastTap = null;
 
   const heartClick = () => {
     setHeartClick(ClickHeart == false ? true : false);
@@ -62,37 +88,46 @@ const ExploreMainScreen = () => {
     }
   }, [ClickHeart]);
 
-  var lastTap = null;
-
   const HandleDoubleTap = () => {
     const now = Date.now();
     const DOUBLE_PRESS_DELAY = 300;
-    //두번째 tap이 지난 tap을 한지 0.03초 이내에 이뤄졌을 때 -> Double tap
+    // 두번째 tap이 지난 tap을 한지 0.03초 이내에 이뤄졌을 때 -> Double tap
     if (lastTap && now - lastTap < DOUBLE_PRESS_DELAY) {
       heartClick();
     } else {
       lastTap = now;
     }
   };
+
+  const placeUp = () => {
+    setPlaceNumber(placeNumber != 0 ? placeNumber - 1 : placeNumber);
+  };
+
+  const placeDown = () => {
+    setPlaceNumber(placeNumber != arrayNum ? placeNumber + 1 : placeNumber);
+    console.log(placeNumber);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header />
       <View style={styles.MainView}>
         <UserInfo userData={userData} />
-
         <View style={styles.recommend_view}>
           <Text style={styles.recommend_title}>Today's recommended place</Text>
           <View style={styles.place_view}>
-            <WithLocalSvg
-              width={toSize(36)}
-              height={toSize(10)}
-              asset={upArrow}
-            />
+            <TouchableOpacity activeOpacity={0.8} onPress={placeUp}>
+              <Ionicons
+                name="md-chevron-up"
+                size={toSize(30)}
+                color={placeNumber != 0 ? "#D3D3D3" : "#fff"}
+              />
+            </TouchableOpacity>
             <TouchableWithoutFeedback onPress={HandleDoubleTap}>
               <ImageBackground
                 style={styles.picture}
-                source={place}
+                source={placeArray[placeNumber].picture}
                 resizeMode="cover"
                 imageStyle={{ borderRadius: toSize(20) }}
               >
@@ -105,6 +140,7 @@ const ExploreMainScreen = () => {
                     />
                   </View>
                 )}
+
                 <TouchableOpacity
                   activeOpacity={0.8}
                   style={styles.left}
@@ -117,22 +153,29 @@ const ExploreMainScreen = () => {
                   />
                 </TouchableOpacity>
 
+                <Image source={HomeBack} style={styles.backView} />
                 <View style={styles.fullView}>
                   <View style={styles.place_information}>
-                    <Text style={styles.region_text}>{userData[0].region}</Text>
+                    <Text style={styles.region_text}>
+                      {placeArray[placeNumber].region}
+                    </Text>
 
                     <Text style={styles.place_text}>
-                      {userData[0].place_name}
+                      {placeArray[placeNumber].place_name}
                     </Text>
 
                     <View style={styles.row}>
+                      <CategoryColorForm
+                        category={placeArray[placeNumber].category}
+                      />
+                      <View style={styles.line} />
                       <AntDesign
                         name="heart"
                         style={{ fontSize: toSize(12) }}
                         color="#FF7272"
                       />
                       <Text style={styles.sub_text}>
-                        {userData[0].place_heart}
+                        {placeArray[placeNumber].place_heart}
                       </Text>
                       <AntDesign
                         name="star"
@@ -140,20 +183,11 @@ const ExploreMainScreen = () => {
                         color="#FDB600"
                       />
                       <Text style={styles.sub_text}>
-                        {userData[0].place_star}
+                        {placeArray[placeNumber].place_star}
                       </Text>
                     </View>
-                  </View>
-
-                  <View style={styles.place_information2}>
-                    <View style={{ paddingBottom: toSize(2) }}>
-                      <CategoryColorForm
-                        category={userData[0].category}
-                      ></CategoryColorForm>
-                    </View>
-
                     <View style={styles.tagView}>
-                      {userData[0].tag.map((item, index) => {
+                      {placeArray[placeNumber].tag.map((item, index) => {
                         return <TagForm tag={item} key={index} />;
                       })}
                     </View>
@@ -161,11 +195,13 @@ const ExploreMainScreen = () => {
                 </View>
               </ImageBackground>
             </TouchableWithoutFeedback>
-            <WithLocalSvg
-              width={toSize(36)}
-              height={toSize(10)}
-              asset={downArrow}
-            />
+            <TouchableOpacity activeOpacity={0.8} onPress={placeDown}>
+              <Ionicons
+                name="md-chevron-down"
+                size={toSize(30)}
+                color={placeNumber != arrayNum - 1 ? "#D3D3D3" : "#fff"}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -180,11 +216,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    width: responsiveScreenWidth(100),
   },
   MainView: {
     flex: 1,
     alignItems: "center",
     backgroundColor: "#fff",
+    width: responsiveScreenWidth(100),
   },
   row_view: {
     justifyContent: "space-between",
@@ -192,16 +230,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   recommend_view: {
-    width: responsiveScreenWidth(90),
-    marginTop: toSize(20),
+    width: "100%",
+    paddingHorizontal: toSize(24),
+    marginTop: toSize(15),
   },
   recommend_title: {
-    fontWeight: "800",
-    fontSize: toSize(18),
-    color: "black",
+    fontWeight: "700",
+    fontSize: toSize(20),
+    color: "#2F3036",
   },
   place_view: {
-    marginTop: toSize(10),
+    marginTop: toSize(3),
     alignItems: "center",
   },
   fullView: {
@@ -209,16 +248,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignContent: "flex-end",
     alignItems: "flex-end",
-    padding: toSize(20),
+    paddingHorizontal: toSize(20),
+    paddingVertical: toSize(30),
+  },
+  backView: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
   },
   picture: {
     width: toSize(328),
-    height: toSize(290),
+    height: toSize(328),
     borderRadius: toSize(20),
     position: "relative",
-    paddingTop: 20,
+    paddingTop: toSize(14),
     justifyContent: "space-between",
-    marginVertical: toSize(9),
   },
   HeartShow: {
     position: "absolute",
@@ -227,41 +271,41 @@ const styles = StyleSheet.create({
   },
   region_text: {
     fontWeight: "400",
-    fontSize: toSize(13),
+    fontSize: toSize(14),
     color: "white",
   },
   place_text: {
     fontWeight: "700",
-    fontSize: toSize(16),
+    fontSize: toSize(20),
     color: "white",
-    paddingBottom: toSize(3),
+    paddingBottom: toSize(7),
   },
   sub_text: {
     fontWeight: "700",
-    fontSize: toSize(10),
+    fontSize: toSize(12),
     color: "white",
     marginLeft: toSize(5),
-    marginRight: toSize(8),
+    marginRight: toSize(6),
   },
   left: {
     alignItems: "flex-end",
     paddingRight: toSize(20),
   },
   place_information: {
-    flex: 0.4,
-    justifyContent: "flex-end",
-  },
-  place_information2: {
-    flex: 0.6,
     justifyContent: "flex-end",
   },
   row: {
     flexDirection: "row",
+    alignItems: "center",
   },
   tagView: {
     flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexWrap: "wrap",
+    marginTop: toSize(7),
+  },
+  line: {
+    width: toSize(1),
+    height: toSize(13),
+    backgroundColor: "#fff",
+    marginHorizontal: toSize(8),
   },
 });

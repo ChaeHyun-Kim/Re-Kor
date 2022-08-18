@@ -1,96 +1,59 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { toSize } from "../../globalStyle.js";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { WithLocalSvg } from "react-native-svg";
-import user_character from "../../icons/user_character.svg";
+import { toSize } from "../../globalStyle.js";
+
+import user_character from "../../icons/ic_typeImage1.svg";
 
 export default function UserInfo({ userData }) {
+  const HomeLine = require("../../icons/ic_homeLine.png");
   return (
     <View style={styles.user_information}>
-      <View style={styles.row_view}>
-        <View style={styles.line}>
-          <Text style={styles.welcome_text}>Hi, {userData[0].user_name}</Text>
-          <Text style={styles.welcome_text}>
-            I'll recommend it to you again!
-          </Text>
-        </View>
-        <WithLocalSvg style={{ fontSize: toSize(60) }} asset={user_character} />
+      <View style={styles.textView}>
+        <Text style={styles.title_text}>Hi, {userData.user_name}</Text>
+        <Text style={styles.welcome_text}>I'll recommend it to you again!</Text>
       </View>
-      <View style={styles.row_view_unit}>
-        <View style={styles.column_view}>
-          <Text style={styles.unit}>USD</Text>
-          <Text style={styles.unit_view}>1 $</Text>
-        </View>
-        <View style={styles.column_view}>
-          <Text style={styles.unit}></Text>
-          <Text style={styles.equal}>=</Text>
-        </View>
-        <View style={styles.column_view}>
-          <Text style={styles.unit}>KRW</Text>
-          <Text style={styles.unit_view}>1,301.00 won</Text>
-        </View>
-      </View>
+      <WithLocalSvg
+        height={toSize(67)}
+        width={toSize(67)}
+        style={styles.character_View}
+        asset={user_character}
+      />
+      <Image source={HomeLine} style={styles.lineView} />
     </View>
   );
 }
 const styles = StyleSheet.create({
   user_information: {
-    width: responsiveScreenWidth(90),
-    height: toSize(131),
-    marginTop: toSize(10),
-    borderRadius: toSize(20),
-    paddingHorizontal: toSize(24),
-    paddingVertical: toSize(10),
-    backgroundColor: "#ffffff",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 3,
+    width: responsiveScreenWidth(100),
+    height: toSize(110),
   },
-  row_view: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
+  lineView: {
+    position: "absolute",
+    bottom: 0,
+    left: "50%",
+    marginLeft: -responsiveScreenWidth(55),
+    width: responsiveScreenWidth(110),
   },
-  row_view_unit: {
-    flexDirection: "row",
-    margin: toSize(5),
+  textView: {
+    paddingHorizontal: toSize(36),
+    paddingTop: toSize(10),
+  },
+  title_text: {
+    fontSize: toSize(22),
+    fontWeight: "700",
+    color: "#2F3036",
+    marginBottom: toSize(5),
   },
   welcome_text: {
-    fontSize: toSize(16),
+    fontSize: toSize(14),
     fontWeight: "300",
-    lineHeight: toSize(25),
+    color: "#5F5F5F",
   },
-  line: {
-    borderBottomWidth: toSize(1),
-    borderColor: "#EDEDED",
-    paddingBottom: toSize(5),
-  },
-  unit_view: {
-    fontSize: toSize(15),
-    paddingHorizontal: toSize(11),
-    paddingVertical: toSize(4),
-    borderColor: "#D0D0D0",
-    borderWidth: toSize(1),
-    borderRadius: toSize(20),
-    fontWeight: "400",
-    color: "black",
-  },
-  unit: {
-    fontWeight: "700",
-    fontSize: toSize(10),
-    color: "black",
-  },
-  column_view: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  equal: {
-    marginHorizontal: toSize(10),
+  character_View: {
+    position: "absolute",
+    right: toSize(47),
+    bottom: toSize(7),
   },
 });

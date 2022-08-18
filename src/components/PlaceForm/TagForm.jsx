@@ -1,36 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
 import { toSize } from "../../globalStyle";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
 
-const TagViewColor = (tag_category) => {
+const TagColor = (tag_category) => {
   switch (tag_category) {
     case "A":
-      return styles.Tag_cat1View;
+      return styles.Tag_color1;
     case "B":
-      return styles.Tag_cat2View;
+      return styles.Tag_color2;
     case "C":
-      return styles.Tag_cat3View;
-  }
-};
-const TagTextColor = (tag_category) => {
-  switch (tag_category) {
-    case "A":
-      return styles.Tag_cat1;
-    case "B":
-      return styles.Tag_cat2;
-    case "C":
-      return styles.Tag_cat3;
+      return styles.Tag_color3;
   }
 };
 const TagForm = ({ tag }) => {
   return (
     <View style={styles.TagView}>
-      <View style={TagViewColor(tag.tag_category)}>
-        <Text style={TagTextColor(tag.tag_category)}>{tag.tag_name}</Text>
+      <View style={[styles.commonView, TagColor(tag.tag_category)]}>
+        <Text style={[styles.commonText, TagColor(tag.tag_category)]}>
+          {tag.tag_name}
+        </Text>
       </View>
     </View>
   );
@@ -39,52 +26,27 @@ export default TagForm;
 
 const styles = StyleSheet.create({
   TagView: {
-    marginRight: 3,
-    marginTop: toSize(1),
+    marginRight: toSize(4),
+  },
+  commonView: { borderWidth: 1, borderRadius: 20, backgroundColor: "#FFFFFF" },
+  commonText: {
+    fontWeight: "400",
+    fontSize: toSize(12),
+    paddingVertical: toSize(2),
+    paddingHorizontal: toSize(8),
   },
 
-  Tag_cat1View: {
-    borderColor: "#5CCEFF",
-    borderWidth: 2,
-    borderRadius: 20,
-    backgroundColor: "#FFFFFF",
-  },
-
-  Tag_cat1: {
+  Tag_color1: {
     color: "#5CCEFF",
-    fontWeight: "400",
-    fontSize: toSize(8),
-    paddingVertical: toSize(1),
-    paddingHorizontal: toSize(8),
+    borderColor: "#5CCEFF",
   },
-
-  Tag_cat2View: {
-    borderColor: "#FFD15C",
-    borderWidth: 2,
-    borderRadius: 20,
-    backgroundColor: "#FFFFFF",
-  },
-
-  Tag_cat2: {
+  Tag_color2: {
     color: "#FFD15C",
-    fontWeight: "400",
-    fontSize: toSize(8),
-    paddingVertical: toSize(1),
-    paddingHorizontal: toSize(8),
+    borderColor: "#FFD15C",
   },
 
-  Tag_cat3View: {
-    borderColor: "#FFB2B2",
-    borderWidth: 2,
-    borderRadius: 20,
-    backgroundColor: "#FFFFFF",
-  },
-
-  Tag_cat3: {
+  Tag_color3: {
     color: "#FFB2B2",
-    fontWeight: "400",
-    fontSize: toSize(8),
-    paddingVertical: toSize(1),
-    paddingHorizontal: toSize(8),
+    borderColor: "#FFB2B2",
   },
 });

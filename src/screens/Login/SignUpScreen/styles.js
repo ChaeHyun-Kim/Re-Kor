@@ -7,12 +7,14 @@ import { toSize } from "../../../globalStyle";
 
 export const styles = StyleSheet.create({
   fullscreen: {
+    backgroundColor: "white",
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
     alignItems: "center",
     flex: 1,
   },
   fullOpacity: {
+    backgroundColor: "white",
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
     alignItems: "center",
