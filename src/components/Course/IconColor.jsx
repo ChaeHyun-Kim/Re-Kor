@@ -1,4 +1,4 @@
-export const IconColor = (category) => {
+export function IconColor(category) {
   switch (category) {
     case "K-LANDSCAPE":
       return "#CFF09E";
@@ -17,4 +17,4 @@ export const IconColor = (category) => {
     case "K-LEISURE":
       return "#52616A";
   }
-};
+}

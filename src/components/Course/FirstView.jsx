@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import React, { useState, useRef } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import SecondView from "./SecondView";
@@ -7,6 +13,8 @@ import SimplePopupMenu from "react-native-simple-popup-menu";
 
 const CourseListView = ({ folder, course }) => {
   const [click, setClick] = useState(false);
+  const [rename, setRename] = useState(false);
+  // const ref_input2 = useRef();
   const items = [
     { id: "move", label: "Move to a folder sequence" },
     { id: "rename", label: "Rename a folder" },
@@ -15,13 +23,12 @@ const CourseListView = ({ folder, course }) => {
     if (id === "move") {
       console.log(id);
     } else if (id === "rename") {
+      setRename(true);
     }
-
-    console.log(arr);
   };
 
   return (
-    <>
+    <View style={{ padding: toSize(2), marginBottom: toSize(16) }}>
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => setClick(click === false ? true : false)}
@@ -32,10 +39,14 @@ const CourseListView = ({ folder, course }) => {
         )) || <AntDesign name="right" size={toSize(12)} color="#8F9098" />}
 
         <View style={styles.textView}>
-          <Text style={styles.mainText}>
-            {folder}
-            {"  "}
-          </Text>
+          <TextInput
+            value={folder}
+            editable={rename}
+            style={styles.mainText}
+            placeholder={"Text"}
+            // onSubmitEditing={() => ref_input2.current.focus()}
+          />
+
           <Text style={styles.numText}>{course.length}</Text>
         </View>
         <SimplePopupMenu
@@ -57,7 +68,7 @@ const CourseListView = ({ folder, course }) => {
             key={key}
           />
         ))}
-    </>
+    </View>
   );
 };
 export default CourseListView;
@@ -82,12 +93,14 @@ const styles = StyleSheet.create({
   textView: {
     flex: 1,
     flexDirection: "row",
+    alignItems: "center",
   },
   mainText: {
     fontSize: toSize(14),
     color: "#1F2024",
     fontWeight: "400",
     marginLeft: toSize(18),
+    marginRight: toSize(8),
   },
   numText: {
     fontSize: toSize(14),
