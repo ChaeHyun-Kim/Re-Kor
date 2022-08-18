@@ -6,16 +6,20 @@ import { Feather } from "@expo/vector-icons";
 // import { Entypo } from "@expo/vector-icons";
 import { WithLocalSvg } from "react-native-svg";
 import full_course_icon from "../../icons/full_course_icon.svg";
-import SelectedPlaceList from "../Course/SelectedPlaceList";
+import PlaceList from "../Map/PlaceList";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 const SecondBigView = ({ course_info }) => {
   const place = require("../../images/place1.png");
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <View style={styles.rowView_space}>
         <View style={styles.rowView_start}>
           <View style={styles.rowView}>
-            <Feather name="map-pin" size={toSize(12)} color="black" />
+            <Feather name="map-pin" size={toSize(17)} color="black" />
             <View style={styles.rowView_place}>
               <Text style={styles.boldText}>3 </Text>
               <Text style={styles.normalText}>places</Text>
@@ -27,21 +31,25 @@ const SecondBigView = ({ course_info }) => {
             <Text style={styles.normalText}>10km</Text>
           </View>
         </View>
-        <WithLocalSvg asset={full_course_icon}></WithLocalSvg>
+        <WithLocalSvg
+          asset={full_course_icon}
+          width={toSize(30)}
+          height={toSize(30)}
+        ></WithLocalSvg>
       </View>
       {course_info.map((item, index) => {
         return (
-          <SelectedPlaceList
+          <PlaceList
             key={index}
             place_name={item.place_name}
             region={item.region}
             category={item.category}
             tag={item.tag}
             num={index + 1}
-            type={item.type}
+            selecttype={item.selecttype}
+            screentype={"course_list"}
             km={item.km}
-            cancel={false}
-          ></SelectedPlaceList>
+          ></PlaceList>
         );
       })}
     </View>
@@ -105,6 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginBottom: toSize(14),
   },
   rowView_start: {
     flexDirection: "row",
@@ -112,16 +121,16 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   boldText: {
-    fontSize: toSize(10),
+    fontSize: toSize(12),
     fontWeight: "700",
   },
   boldText2: {
-    fontSize: toSize(10),
+    fontSize: toSize(12),
     fontWeight: "700",
     marginRight: toSize(13),
   },
   normalText: {
-    fontSize: toSize(10),
+    fontSize: toSize(12),
     fontWeight: "400",
   },
 });

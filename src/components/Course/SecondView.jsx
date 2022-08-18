@@ -23,35 +23,34 @@ const SecondView = ({ course_name, course_info }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
+      style={styles.ListView}
       onPress={() => setClick(click === false ? true : false)}
     >
-      <View style={styles.ListView}>
-        <View style={styles.courseNameView}>
-          {(click && (
-            <AntDesign name="down" size={toSize(12)} color="#8F9098" />
-          )) || <AntDesign name="right" size={toSize(12)} color="#8F9098" />}
-          <TextInput
-            value={course_name}
-            editable={false}
-            style={styles.mainText}
-          />
-
-          <SimplePopupMenu
-            items={items}
-            style={styles.button}
-            onSelect={(items) => {
-              // onMenuPress(items.id);
-            }}
-            onCancel={() => console.log("onCancel")}
-          >
-            <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
-          </SimplePopupMenu>
-        </View>
-
+      <View style={styles.courseNameView}>
         {(click && (
-          <SecondBigView course_info={course_info}></SecondBigView>
-        )) || <SecondSmallView course_info={course_info}></SecondSmallView>}
+          <AntDesign name="down" size={toSize(12)} color="#8F9098" />
+        )) || <AntDesign name="right" size={toSize(12)} color="#8F9098" />}
+        <TextInput
+          value={course_name}
+          editable={false}
+          style={styles.mainText}
+        />
+
+        <SimplePopupMenu
+          items={items}
+          style={styles.button}
+          onSelect={(items) => {
+            // onMenuPress(items.id);
+          }}
+          onCancel={() => console.log("onCancel")}
+        >
+          <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
+        </SimplePopupMenu>
       </View>
+
+      {(click && <SecondBigView course_info={course_info}></SecondBigView>) || (
+        <SecondSmallView course_info={course_info}></SecondSmallView>
+      )}
     </TouchableOpacity>
   );
 };

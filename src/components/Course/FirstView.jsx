@@ -10,15 +10,13 @@ import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import SecondView from "./SecondView";
 import SimplePopupMenu from "react-native-simple-popup-menu";
+import { FontAwesome } from "@expo/vector-icons";
 
 const CourseListView = ({ folder, course }) => {
   const [click, setClick] = useState(false);
   const [rename, setRename] = useState(false);
   // const ref_input2 = useRef();
-  const items = [
-    { id: "move", label: "Move to a folder sequence" },
-    { id: "rename", label: "Rename a folder" },
-  ];
+  const items = [{ id: "rename", label: "Rename a folder" }];
   const onMenuPress = (id) => {
     if (id === "move") {
       console.log(id);
@@ -35,8 +33,8 @@ const CourseListView = ({ folder, course }) => {
         style={styles.ListView}
       >
         {(click && (
-          <AntDesign name="down" size={toSize(12)} color="#8F9098" />
-        )) || <AntDesign name="right" size={toSize(12)} color="#8F9098" />}
+          <FontAwesome name="folder-open" size={20} color="#71727A" />
+        )) || <FontAwesome name="folder" size={20} color="#71727A" />}
 
         <View style={styles.textView}>
           <TextInput
