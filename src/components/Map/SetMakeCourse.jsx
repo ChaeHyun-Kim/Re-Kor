@@ -23,7 +23,20 @@ export default function SetMakeCourse({ SelectView, setSelectView }) {
         { tag_name: "#Fun3", tag_category: "A" },
         { tag_name: "#Fun32", tag_category: "C" },
       ],
-      type: "Heart",
+      selecttype: "Heart",
+    },
+    {
+      place_name: "Gapyeong1 Rail Park1",
+      region: "Gapyeong1234",
+      heartscore: 1000,
+      starscore: 4.5,
+      category: "K-DRAMA",
+      tag: [
+        { tag_name: "#Fun3", tag_category: "A" },
+        { tag_name: "#Fun32", tag_category: "C" },
+      ],
+      km: 50,
+      selecttype: "",
     },
     {
       place_name: "Gapyeong1 Rail Park1",
@@ -36,20 +49,8 @@ export default function SetMakeCourse({ SelectView, setSelectView }) {
         { tag_name: "#Fun32", tag_category: "C" },
       ],
 
-      type: "",
-    },
-    {
-      place_name: "Gapyeong1 Rail Park1",
-      region: "Gapyeong1234",
-      heartscore: 1000,
-      starscore: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-
-      type: "good",
+      km: 500,
+      selecttype: "good",
     },
   ];
   return (
@@ -62,7 +63,9 @@ export default function SetMakeCourse({ SelectView, setSelectView }) {
           // value={search}
           placeholder={"Set the name of the course"}
         />
-        <Text style={MapStyles.completeText}>Complete</Text>
+        <TouchableOpacity>
+          <Text style={MapStyles.completeText}>Complete</Text>
+        </TouchableOpacity>
       </View>
       {arr.map((item, index) => {
         return (
@@ -73,9 +76,9 @@ export default function SetMakeCourse({ SelectView, setSelectView }) {
             category={item.category}
             tag={item.tag}
             num={index + 1}
-            type={item.type}
-            // km={item.km}
-            cancel={true}
+            selecttype={item.selecttype}
+            screentype={"edit"}
+            km={item.km}
           />
         );
       })}

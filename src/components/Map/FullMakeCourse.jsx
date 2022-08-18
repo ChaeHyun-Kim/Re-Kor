@@ -77,7 +77,8 @@ export default function FullMakeCourse({ SelectView, setSelectView }) {
         />
         {!HeartViewClick && (
           <View style={styles.PlaceListView}>
-            {arr.map((item, index) => {
+            {/* placelist 말고 */}
+            {/* {arr.map((item, index) => {
               return (
                 <PlaceList
                   key={index}
@@ -86,10 +87,12 @@ export default function FullMakeCourse({ SelectView, setSelectView }) {
                   heartScore={item.heartscore}
                   starScore={item.starscore}
                   category={item.category}
+                  selecttype={""}
+                  screentype={"info"}
                   tag={item.tag}
                 />
               );
-            })}
+            })} */}
           </View>
         )}
 
@@ -101,7 +104,7 @@ export default function FullMakeCourse({ SelectView, setSelectView }) {
         />
         {!HandViewClick && (
           <View style={styles.PlaceListView}>
-            {arr.map((item, index) => {
+            {/* {arr.map((item, index) => {
               console.log(item.heartscore);
               return (
                 <PlaceList
@@ -114,7 +117,7 @@ export default function FullMakeCourse({ SelectView, setSelectView }) {
                   tag={item.tag}
                 />
               );
-            })}
+            })} */}
           </View>
         )}
       </ScrollView>

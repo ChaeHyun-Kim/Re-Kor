@@ -15,7 +15,7 @@ export default function SelectMakeCourse({ SelectView, setSelectView }) {
       { tag_name: "#Fun3", tag_category: "A" },
       { tag_name: "#Fun32", tag_category: "C" },
     ],
-    type: "Heart",
+    selecttype: "Heart",
   };
 
   const handelSelect = () => {
@@ -30,7 +30,8 @@ export default function SelectMakeCourse({ SelectView, setSelectView }) {
         category={arr.category}
         tag={arr.tag}
         num={1}
-        type={arr.type}
+        selecttype={arr.selecttype}
+        screentype={"info"}
         km={1}
       />
       <TouchableOpacity
