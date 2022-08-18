@@ -1,14 +1,15 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { WithLocalSvg } from "react-native-svg";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-import Logo from "../icons/rekor_logo.svg";
 import { toSize } from "../globalStyle";
 
-export default function Header({ Title }) {
+import Logo from "../icons/rekor_logo.svg";
+
+export default function Header() {
   const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
@@ -19,15 +20,12 @@ export default function Header({ Title }) {
         >
           <Ionicons
             name="ios-search"
-            style={{ fontSize: toSize(20) }}
+            style={{ fontSize: toSize(22) }}
             color="#2F3036"
           />
         </TouchableOpacity>
-        {Title ? (
-          <Text style={styles.TabTitleText}>{Title}</Text>
-        ) : (
-          <WithLocalSvg style={{ fontSize: toSize(23) }} asset={Logo} />
-        )}
+
+        <WithLocalSvg style={{ fontSize: toSize(23) }} asset={Logo} />
 
         <TouchableOpacity
           activeOpacity={0.8}
@@ -35,7 +33,7 @@ export default function Header({ Title }) {
         >
           <Octicons
             name="person"
-            style={{ fontSize: toSize(20) }}
+            style={{ fontSize: toSize(22) }}
             color="#2F3036"
           />
         </TouchableOpacity>

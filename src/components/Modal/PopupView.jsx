@@ -38,14 +38,18 @@ const PopupView = ({
     <Modal animationType="fade" transparent={true} visible={visibleModal}>
       <View style={styles.container}>
         <View style={styles.visibleView}>
-          <TouchableOpacity activeOpacity={0.8} onPress={select1}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={select1}
+            style={{
+              borderBottomWidth: 0.5,
+              borderBottomColor: "rgba(60, 60, 67,0.3)",
+            }}
+          >
             <Text style={styles.choose}>{selectArray[0]}</Text>
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8} onPress={select2}>
             <Text style={styles.choose}>{selectArray[1]}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} onPress={closeModal}>
-            <Text style={styles.close}>{selectArray[2]}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -63,15 +67,22 @@ export const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   visibleView: {
-    flex: 1,
-    borderRadius: 25,
-    backgroundColor: "#fff",
+    position: "absolute",
+    top: "40%",
+    left: "50%",
+    marginLeft: -toSize(250) / 2,
+    marginRight: -toSize(250) / 2,
+    width: toSize(250),
+    borderRadius: 8,
+    backgroundColor: "#EDEDED",
     alignItems: "center",
-    padding: toSize(25),
+    padding: toSize(8),
   },
   choose: {
-    fontSize: toSize(20),
-    padding: toSize(10),
+    fontSize: toSize(17),
+    fontWeight: "400",
+    paddingHorizontal: toSize(24),
+    paddingVertical: toSize(13),
+    width: toSize(250),
   },
-  close: { fontSize: toSize(20), padding: toSize(10), borderTopWidth: 1 },
 });

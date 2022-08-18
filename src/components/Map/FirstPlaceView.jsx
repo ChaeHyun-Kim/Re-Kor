@@ -2,7 +2,9 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle.js";
 import { Fontisto } from "@expo/vector-icons";
-import { MapStyles } from "../../styles/MapView";
+import { WithLocalSvg } from "react-native-svg";
+
+import ic_map from "../../icons/ic_map.svg";
 
 export default function FirstPlaceView({ SelectView, setSelectView, back }) {
   return (
@@ -13,7 +15,7 @@ export default function FirstPlaceView({ SelectView, setSelectView, back }) {
         onPress={() => setSelectView(back ? SelectView - 1 : SelectView + 1)}
         style={styles.SelectBtn}
       >
-        <Fontisto name="map-marker-alt" size={toSize(15)} color="black" />
+        <WithLocalSvg width={toSize(15)} height={toSize(15)} asset={ic_map} />
         <Text style={styles.btnText}>Select the first place</Text>
       </TouchableOpacity>
     </View>

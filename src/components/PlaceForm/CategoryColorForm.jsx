@@ -24,7 +24,9 @@ const CategoryColor = (category) => {
 const CategoryColorForm = ({ category }) => {
   return (
     <View style={styles.tagView}>
-      <Text style={CategoryColor(category)}>{category}</Text>
+      <Text style={[styles.commonText, CategoryColor(category)]}>
+        {category}
+      </Text>
     </View>
   );
 };
@@ -37,76 +39,37 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
-  Drama_Category: {
+  commonText: {
     color: "#FFF",
     fontSize: toSize(12),
-    backgroundColor: "#FDD692",
     fontWeight: "600",
     borderRadius: 12,
-    paddingVertical: toSize(1.5),
-    paddingHorizontal: toSize(10),
+    paddingVertical: toSize(1),
+    paddingHorizontal: toSize(9),
+  },
+  Drama_Category: {
+    backgroundColor: "#FDD692",
   },
   Landscape_Category: {
-    color: "#FFF",
-    fontSize: toSize(12),
     backgroundColor: "#CFF09E",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingVertical: toSize(1.5),
-    paddingHorizontal: toSize(10),
   },
   Culture_Category: {
-    color: "#FFF",
-    fontSize: toSize(12),
     backgroundColor: "#D09E88",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingVertical: toSize(1.5),
-    paddingHorizontal: toSize(10),
   },
   Food_Category: {
-    color: "#FFF",
-    fontSize: toSize(12),
     backgroundColor: "#F26D5B",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingVertical: toSize(1.5),
-    paddingHorizontal: toSize(10),
   },
   Pop_Category: {
-    color: "#FFF",
-    fontSize: toSize(12),
     backgroundColor: "#A593E0",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingVertical: toSize(1.5),
-    paddingHorizontal: toSize(10),
   },
   Festival_Category: {
-    color: "#FFF",
-    fontSize: toSize(12),
     backgroundColor: "#F7AA97",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingVertical: toSize(1.5),
-    paddingHorizontal: toSize(10),
   },
   Leisure_Category: {
-    color: "#FFF",
-    fontSize: toSize(12),
     backgroundColor: "#52616A",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingVertical: toSize(1.5),
-    paddingHorizontal: toSize(10),
   },
   Shopping_Category: {
-    color: "#FFF",
-    fontSize: toSize(12),
     backgroundColor: "#A3DAFF",
-    fontWeight: "600",
-    borderRadius: 12,
-    paddingVertical: toSize(1.5),
-    paddingHorizontal: toSize(10),
+
   },
 });
