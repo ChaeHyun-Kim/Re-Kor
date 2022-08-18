@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: toSize(96),
     flexDirection: "row",
-    backgroundColor: "#FFFFFF",
     marginBottom: toSize(16),
     backgroundColor: "#ffffff",
     shadowColor: "#000",

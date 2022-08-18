@@ -34,116 +34,108 @@ export default function Categories({ navigation }) {
         <View style={styles.HorizontalView}>
           <TouchableOpacity
             activeOpacity={0.8}
+            style={styles.CategoryView}
             onPress={() =>
               navigation.navigate("SelectCategoryScreen", {
                 Category: "K-LANDSCAPE",
               })
             }
           >
-            <View style={styles.CategoryView}>
-              <WithLocalSvg asset={landscape} />
-              <Text style={styles.Category_text}>K-LANDSCAPE</Text>
-            </View>
+            <WithLocalSvg asset={landscape} />
+            <Text style={styles.Category_text}>K-LANDSCAPE</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
+            style={styles.CategoryView}
             onPress={() =>
               navigation.navigate("SelectCategoryScreen", {
                 Category: "K-CULTURE",
               })
             }
           >
-            <View style={styles.CategoryView}>
-              <WithLocalSvg asset={culture} />
-              <Text style={styles.Category_text}>K-CULTURE</Text>
-            </View>
+            <WithLocalSvg asset={culture} />
+            <Text style={styles.Category_text}>K-CULTURE</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.HorizontalView}>
           <TouchableOpacity
             activeOpacity={0.8}
+            style={styles.CategoryView}
             onPress={() =>
               navigation.navigate("SelectCategoryScreen", {
                 Category: "K-FOOD",
               })
             }
           >
-            <View style={styles.CategoryView}>
-              <WithLocalSvg asset={food} />
-              <Text style={styles.Category_text}>K-FOOD</Text>
-            </View>
+            <WithLocalSvg asset={food} />
+            <Text style={styles.Category_text}>K-FOOD</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
+            style={styles.CategoryView}
             onPress={() =>
               navigation.navigate("SelectCategoryScreen", {
                 Category: "K-SHOPPING",
               })
             }
           >
-            <View style={styles.CategoryView}>
-              <WithLocalSvg asset={shopping} />
-              <Text style={styles.Category_text}>K-SHOPPING</Text>
-            </View>
+            <WithLocalSvg asset={shopping} />
+            <Text style={styles.Category_text}>K-SHOPPING</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.HorizontalView}>
           <TouchableOpacity
             activeOpacity={0.8}
+            style={styles.CategoryView}
             onPress={() =>
               navigation.navigate("SelectCategoryScreen", {
                 Category: "K-POP",
               })
             }
           >
-            <View style={styles.CategoryView}>
-              <WithLocalSvg asset={pop} />
-              <Text style={styles.Category_text}>K-POP</Text>
-            </View>
+            <WithLocalSvg asset={pop} />
+            <Text style={styles.Category_text}>K-POP</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
+            style={styles.CategoryView}
             onPress={() =>
               navigation.navigate("SelectCategoryScreen", {
                 Category: "K-DRAMA",
               })
             }
           >
-            <View style={styles.CategoryView}>
-              <WithLocalSvg asset={drama} />
-              <Text style={styles.Category_text}>K-DRAMA</Text>
-            </View>
+            <WithLocalSvg asset={drama} />
+            <Text style={styles.Category_text}>K-DRAMA</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.HorizontalView}>
           <TouchableOpacity
             activeOpacity={0.8}
+            style={styles.CategoryView}
             onPress={() =>
               navigation.navigate("SelectCategoryScreen", {
                 Category: "K-FESTIVAL",
               })
             }
           >
-            <View style={styles.CategoryView}>
-              <WithLocalSvg asset={festival} />
-              <Text style={styles.Category_text}>K-FESTIVAL</Text>
-            </View>
+            <WithLocalSvg asset={festival} />
+            <Text style={styles.Category_text}>K-FESTIVAL</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
+            style={styles.CategoryView}
             onPress={() =>
               navigation.navigate("SelectCategoryScreen", {
                 Category: "K-LEISURE",
               })
             }
           >
-            <View style={styles.CategoryView}>
-              <WithLocalSvg asset={leisure} />
-              <Text style={styles.Category_text}>K-LEISURE</Text>
-            </View>
+            <WithLocalSvg asset={leisure} />
+            <Text style={styles.Category_text}>K-LEISURE</Text>
           </TouchableOpacity>
         </View>
         <View style={{ marginVertical: 50 }}></View>

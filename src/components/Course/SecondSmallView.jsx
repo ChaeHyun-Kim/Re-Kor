@@ -16,7 +16,7 @@ const SecondSmallView = ({ course_info }) => {
       </View>
       <View>
         <View style={styles.rowView}>
-          <Feather name="map-pin" size={toSize(12)} color="black" />
+          <Feather name="map-pin" size={toSize(17)} color="black" />
           <View style={styles.rowView_place}>
             <Text style={styles.boldText}>3 </Text>
             <Text style={styles.normalText}>places</Text>
@@ -90,11 +90,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   boldText: {
-    fontSize: toSize(10),
+    fontSize: toSize(12),
     fontWeight: "700",
   },
   normalText: {
-    fontSize: toSize(10),
+    fontSize: toSize(12),
     fontWeight: "400",
   },
 });

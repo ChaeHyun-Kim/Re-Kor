@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
 import { WithLocalSvg } from "react-native-svg";
-import TagForm from "../../components/PlaceForm/TagForm";
+import TagForm from "../PlaceForm/TagForm";
 import heart from "../../icons/heart.svg";
 import star from "../../icons/star.svg";
 import { useNavigation } from "@react-navigation/native";
@@ -10,8 +10,9 @@ const place = require("../../../src/images/place1.png");
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CategoryColorForm from "../PlaceForm/CategoryColorForm";
-
 const PlaceList = ({
   place_name,
   region,
@@ -20,9 +21,9 @@ const PlaceList = ({
   category,
   tag,
   num,
-  type,
+  selecttype,
+  screentype,
   km,
-  cancel,
 }) => {
   const navigation = useNavigation();
   return (
@@ -33,6 +34,7 @@ const PlaceList = ({
             flexDirection: "row",
             width: "100%",
             paddingLeft: toSize(10),
+            marginVertical: toSize(11),
             alignItems: "center",
           }}
         >
@@ -46,8 +48,8 @@ const PlaceList = ({
           />
           <Text
             style={{
-              fontSize: toSize(8),
-              fontWeight: "600",
+              fontSize: toSize(12),
+              fontWeight: "700",
               color: "#71727A",
             }}
           >
@@ -71,7 +73,7 @@ const PlaceList = ({
             marginRight: toSize(9),
           }}
         >
-          {cancel && (
+          {screentype === "edit" && (
             <Entypo
               name="circle-with-minus"
               size={15}
@@ -90,17 +92,17 @@ const PlaceList = ({
           >
             <FontAwesome
               name={
-                type === "Heart"
+                selecttype === "Heart"
                   ? "heart"
-                  : type === "good"
+                  : selecttype === "good"
                   ? "thumbs-up"
-                  : "search"
+                  : "eye"
               }
               size={toSize(10)}
               color={
-                type === "Heart"
+                selecttype === "Heart"
                   ? "#F88E8E"
-                  : type === "good"
+                  : selecttype === "good"
                   ? "#A593E0"
                   : "#FFFFFF"
               }
@@ -108,9 +110,9 @@ const PlaceList = ({
             <View
               style={[
                 styles.circle,
-                type === "Heart"
+                selecttype === "Heart"
                   ? { backgroundColor: "#FF7272" }
-                  : type === "good"
+                  : selecttype === "good"
                   ? { backgroundColor: "#A593E0" }
                   : { backgroundColor: "#A3DAFF" },
               ]}
@@ -119,35 +121,63 @@ const PlaceList = ({
             </View>
           </View>
         )}
-        <Image style={styles.picture} source={place} />
-        <View style={styles.PlaceView}>
-          <View style={styles.Category_Place_View}>
+        <View style={styles.borderView}>
+          <Image
+            style={[
+              styles.picture,
+              screentype === "info"
+                ? {
+                    width: toSize(92),
+                    height: toSize(88),
+                  }
+                : {
+                    width: toSize(83),
+                    height: toSize(79),
+                  },
+            ]}
+            source={place}
+          />
+          <View style={styles.PlaceView}>
             <Text style={styles.Place_Text}>{place_name}</Text>
+
+            <Text style={styles.Region_Text}>{region}</Text>
             <CategoryColorForm category={category}></CategoryColorForm>
+
+            {heartScore && (
+              <View style={styles.ScoreView}>
+                <AntDesign
+                  name="heart"
+                  style={{ fontSize: toSize(12) }}
+                  color="#FF7272"
+                />
+                <Text style={styles.Score_Text}>{heartScore}</Text>
+                <AntDesign
+                  name="star"
+                  style={{ fontSize: toSize(13) }}
+                  color="#FDB600"
+                />
+                <Text style={styles.Score_Text}>{starScore}</Text>
+              </View>
+            )}
           </View>
-          <Text style={styles.Region_Text}>{region}</Text>
-          <View style={styles.ScoreView}>
-            {tag.map((item, index) => {
-              return <TagForm tag={item} key={index}></TagForm>;
-            })}
-          </View>
-          {heartScore && (
-            <View style={styles.ScoreView}>
-              <AntDesign
-                name="heart"
-                style={{ fontSize: toSize(12) }}
-                color="#FF7272"
-              />
-              <Text style={styles.Score_Text}>{heartScore}</Text>
-              <AntDesign
-                name="star"
-                style={{ fontSize: toSize(13) }}
-                color="#FDB600"
-              />
-              <Text style={styles.Score_Text}>{starScore}</Text>
-            </View>
+          {screentype === "info" && (
+            <MaterialCommunityIcons
+              name="information"
+              size={25}
+              color="#D4D6DD"
+              style={{ margin: toSize(10) }}
+            />
           )}
         </View>
+
+        {screentype === "edit" && (
+          <SimpleLineIcons
+            style={{ paddingLeft: toSize(12) }}
+            name="menu"
+            size={14}
+            color="#D4D6DD"
+          />
+        )}
       </TouchableOpacity>
     </>
   );
@@ -157,17 +187,30 @@ export default PlaceList;
 const styles = StyleSheet.create({
   CategoryView: {
     width: "100%",
-    height: toSize(85),
+    // height: toSize(85),
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
     paddingVertical: toSize(10),
+    flex: 1,
   },
   picture: {
-    width: toSize(96),
-    height: "100%",
-    borderRadius: 7,
+    borderRadius: 17,
+  },
+  borderView: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 3,
+    borderRadius: 17,
   },
   PlaceView: {
     flex: 1,
@@ -181,20 +224,22 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   ScoreView: {
+    flex: 1,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
     marginVertical: toSize(1),
   },
   Place_Text: {
-    fontSize: toSize(12),
+    fontSize: toSize(14),
     fontWeight: "800",
+    marginBottom: toSize(1),
   },
   Region_Text: {
-    fontSize: toSize(10),
+    fontSize: toSize(12),
     color: "#71727A",
     fontWeight: "400",
-    marginVertical: toSize(1),
+    marginBottom: toSize(11),
   },
   Score_Text: {
     marginLeft: 5,
