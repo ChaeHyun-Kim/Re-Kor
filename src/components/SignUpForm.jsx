@@ -13,7 +13,16 @@ const SignUpForm = ({ title, placeholder, text }) => {
           <Text style={FormStyles.EssentialText}>*</Text>
         )}
       </View>
-      <View style={FormStyles.FormItemSelectView}>
+      <View
+        style={[
+          FormStyles.FormItemSelectView,
+          {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          },
+        ]}
+      >
         <Text
           style={
             text == "" ? FormStyles.DefaultText : FormStyles.BirthInputText

@@ -7,10 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+import { styles } from "./styles";
 import { toSize } from "../../../globalStyle";
 import Form from "../../../components/SignUpForm";
 import ModalView from "../../../components/ModalView";
@@ -19,15 +16,31 @@ import { FormStyles } from "../../../styles/FormView";
 import { Foundation } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { SignUp } from "./function";
+import ToastMessage from "../../../components/Modal/Toast";
+
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 export default function SignUpScreen({ navigation }) {
   const [nickname, setChangeNickname] = useState("");
-  const [birth, setChangeBirth] = useState("DD/MM/YYYY");
+  const [birth, setChangeBirth] = useState("Day / Month / Year");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [gender, setChangeGender] = useState(0);
   const [checkBox, setChangeCheckBox] = useState(false);
   const [background, setChangeBackGround] = useState(false);
+  const [confirmCheck, setConfirmCheck] = useState(0); // 회원 가입 양식 기입되었는지 확인하는 변수
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
@@ -37,9 +50,9 @@ export default function SignUpScreen({ navigation }) {
     hideDatePicker();
     setChangeBirth(
       String(date.getDate()).padStart(2, "0") +
-        "/" +
-        String(date.getMonth() + 1).padStart(2, "0") +
-        "/" +
+        " " +
+        monthNames[date.getMonth()] +
+        " " +
         String(date.getFullYear())
     );
   };
@@ -48,28 +61,57 @@ export default function SignUpScreen({ navigation }) {
     checkBox == false ? setChangeCheckBox(true) : setChangeCheckBox(false);
   };
 
+  const handleCheckNickName = () => {
+    if (nickname) setConfirmCheck(1);
+    else setConfirmCheck(2);
+  };
+
   return (
     <View style={background === false ? styles.fullscreen : styles.fullOpacity}>
-      <StatusBar style="auto" />
       <View style={styles.container}>
-        <View style={styles.FirstView}>
-          <Text style={styles.MainText}>Join us</Text>
-          <Text style={styles.MainSubText}>
-            Create an account to get started
-          </Text>
-        </View>
+        <Text style={styles.MainText}>Join us</Text>
+        <Text style={styles.MainSubText}>Create an account to get started</Text>
+        <ToastMessage
+          visible={confirmCheck}
+          setConfirmCheck={setConfirmCheck}
+        />
         <View style={styles.FormView}>
           <View style={FormStyles.FormOneView}>
             <View style={styles.RowView}>
               <Text style={FormStyles.FormTitleText}>Name</Text>
               <Text style={FormStyles.EssentialText}>*</Text>
             </View>
-            <TextInput
-              style={FormStyles.FormInput}
-              onChangeText={setChangeNickname}
-              value={nickname}
-              placeholder="NickName"
-            />
+            <View
+              style={[
+                FormStyles.FormInput,
+                FormStyles.RowView,
+                confirmCheck === 0
+                  ? { borderColor: "#8F9098" }
+                  : confirmCheck === 2
+                  ? { borderColor: "#FF0000" }
+                  : { borderColor: "#23A047" },
+              ]}
+            >
+              <TextInput
+                onChangeText={setChangeNickname}
+                value={nickname}
+                placeholder="NickName"
+              />
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={FormStyles.checkNickName}
+                onPress={handleCheckNickName}
+              >
+                <Text style={FormStyles.checkText}>Check Availability</Text>
+              </TouchableOpacity>
+            </View>
+            {confirmCheck === 2 && (
+              <View style={FormStyles.hideView}>
+                <Text style={FormStyles.hideText}>
+                  The same nickname exists. Please write another nickname
+                </Text>
+              </View>
+            )}
           </View>
 
           <View style={FormStyles.FormOneView}>
@@ -86,7 +128,7 @@ export default function SignUpScreen({ navigation }) {
               <View style={FormStyles.FormItemSelectView}>
                 <Text
                   style={
-                    birth == "DD/MM/YYYY"
+                    birth == "Day / Month / Year"
                       ? FormStyles.DefaultText
                       : FormStyles.BirthInputText
                   }
@@ -121,7 +163,7 @@ export default function SignUpScreen({ navigation }) {
                   name="male-symbol"
                   size={toSize(20)}
                   color={gender == 1 ? "#FFCC00" : "#8F9098"}
-                  style={{ marginRight: toSize(4) }}
+                  style={{ marginRight: toSize(5) }}
                 />
 
                 <Text
@@ -172,102 +214,53 @@ export default function SignUpScreen({ navigation }) {
             setChangeBackGround={setChangeBackGround}
           />
 
-          <TouchableOpacity activeOpacity={0.8} onPress={ClickCheckBox}>
-            <View style={styles.RowView}>
-              <MaterialCommunityIcons
-                name={
-                  checkBox == false
-                    ? "checkbox-blank-outline"
-                    : "checkbox-intermediate"
-                }
-                size={toSize(24)}
-                color={checkBox == false ? "#C5C6CC" : "#FFCC00"}
-              />
-              <View style={styles.BottomTextView}>
-                <Text style={FormStyles.DefaultText}>
-                  I've read and agree with the{" "}
-                  <Text style={FormStyles.FormPoint}>Terms and</Text> {"\n"}
-                  <Text style={FormStyles.FormPoint}>Conditions</Text> and the{" "}
-                  <Text style={FormStyles.FormPoint}>Privacy Policy</Text>.
-                </Text>
-              </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={ClickCheckBox}
+            style={styles.RowView}
+          >
+            <MaterialCommunityIcons
+              name={
+                checkBox == false
+                  ? "checkbox-blank-outline"
+                  : "checkbox-intermediate"
+              }
+              size={toSize(24)}
+              color={checkBox == false ? "#C5C6CC" : "#FFCC00"}
+            />
+            <View style={styles.BottomTextView}>
+              <Text style={FormStyles.InfoText}>
+                I've read and agree with the{" "}
+                <Text style={FormStyles.FormPoint}>Terms and</Text> {"\n"}
+                <Text style={FormStyles.FormPoint}>Conditions</Text> and the{" "}
+                <Text style={FormStyles.FormPoint}>Privacy Policy</Text>.
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.BottomView}>
+        <View
+          style={[
+            styles.BottomView,
+            confirmCheck
+              ? { backgroundColor: "#FFCC00" }
+              : { borderColor: "#FFCC00", borderWidth: 2 },
+          ]}
+        >
           <TouchableOpacity
-            style={styles.BottomButtonView}
             activeOpacity={0.8}
             onPress={() => navigation.navigate("SelectTagScreen")}
           >
-            <Text style={styles.BottomButtonText}>Submit</Text>
+            <Text
+              style={[
+                styles.BottomButtonText,
+                confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
+              ]}
+            >
+              Submit
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 }
-
-export const styles = StyleSheet.create({
-  fullscreen: {
-    height: responsiveScreenHeight(100),
-    width: responsiveScreenWidth(100),
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    paddingBottom: toSize(24),
-  },
-  fullOpacity: {
-    height: responsiveScreenHeight(100),
-    width: responsiveScreenWidth(100),
-    alignItems: "center",
-    opacity: 0.4,
-    paddingBottom: toSize(24),
-  },
-  container: {
-    width: "90%",
-    marginTop: toSize(44),
-  },
-  FirstView: {
-    width: "80%",
-    justifyContent: "space-between",
-    marginTop: toSize(24),
-  },
-  MainText: {
-    alignItems: "flex-start",
-    fontSize: toSize(20),
-    alignItems: "center",
-    color: "#000000",
-    justifyContent: "center",
-    fontWeight: "900",
-  },
-  MainSubText: {
-    fontSize: toSize(12),
-    color: "#71727A",
-    fontWeight: "400",
-    marginTop: toSize(4),
-  },
-  FormView: { marginTop: toSize(19) },
-  RowView: {
-    flexDirection: "row",
-  },
-  BottomTextView: {
-    marginLeft: toSize(12),
-  },
-  BottomView: {
-    justifyContent: "flex-end",
-    height: responsiveScreenHeight(18),
-  },
-
-  BottomButtonView: {
-    backgroundColor: "#FFCC00",
-    borderRadius: toSize(12),
-    height: toSize(48),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  BottomButtonText: {
-    fontSize: toSize(12),
-    color: "#FFFFFF",
-    fontWeight: "600",
-  },
-});
