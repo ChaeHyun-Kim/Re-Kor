@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
 import { WithLocalSvg } from "react-native-svg";
-import TagForm from "../../components/PlaceForm/TagForm";
+import TagForm from "../PlaceForm/TagForm";
 import heart from "../../icons/heart.svg";
 import star from "../../icons/star.svg";
 import { useNavigation } from "@react-navigation/native";
@@ -11,8 +11,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import CategoryColorForm from "../PlaceForm/CategoryColorForm";
-
-const PlaceList = ({
+import * as CategoryColor from "../../function/Categorycolor";
+const SelectedPlaceList = ({
   place_name,
   region,
   heartScore,
@@ -98,21 +98,23 @@ const PlaceList = ({
               }
               size={toSize(10)}
               color={
-                type === "Heart"
-                  ? "#F88E8E"
-                  : type === "good"
-                  ? "#A593E0"
-                  : "#FFFFFF"
+                CategoryColor.IconColor(category)
+                // type === "Heart"
+                //   ? "#F88E8E"
+                //   : type === "good"
+                //   ? "#A593E0"
+                //   : "#FFFFFF"
               }
             />
             <View
               style={[
                 styles.circle,
-                type === "Heart"
-                  ? { backgroundColor: "#FF7272" }
-                  : type === "good"
-                  ? { backgroundColor: "#A593E0" }
-                  : { backgroundColor: "#A3DAFF" },
+                { backgroundColor: CategoryColor.IconColor(category) },
+                // type === "Heart"
+                //   ? { backgroundColor: "#FF7272" }
+                //   : type === "good"
+                //   ? { backgroundColor: "#A593E0" }
+                //   : { backgroundColor: "#A3DAFF" },
               ]}
             >
               <Text style={styles.text}>{num}</Text>
@@ -121,11 +123,10 @@ const PlaceList = ({
         )}
         <Image style={styles.picture} source={place} />
         <View style={styles.PlaceView}>
-          <View style={styles.Category_Place_View}>
-            <Text style={styles.Place_Text}>{place_name}</Text>
-            <CategoryColorForm category={category}></CategoryColorForm>
-          </View>
+          <Text style={styles.Place_Text}>{place_name}</Text>
+
           <Text style={styles.Region_Text}>{region}</Text>
+          <CategoryColorForm category={category}></CategoryColorForm>
           <View style={styles.ScoreView}>
             {tag.map((item, index) => {
               return <TagForm tag={item} key={index}></TagForm>;
@@ -152,7 +153,7 @@ const PlaceList = ({
     </>
   );
 };
-export default PlaceList;
+export default SelectedPlaceList;
 
 const styles = StyleSheet.create({
   CategoryView: {

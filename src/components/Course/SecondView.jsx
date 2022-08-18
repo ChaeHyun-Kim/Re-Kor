@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -23,7 +30,12 @@ const SecondView = ({ course_name, course_info }) => {
           {(click && (
             <AntDesign name="down" size={toSize(12)} color="#8F9098" />
           )) || <AntDesign name="right" size={toSize(12)} color="#8F9098" />}
-          <Text style={styles.mainText}>{course_name}</Text>
+          <TextInput
+            value={course_name}
+            editable={false}
+            style={styles.mainText}
+          />
+
           <SimplePopupMenu
             items={items}
             style={styles.button}
@@ -50,8 +62,8 @@ const styles = StyleSheet.create({
     borderRadius: toSize(15),
     paddingHorizontal: toSize(16),
     paddingVertical: toSize(16),
-    marginLeft: toSize(8),
-    marginTop: toSize(11),
+    marginHorizontal: toSize(8),
+    marginTop: toSize(9),
     justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: {

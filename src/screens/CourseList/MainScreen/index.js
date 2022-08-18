@@ -1,20 +1,102 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
 import ListView from "../../../components/Course/FirstView";
 import { toSize } from "../../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import folder from "../../../icons/folder.svg";
+import AutoScrollView from "react-native-auto-scroll-view";
 import { WithLocalSvg } from "react-native-svg";
 const CourseListMainScreen = () => {
+  const emptyfolder = { folder: "", course: [] };
   const data = [
     {
       folder: "Recent travel courses created",
       course: [
-        { course_name: "My First Trip", course_info: "" },
-        { course_name: "My Second Trip", course_info: "" },
+        {
+          course_name: "My First Trip",
+          course_info: [
+            {
+              place_name: "Gapyeong Rail Park1",
+              region: "Gapyeong123",
+              heartscore: 1,
+              starscore: 4.5,
+              category: "K-POP",
+              tag: [
+                { tag_name: "#Fun3", tag_category: "A" },
+                { tag_name: "#Fun32", tag_category: "C" },
+              ],
+              type: "Heart",
+            },
+            {
+              place_name: "Gapyeong Rail Park1",
+              region: "Gapyeong123",
+              heartscore: 1,
+              starscore: 4.5,
+              category: "K-DRAMA",
+              tag: [
+                { tag_name: "#Fun3", tag_category: "A" },
+                { tag_name: "#Fun32", tag_category: "C" },
+              ],
+              type: "good",
+              km: 5,
+            },
+          ],
+        },
+        {
+          course_name: "My Second Trip",
+          course_info: [
+            {
+              place_name: "Gapyeong Rail Park1",
+              region: "Gapyeong123",
+              heartscore: 1,
+              starscore: 4.5,
+              category: "K-POP",
+              tag: [
+                { tag_name: "#Fun3", tag_category: "A" },
+                { tag_name: "#Fun32", tag_category: "C" },
+              ],
+              type: "Heart",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      folder: "Recent travel courses created",
+      course: [
+        {
+          course_name: "My First Trip",
+          course_info: [
+            {
+              place_name: "Gapyeong Rail Park1",
+              region: "Gapyeong123",
+              heartscore: 1,
+              starscore: 4.5,
+              category: "K-POP",
+              tag: [
+                { tag_name: "#Fun3", tag_category: "A" },
+                { tag_name: "#Fun32", tag_category: "C" },
+              ],
+              type: "Heart",
+            },
+            {
+              place_name: "Gapyeong Rail Park1",
+              region: "Gapyeong123",
+              heartscore: 1,
+              starscore: 4.5,
+              category: "K-DRAMA",
+              tag: [
+                { tag_name: "#Fun3", tag_category: "A" },
+                { tag_name: "#Fun32", tag_category: "C" },
+              ],
+              type: "good",
+              km: 50,
+            },
+          ],
+        },
       ],
     },
   ];
@@ -22,22 +104,29 @@ const CourseListMainScreen = () => {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header Title={"CourseList"} />
-      <View style={styles.MainView}>
+      <AutoScrollView style={styles.MainView}>
+        {data.map((item, index) => {
+          return (
+            <ListView folder={item.folder} course={item.course} key={index} />
+          );
+        })}
+        <View style={{ height: toSize(50) }}></View>
+      </AutoScrollView>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        // onPress={() => setClick(click === false ? true : false)}
+      >
         <WithLocalSvg
           style={{
             fontSize: toSize(60),
+
             position: "absolute",
             bottom: toSize(28),
             right: toSize(23),
           }}
           asset={folder}
         />
-        {data.map((item, index) => {
-          return (
-            <ListView folder={item.folder} course={item.course} key={index} />
-          );
-        })}
-      </View>
+      </TouchableOpacity>
       <Bottom num={3} />
     </View>
   );
@@ -52,7 +141,8 @@ const styles = StyleSheet.create({
   MainView: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    padding: toSize(22),
+    paddingHorizontal: toSize(22),
+    paddingTop: toSize(22),
   },
   main_text: {
     fontSize: toSize(24),

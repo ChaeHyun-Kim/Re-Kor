@@ -6,28 +6,44 @@ import { Feather } from "@expo/vector-icons";
 // import { Entypo } from "@expo/vector-icons";
 import { WithLocalSvg } from "react-native-svg";
 import full_course_icon from "../../icons/full_course_icon.svg";
+import SelectedPlaceList from "../Course/SelectedPlaceList";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 const SecondBigView = ({ course_info }) => {
   const place = require("../../images/place1.png");
-
   return (
-    <View style={styles.rowView_space}>
-      <View style={styles.rowView_start}>
-        <View style={styles.rowView}>
-          <Feather name="map-pin" size={toSize(12)} color="black" />
-          <View style={styles.rowView_place}>
-            <Text style={styles.boldText}>3 </Text>
-            <Text style={styles.normalText}>places</Text>
+    <View>
+      <View style={styles.rowView_space}>
+        <View style={styles.rowView_start}>
+          <View style={styles.rowView}>
+            <Feather name="map-pin" size={toSize(12)} color="black" />
+            <View style={styles.rowView_place}>
+              <Text style={styles.boldText}>3 </Text>
+              <Text style={styles.normalText}>places</Text>
+            </View>
+          </View>
+          <View style={styles.border}></View>
+          <View style={styles.rowView}>
+            <Text style={styles.boldText2}>Total </Text>
+            <Text style={styles.normalText}>10km</Text>
           </View>
         </View>
-        <View style={styles.border}></View>
-        <View style={styles.rowView}>
-          <Text style={styles.boldText}>Total </Text>
-          <Text style={styles.normalText}>10km</Text>
-        </View>
+        <WithLocalSvg asset={full_course_icon}></WithLocalSvg>
       </View>
-      {/* <Entypo name="map" size={20} color="black" /> */}
-      <WithLocalSvg asset={full_course_icon}></WithLocalSvg>
+      {course_info.map((item, index) => {
+        return (
+          <SelectedPlaceList
+            key={index}
+            place_name={item.place_name}
+            region={item.region}
+            category={item.category}
+            tag={item.tag}
+            num={index + 1}
+            type={item.type}
+            km={item.km}
+            cancel={false}
+          ></SelectedPlaceList>
+        );
+      })}
     </View>
   );
 };
@@ -88,7 +104,7 @@ const styles = StyleSheet.create({
   rowView_space: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
   },
   rowView_start: {
     flexDirection: "row",
@@ -98,6 +114,11 @@ const styles = StyleSheet.create({
   boldText: {
     fontSize: toSize(10),
     fontWeight: "700",
+  },
+  boldText2: {
+    fontSize: toSize(10),
+    fontWeight: "700",
+    marginRight: toSize(13),
   },
   normalText: {
     fontSize: toSize(10),

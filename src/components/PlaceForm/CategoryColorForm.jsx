@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { toSize } from "../../globalStyle";
+
 const CategoryColor = (category) => {
   switch (category) {
     case "K-LANDSCAPE":
