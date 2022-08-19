@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { toSize } from "../../globalStyle";
 import { WithLocalSvg } from "react-native-svg";
 import TagForm from "../PlaceForm/TagForm";
@@ -19,7 +26,6 @@ const PlaceList = ({
   heartScore,
   starScore,
   category,
-  tag,
   num,
   selecttype,
   screentype,
@@ -34,14 +40,14 @@ const PlaceList = ({
             flexDirection: "row",
             width: "100%",
             paddingLeft: toSize(10),
-            marginVertical: toSize(11),
+            marginVertical: toSize(5),
             alignItems: "center",
           }}
         >
           <View
             style={{
               height: toSize(30),
-              width: toSize(3),
+              width: toSize(2),
               backgroundColor: "#E9E9E9",
               marginHorizontal: toSize(5),
             }}
@@ -58,12 +64,15 @@ const PlaceList = ({
         </View>
       )}
       <TouchableOpacity
-        activeOpacity={0.8}
+        activeOpacity={screentype === "complete" ? 0.8 : 1}
         style={styles.CategoryView}
-        onPress={() =>
-          navigation.navigate("DetailedScreen", {
-            Content_ID: "관광지의 Content_ID",
-          })
+        onPress={
+          screentype === "complete"
+            ? () =>
+                navigation.navigate("DetailedScreen", {
+                  Content_ID: "관광지의 Content_ID",
+                })
+            : null
         }
       >
         <View
@@ -74,12 +83,32 @@ const PlaceList = ({
           }}
         >
           {screentype === "edit" && (
-            <Entypo
-              name="circle-with-minus"
-              size={15}
-              color="#FF7272"
-              style={{ paddingTop: toSize(11) }}
-            />
+            <TouchableOpacity
+              TouchableOpacity={0.8}
+              onPress={() => {
+                Alert.alert(
+                  "Deleting Place",
+                  "Are you sure you want to clear the selected place?",
+                  [
+                    {
+                      text: "Action",
+                      onPress: () => {
+                        console.log("현재 관광지 지우기");
+                      },
+                    },
+                    { text: "Cancel" },
+                  ],
+                  { cancelable: false }
+                );
+              }}
+            >
+              <Entypo
+                name="circle-with-minus"
+                size={15}
+                color="#FF7272"
+                style={{ paddingTop: toSize(11) }}
+              />
+            </TouchableOpacity>
           )}
         </View>
         {num && (
@@ -98,7 +127,7 @@ const PlaceList = ({
                   ? "thumbs-up"
                   : "eye"
               }
-              size={toSize(10)}
+              size={toSize(11)}
               color={
                 selecttype === "Heart"
                   ? "#F88E8E"
@@ -161,12 +190,22 @@ const PlaceList = ({
             )}
           </View>
           {screentype === "info" && (
-            <MaterialCommunityIcons
-              name="information"
-              size={25}
-              color="#D4D6DD"
-              style={{ margin: toSize(10) }}
-            />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              // style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("DetailedScreen", {
+                  Content_ID: "관광지의 Content_ID",
+                })
+              }
+            >
+              <MaterialCommunityIcons
+                name="information"
+                size={20}
+                color="#D4D6DD"
+                style={{ margin: toSize(10) }}
+              />
+            </TouchableOpacity>
           )}
         </View>
 
@@ -201,7 +240,7 @@ const styles = StyleSheet.create({
   borderView: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FFFFFF",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -246,8 +285,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   circle: {
-    width: toSize(17),
-    height: toSize(17),
+    width: toSize(18),
+    height: toSize(18),
     borderRadius: toSize(100) / 2,
     alignItems: "center",
     justifyContent: "center",

@@ -37,6 +37,11 @@ export const MapStyles = StyleSheet.create({
     fontSize: toSize(12),
     fontWeight: "600",
   },
+  editText: {
+    color: "#D4D6DD",
+    fontSize: toSize(12),
+    fontWeight: "600",
+  },
   SelectBtn: {
     marginTop: toSize(26),
     width: "100%",

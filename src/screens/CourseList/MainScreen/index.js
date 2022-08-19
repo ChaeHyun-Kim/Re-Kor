@@ -99,13 +99,18 @@ const CourseListMainScreen = () => {
         },
       ],
     },
+
+    { folder: "", course: [] },
+    { folder: "", course: [] },
   ];
+
+  const [courselist, setCourselist] = useState(data);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header Title={"CourseList"} />
       <AutoScrollView style={styles.MainView}>
-        {data.map((item, index) => {
+        {courselist.map((item, index) => {
           return (
             <ListView folder={item.folder} course={item.course} key={index} />
           );
@@ -114,7 +119,12 @@ const CourseListMainScreen = () => {
       </AutoScrollView>
       <TouchableOpacity
         activeOpacity={0.8}
-        // onPress={() => setClick(click === false ? true : false)}
+        onPress={() => {
+          courselist.push(emptyfolder);
+          setCourselist(courselist),
+            console.log("===================================="),
+            console.log(courselist);
+        }}
       >
         <WithLocalSvg
           style={{
