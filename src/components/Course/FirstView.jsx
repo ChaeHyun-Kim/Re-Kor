@@ -15,12 +15,10 @@ import { FontAwesome } from "@expo/vector-icons";
 const CourseListView = ({ folder, course }) => {
   const [click, setClick] = useState(false);
   const [rename, setRename] = useState(false);
-  // const ref_input2 = useRef();
+  const refName = useRef();
   const items = [{ id: "rename", label: "Rename a folder" }];
   const onMenuPress = (id) => {
-    if (id === "move") {
-      console.log(id);
-    } else if (id === "rename") {
+    if (id === "rename") {
       setRename(true);
     }
   };
@@ -41,8 +39,14 @@ const CourseListView = ({ folder, course }) => {
             value={folder}
             editable={rename}
             style={styles.mainText}
+            // ref={refName}
             placeholder={"Text"}
-            // onSubmitEditing={() => ref_input2.current.focus()}
+            onBlur={() => {
+              setRename(false);
+            }}
+            // autoFocus={true}
+            // returnKeyType="done"
+            // onSubmitEditing={() => refName.current.focus()}
           />
 
           <Text style={styles.numText}>{course.length}</Text>
