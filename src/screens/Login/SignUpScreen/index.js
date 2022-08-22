@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { styles } from "./styles";
 import { toSize } from "../../../globalStyle";
-import Form from "../../../components/SignUpForm";
 import ModalView from "../../../components/ModalView";
 import { FormStyles } from "../../../styles/FormView";
 
@@ -36,11 +35,35 @@ const monthNames = [
 export default function SignUpScreen({ navigation }) {
   const [nickname, setChangeNickname] = useState("");
   const [birth, setChangeBirth] = useState("Day / Month / Year");
+  const [DB_putBirth, set_putBirth] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [gender, setChangeGender] = useState(0);
   const [checkBox, setChangeCheckBox] = useState(false);
   const [background, setChangeBackGround] = useState(false);
   const [confirmCheck, setConfirmCheck] = useState(0); // 회원 가입 양식 기입되었는지 확인하는 변수
+
+  useEffect(() => {
+    let check = true;
+    if (nickname === "") {
+      console.log("1");
+      check = false;
+    } else if (DB_putBirth === "") {
+      console.log("2");
+      check = false;
+    } else if (gender === 0) {
+      console.log("3");
+      check = false;
+    }
+
+    check === true ? setConfirmCheck(1) : setConfirmCheck(0);
+
+    console.log("**" + confirmCheck);
+  }, [nickname, DB_putBirth, gender]);
+
+  // console.log(nickname);
+  // console.log(birth);
+  // console.log(gender);
+  // console.log(nickname);
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
@@ -48,13 +71,11 @@ export default function SignUpScreen({ navigation }) {
 
   const handleConfirm = (date) => {
     hideDatePicker();
-    setChangeBirth(
-      String(date.getDate()).padStart(2, "0") +
-        " " +
-        monthNames[date.getMonth()] +
-        " " +
-        String(date.getFullYear())
-    );
+    let year = String(date.getFullYear());
+    let month = String(date.getMonth()).padStart(2, "0");
+    let day = String(date.getDate()).padStart(2, "0");
+    setChangeBirth(day + " " + monthNames[date.getMonth()] + " " + year);
+    set_putBirth(year + month + day);
   };
 
   const ClickCheckBox = () => {
@@ -62,8 +83,8 @@ export default function SignUpScreen({ navigation }) {
   };
 
   const handleCheckNickName = () => {
-    if (nickname) setConfirmCheck(1);
-    else setConfirmCheck(2);
+    // if (nickname) setConfirmCheck(1);
+    // else setConfirmCheck(2);
   };
 
   return (
@@ -203,16 +224,17 @@ export default function SignUpScreen({ navigation }) {
             </View>
           </View>
 
-          <ModalView
+          {/* <ModalView
             title={"Country"}
             placeholder={"Country"}
             setChangeBackGround={setChangeBackGround}
-          />
-          <ModalView
+          /> */}
+
+          {/* <ModalView
             title={"Language"}
             placeholder={"Language"}
             setChangeBackGround={setChangeBackGround}
-          />
+          /> */}
 
           <TouchableOpacity
             activeOpacity={0.8}
