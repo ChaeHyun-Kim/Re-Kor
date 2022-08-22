@@ -43,11 +43,13 @@ export const BottomStyles = StyleSheet.create({
   MenuText_check: {
     fontSize: toSize(12),
     marginTop: toSize(8),
+    fontWeight: "500",
     color: "#FFCC00",
   },
   MenuText_NoCheck: {
     fontSize: toSize(12),
     marginTop: toSize(8),
+    fontWeight: "500",
     color: "#71727A",
   },
   MapIconView: {

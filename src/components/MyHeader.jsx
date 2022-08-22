@@ -1,12 +1,8 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { WithLocalSvg } from "react-native-svg";
 
 import { Ionicons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import Logo from "../icons/rekor_logo.svg";
 import { toSize } from "../globalStyle";
 
 export default function MyHeader({ Title }) {
@@ -26,12 +22,13 @@ export default function MyHeader({ Title }) {
         </TouchableOpacity>
 
         <Text style={styles.TabTitleText}>{Title}</Text>
-
-        <MaterialIcons
-          name="arrow-back-ios"
-          style={{ fontSize: toSize(20) }}
-          color="#FFF"
-        />
+        {find && (
+          <MaterialIcons
+            name="arrow-back-ios"
+            style={{ fontSize: toSize(20) }}
+            color="#FFF"
+          />
+        )}
       </View>
     </View>
   );

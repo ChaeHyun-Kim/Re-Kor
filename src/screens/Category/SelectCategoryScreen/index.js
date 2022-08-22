@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { WithLocalSvg } from "react-native-svg";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
-import filter_arrow from "../../../icons/filter_arrow.svg";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
+
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { toSize } from "../../../globalStyle";
+import filter_arrow from "../../../icons/filter_arrow.svg";
 import Category_Header from "../../../components/Category_Header";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import PlaceForm from "../../../components/PlaceForm/PlaceForm";
 
-const SelectCategoryScreen = ({ route, navigation }) => {
+const SelectCategoryScreen = ({ route }) => {
   const { Category } = route.params;
   const items = [
     { id: "name", label: "Name" },
@@ -56,6 +53,44 @@ const SelectCategoryScreen = ({ route, navigation }) => {
         { tag_name: "#Fun32", tag_category: "C" },
       ],
     },
+    {
+      place_name: "Gapyeong1 Rail Park1",
+      region: "Gapyeong1234",
+      heartscore: 400,
+      starscore: 4.5,
+      category: "K-DRAMA",
+      tag: [
+        { tag_name: "#Fun3", tag_category: "A" },
+        { tag_name: "#Fun3", tag_category: "B" },
+        { tag_name: "#Fun32", tag_category: "C" },
+        { tag_name: "#Fun3", tag_category: "B" },
+        { tag_name: "#Fun32", tag_category: "C" },
+      ],
+    },
+    {
+      place_name: "Gapyeong1 Rail Park1",
+      region: "Gapyeong1234",
+      heartscore: 400,
+      starscore: 4.5,
+      category: "K-DRAMA",
+      tag: [
+        { tag_name: "#Fun3", tag_category: "A" },
+        { tag_name: "#Fun3", tag_category: "B" },
+        { tag_name: "#Fun32", tag_category: "C" },
+      ],
+    },
+    {
+      place_name: "Gapyeong1 Rail Park1",
+      region: "Gapyeong1234",
+      heartscore: 400,
+      starscore: 4.5,
+      category: "K-DRAMA",
+      tag: [
+        { tag_name: "#Fun3", tag_category: "A" },
+        { tag_name: "#Fun3", tag_category: "B" },
+        { tag_name: "#Fun32", tag_category: "C" },
+      ],
+    },
   ];
 
   const onMenuPress = (id) => {
@@ -74,24 +109,29 @@ const SelectCategoryScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Category_Header title={Category} />
-      <View style={styles.mainview}>
+      <View style={styles.MainView}>
         <View style={styles.FilterView}>
           <SimplePopupMenu
             items={items}
-            style={styles.button}
+            // style={styles.button}
             onSelect={(items) => {
               onMenuPress(items.id);
             }}
             onCancel={() => console.log("onCancel")}
           >
             <View style={styles.filterMenuView}>
-              <WithLocalSvg asset={filter_arrow}></WithLocalSvg>
+              <WithLocalSvg asset={filter_arrow} />
               <Text style={styles.filterMenuText}>Order</Text>
-              <SimpleLineIcons name="arrow-down" size={12} color="#C5C6CC" />
+              <SimpleLineIcons
+                name="arrow-down"
+                size={toSize(10)}
+                color="#C5C6CC"
+              />
             </View>
           </SimplePopupMenu>
         </View>
-        <View style={{ width: "100%" }}>
+
+        <ScrollView contentContainerStyle={styles.listView}>
           {arr.map((item, index) => {
             return (
               <PlaceForm
@@ -105,7 +145,7 @@ const SelectCategoryScreen = ({ route, navigation }) => {
               />
             );
           })}
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -119,28 +159,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
   },
-  mainview: {
-    width: "90%",
+  MainView: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#fff",
+    width: responsiveScreenWidth(90),
     alignItems: "center",
+    marginVertical: toSize(4),
   },
   FilterView: {
-    width: "90%",
-    backgroundColor: "#FFFFFF",
+    width: "100%",
     alignItems: "flex-end",
-    marginVertical: 10,
+    marginBottom: toSize(13),
   },
   filterMenuView: {
-    width: toSize(95),
-    height: toSize(32),
-    paddingHorizontal: 10,
+    paddingHorizontal: toSize(12),
+    paddingVertical: toSize(8),
     flexDirection: "row",
-    paddingVertical: 4,
     borderColor: "#E9E9E9",
-    borderWidth: 2,
+    borderWidth: 1,
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "#fff",
   },
   filterMenuText: {
     color: "#1F2024",
@@ -148,5 +187,10 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     paddingRight: toSize(12),
     paddingLeft: toSize(8),
+  },
+  listView: {
+    backgroundColor: "#fff",
+    flexGrow: 1,
+    width: "100%",
   },
 });

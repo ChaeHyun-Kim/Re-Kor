@@ -20,7 +20,7 @@ const PopupView = ({
   setChangeBackGround,
   setChangeText,
 }) => {
-  const selectArray = ["English", "Korean", "cancel"];
+  const selectArray = ["English", "Korean"];
   const closeModal = () => {
     setVisibleModal(false);
     setChangeBackGround(false);
@@ -46,7 +46,14 @@ const PopupView = ({
               borderBottomColor: "rgba(60, 60, 67,0.3)",
             }}
           >
-            <Text style={styles.choose}>{selectArray[0]}</Text>
+            <Text
+              style={[
+                styles.choose,
+                { borderBottomColor: "#ADADB0", borderBottomWidth: 1 },
+              ]}
+            >
+              {selectArray[0]}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8} onPress={select2}>
             <Text style={styles.choose}>{selectArray[1]}</Text>

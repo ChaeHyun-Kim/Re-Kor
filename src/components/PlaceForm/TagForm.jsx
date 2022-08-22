@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   commonView: { borderWidth: 1, borderRadius: 20, backgroundColor: "#FFFFFF" },
   commonText: {
     fontWeight: "400",
-    fontSize: toSize(12),
+    fontSize: toSize(10),
     paddingVertical: toSize(2),
     paddingHorizontal: toSize(8),
   },
