@@ -1,14 +1,16 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
-// import CategoryForm from "../../../components/CategoryForm";
 import { toSize } from "../../../globalStyle";
 
 import { WithLocalSvg } from "react-native-svg";
@@ -21,126 +23,125 @@ import drama from "../../../icons/icon_drama.svg";
 import festival from "../../../icons/icon_festival.svg";
 import leisure from "../../../icons/icon_leisure.svg";
 
-import AutoScrollView from "react-native-auto-scroll-view";
-
-export default function Categories({ navigation }) {
+export default function Categories() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header Title={"Category"} />
-      <AutoScrollView style={styles.mainview}>
-        <Text style={styles.main_text}>Choose category</Text>
+      <ScrollView contentContainerStyle={styles.MainView}>
+        <Text style={styles.MainText}>Category</Text>
+        <Text style={styles.SubText}>Choose your own category</Text>
+        <View style={styles.ButtonView}>
+          <View style={styles.HorizontalView}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("SelectCategoryScreen", {
+                  Category: "K-LANDSCAPE",
+                })
+              }
+            >
+              <WithLocalSvg asset={landscape} />
+              <Text style={styles.Category_text}>K-LANDSCAPE</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("SelectCategoryScreen", {
+                  Category: "K-CULTURE",
+                })
+              }
+            >
+              <WithLocalSvg asset={culture} />
+              <Text style={styles.Category_text}>K-CULTURE</Text>
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.HorizontalView}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.CategoryView}
-            onPress={() =>
-              navigation.navigate("SelectCategoryScreen", {
-                Category: "K-LANDSCAPE",
-              })
-            }
-          >
-            <WithLocalSvg asset={landscape} />
-            <Text style={styles.Category_text}>K-LANDSCAPE</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.CategoryView}
-            onPress={() =>
-              navigation.navigate("SelectCategoryScreen", {
-                Category: "K-CULTURE",
-              })
-            }
-          >
-            <WithLocalSvg asset={culture} />
-            <Text style={styles.Category_text}>K-CULTURE</Text>
-          </TouchableOpacity>
+          <View style={styles.HorizontalView}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("SelectCategoryScreen", {
+                  Category: "K-FOOD",
+                })
+              }
+            >
+              <WithLocalSvg asset={food} />
+              <Text style={styles.Category_text}>K-FOOD</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("SelectCategoryScreen", {
+                  Category: "K-SHOPPING",
+                })
+              }
+            >
+              <WithLocalSvg asset={shopping} />
+              <Text style={styles.Category_text}>K-SHOPPING</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* <View style={styles.HorizontalView}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("SelectCategoryScreen", {
+                  Category: "K-POP",
+                })
+              }
+            >
+              <WithLocalSvg asset={pop} />
+              <Text style={styles.Category_text}>K-POP</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("SelectCategoryScreen", {
+                  Category: "K-DRAMA",
+                })
+              }
+            >
+              <WithLocalSvg asset={drama} />
+              <Text style={styles.Category_text}>K-DRAMA</Text>
+            </TouchableOpacity>
+          </View> */}
+
+          <View style={styles.HorizontalView}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("SelectCategoryScreen", {
+                  Category: "K-FESTIVAL",
+                })
+              }
+            >
+              <WithLocalSvg asset={festival} />
+              <Text style={styles.Category_text}>K-FESTIVAL</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.CategoryView}
+              onPress={() =>
+                navigation.navigate("SelectCategoryScreen", {
+                  Category: "K-LEISURE",
+                })
+              }
+            >
+              <WithLocalSvg asset={leisure} />
+              <Text style={styles.Category_text}>K-LEISURE</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <View style={styles.HorizontalView}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.CategoryView}
-            onPress={() =>
-              navigation.navigate("SelectCategoryScreen", {
-                Category: "K-FOOD",
-              })
-            }
-          >
-            <WithLocalSvg asset={food} />
-            <Text style={styles.Category_text}>K-FOOD</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.CategoryView}
-            onPress={() =>
-              navigation.navigate("SelectCategoryScreen", {
-                Category: "K-SHOPPING",
-              })
-            }
-          >
-            <WithLocalSvg asset={shopping} />
-            <Text style={styles.Category_text}>K-SHOPPING</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.HorizontalView}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.CategoryView}
-            onPress={() =>
-              navigation.navigate("SelectCategoryScreen", {
-                Category: "K-POP",
-              })
-            }
-          >
-            <WithLocalSvg asset={pop} />
-            <Text style={styles.Category_text}>K-POP</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.CategoryView}
-            onPress={() =>
-              navigation.navigate("SelectCategoryScreen", {
-                Category: "K-DRAMA",
-              })
-            }
-          >
-            <WithLocalSvg asset={drama} />
-            <Text style={styles.Category_text}>K-DRAMA</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.HorizontalView}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.CategoryView}
-            onPress={() =>
-              navigation.navigate("SelectCategoryScreen", {
-                Category: "K-FESTIVAL",
-              })
-            }
-          >
-            <WithLocalSvg asset={festival} />
-            <Text style={styles.Category_text}>K-FESTIVAL</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.CategoryView}
-            onPress={() =>
-              navigation.navigate("SelectCategoryScreen", {
-                Category: "K-LEISURE",
-              })
-            }
-          >
-            <WithLocalSvg asset={leisure} />
-            <Text style={styles.Category_text}>K-LEISURE</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ marginVertical: 50 }}></View>
-      </AutoScrollView>
-
+      </ScrollView>
       <Bottom num={2} />
     </View>
   );
@@ -150,30 +151,38 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    width: responsiveScreenWidth(100),
+    alignItems: "center",
   },
-  mainview: {
-    flex: 1,
+  MainView: {
+    flexGrow: 1,
     backgroundColor: "#fff",
-    paddingVertical: 31,
-    paddingHorizontal: 43,
+    width: responsiveScreenWidth(90),
+    justifyContent: "space-between",
+    marginVertical: toSize(9),
   },
-  main_text: {
-    fontSize: 18,
+  MainText: {
+    fontSize: toSize(20),
     fontWeight: "700",
-    color: "#71727A",
+    color: "#1F2024",
   },
+  SubText: {
+    fontSize: toSize(14),
+    fontWeight: "400",
+    color: "#71727A",
+    marginBottom: toSize(27),
+  },
+  ButtonView: { flex: 1, marginHorizontal: toSize(9) },
   HorizontalView: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 13,
-    marginHorizontal: 3,
+    marginBottom: toSize(18),
   },
   CategoryView: {
-    width: toSize(125),
-    height: toSize(125),
-    borderRadius: 25,
+    width: "45%",
+    height: toSize(110),
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffffff",
@@ -182,23 +191,13 @@ const styles = StyleSheet.create({
       width: 0,
       height: 5,
     },
-    // shadowOpacity: 0.8,
-    // shadowRadius: 2,
     elevation: 3,
   },
 
   Category_text: {
-    paddingTop: 4,
-    fontSize: 12,
-    fontWeight: "500",
+    paddingTop: toSize(6),
+    fontSize: toSize(12),
+    fontWeight: "400",
     color: "#6C6C6C",
-  },
-  picture: {
-    width: responsiveScreenWidth(70),
-    height: responsiveScreenWidth(70),
-    borderRadius: 20,
-    position: "relative",
-    paddingTop: 20,
-    justifyContent: "space-between",
   },
 });

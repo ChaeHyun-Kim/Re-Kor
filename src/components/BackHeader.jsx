@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
+import { responsiveScreenFontSize } from "react-native-responsive-dimensions";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function Header() {

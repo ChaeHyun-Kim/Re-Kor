@@ -21,8 +21,6 @@ import { AntDesign } from "@expo/vector-icons";
 
 import no_heart from "../../../icons/icon_NoHeart.svg";
 import heart from "../../../icons/icon_Heart.svg";
-import upArrow from "../../../icons/uparrow.svg";
-import downArrow from "../../../icons/downarrow.svg";
 import { toSize } from "../../../globalStyle";
 import UserInfo from "../../../components/Explore/UserInfo";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
@@ -73,8 +71,6 @@ const ExploreMainScreen = () => {
 
   const HomeBack = require("../../../icons/ic_homeBack.png");
 
-  var lastTap = null;
-
   const heartClick = () => {
     setHeartClick(ClickHeart == false ? true : false);
   };
@@ -88,6 +84,7 @@ const ExploreMainScreen = () => {
     }
   }, [ClickHeart]);
 
+  var lastTap = null;
   const HandleDoubleTap = () => {
     const now = Date.now();
     const DOUBLE_PRESS_DELAY = 300;
