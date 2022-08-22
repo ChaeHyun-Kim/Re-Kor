@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import TagForm from "./TagForm";
@@ -20,29 +27,30 @@ const PlaceForm = ({ place_name, region, heartScore, starScore, tag }) => {
     >
       <Image style={styles.picture} source={place} />
       <View style={styles.PlaceView}>
-        <View style={styles.PlaceNameView}>
+        <View style={styles.InfoView}>
           <Text style={styles.Place_Text}>{place_name}</Text>
+          <Text style={styles.Region_Text}>{region}</Text>
+
+          <View style={styles.ScoreView}>
+            <AntDesign
+              name="heart"
+              style={{ fontSize: toSize(13) }}
+              color="#FF7272"
+            />
+            <Text style={styles.Score_Text}>{heartScore}</Text>
+            <AntDesign
+              name="star"
+              style={{ fontSize: toSize(13) }}
+              color="#FDB600"
+            />
+            <Text style={styles.Score_Text}>{starScore}</Text>
+          </View>
         </View>
 
-        <Text style={styles.Region_Text}>{region}</Text>
-        <View style={styles.ScoreView}>
+        <View style={styles.tagView}>
           {tag.map((item, index) => {
             return <TagForm key={index} tag={item} />;
           })}
-        </View>
-        <View style={styles.ScoreView}>
-          <AntDesign
-            name="heart"
-            style={{ fontSize: toSize(12) }}
-            color="#FF7272"
-          />
-          <Text style={styles.Score_Text}>{heartScore}</Text>
-          <AntDesign
-            name="star"
-            style={{ fontSize: toSize(13) }}
-            color="#FDB600"
-          />
-          <Text style={styles.Score_Text}>{starScore}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -53,45 +61,58 @@ export default PlaceForm;
 const styles = StyleSheet.create({
   CategoryView: {
     width: "100%",
-    height: toSize(96),
     flexDirection: "row",
-    marginBottom: toSize(10),
+    marginBottom: toSize(15),
+    backgroundColor: "#fff",
+    borderRadius: 17,
+    borderWidth: 0.5,
+    borderColor: "#F5F5F5",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 3,
   },
   picture: {
-    width: toSize(96),
-    height: "100%",
+    width: toSize(105),
+    height: toSize(124),
     borderRadius: 17,
   },
   PlaceView: {
     flex: 1,
-    paddingLeft: toSize(16),
+    paddingLeft: toSize(12),
     justifyContent: "center",
   },
-  PlaceNameView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+  InfoView: {
+    marginBottom: toSize(11),
+  },
+  Place_Text: {
+    fontSize: toSize(14),
+    fontWeight: "700",
+    color: "#1F2024",
+  },
+  Region_Text: {
+    fontSize: toSize(12),
+    color: "#71727A",
+    fontWeight: "400",
     marginVertical: toSize(1),
   },
   ScoreView: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginVertical: toSize(1),
-  },
-
-  Place_Text: {
-    fontSize: toSize(14),
-    fontWeight: "800",
-  },
-  Region_Text: {
-    fontSize: toSize(10),
-    color: "#71727A",
-    fontWeight: "400",
-    marginVertical: toSize(1),
   },
   Score_Text: {
-    marginLeft: 5,
-    marginRight: 10,
+    marginLeft: toSize(5),
+    marginRight: toSize(8),
+    fontSize: toSize(12),
+    color: "#000000",
+    fontWeight: "700",
+  },
+  tagView: {
+    flexDirection: "row",
   },
 });
