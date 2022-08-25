@@ -84,6 +84,10 @@ export const FormStyles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  Row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   checkNickName: {
     width: toSize(84),
     height: toSize(19),
