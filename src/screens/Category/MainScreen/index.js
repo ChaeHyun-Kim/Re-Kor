@@ -87,7 +87,7 @@ export default function Categories() {
             </TouchableOpacity>
           </View>
 
-          {/* <View style={styles.HorizontalView}>
+          <View style={styles.HorizontalView}>
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.CategoryView}
@@ -112,7 +112,7 @@ export default function Categories() {
               <WithLocalSvg asset={drama} />
               <Text style={styles.Category_text}>K-DRAMA</Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
 
           <View style={styles.HorizontalView}>
             <TouchableOpacity

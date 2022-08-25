@@ -11,6 +11,7 @@ import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import TagForm from "./TagForm";
 import { useNavigation } from "@react-navigation/native";
+import { render } from "react-dom";
 const place = require("../../../src/images/place1.png");
 
 const PlaceForm = ({ place_name, region, heartScore, starScore, tag }) => {
@@ -46,8 +47,18 @@ const PlaceForm = ({ place_name, region, heartScore, starScore, tag }) => {
             <Text style={styles.Score_Text}>{starScore}</Text>
           </View>
         </View>
-
         <View style={styles.tagView}>
+          {/* <FlatList
+            contentContainerStyle={{ alignSelf: "flex-start" }}
+            numColumns={3}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            nestedScrollEnabled={false}
+            data={tag}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item, index }) => <TagForm key={index} tag={item} />}
+            ListEmptyComponent={null}
+          /> */}
           {tag.map((item, index) => {
             return <TagForm key={index} tag={item} />;
           })}

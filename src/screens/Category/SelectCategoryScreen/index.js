@@ -110,28 +110,27 @@ const SelectCategoryScreen = ({ route }) => {
       <StatusBar style="auto" />
       <Category_Header title={Category} />
       <View style={styles.MainView}>
-        <View style={styles.FilterView}>
-          <SimplePopupMenu
-            items={items}
-            // style={styles.button}
-            onSelect={(items) => {
-              onMenuPress(items.id);
-            }}
-            onCancel={() => console.log("onCancel")}
-          >
-            <View style={styles.filterMenuView}>
-              <WithLocalSvg asset={filter_arrow} />
-              <Text style={styles.filterMenuText}>Order</Text>
-              <SimpleLineIcons
-                name="arrow-down"
-                size={toSize(10)}
-                color="#C5C6CC"
-              />
-            </View>
-          </SimplePopupMenu>
-        </View>
-
         <ScrollView contentContainerStyle={styles.listView}>
+          <View style={styles.FilterView}>
+            <SimplePopupMenu
+              items={items}
+              style={styles.button}
+              onSelect={(items) => {
+                onMenuPress(items.id);
+              }}
+              onCancel={() => console.log("onCancel")}
+            >
+              <View style={styles.filterMenuView}>
+                <WithLocalSvg asset={filter_arrow} />
+                <Text style={styles.filterMenuText}>Order</Text>
+                <SimpleLineIcons
+                  name="arrow-down"
+                  size={toSize(10)}
+                  color="#C5C6CC"
+                />
+              </View>
+            </SimplePopupMenu>
+          </View>
           {arr.map((item, index) => {
             return (
               <PlaceForm
@@ -162,15 +161,14 @@ const styles = StyleSheet.create({
   MainView: {
     flex: 1,
     backgroundColor: "#fff",
-    width: responsiveScreenWidth(90),
+    width: responsiveScreenWidth(100),
     alignItems: "center",
     marginVertical: toSize(4),
   },
   FilterView: {
-    width: "100%",
-    alignItems: "flex-end",
     marginBottom: toSize(13),
   },
+  button: { alignItems: "flex-end" },
   filterMenuView: {
     paddingHorizontal: toSize(12),
     paddingVertical: toSize(8),
@@ -190,6 +188,7 @@ const styles = StyleSheet.create({
   },
   listView: {
     backgroundColor: "#fff",
+    paddingHorizontal: responsiveScreenWidth(5),
     flexGrow: 1,
     width: "100%",
   },

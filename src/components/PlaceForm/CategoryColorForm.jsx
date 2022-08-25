@@ -70,6 +70,5 @@ const styles = StyleSheet.create({
   },
   Shopping_Category: {
     backgroundColor: "#A3DAFF",
-
   },
 });
