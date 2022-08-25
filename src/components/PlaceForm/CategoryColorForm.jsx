@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   commonText: {
     color: "#FFF",
-    fontSize: toSize(12),
+    fontSize: toSize(11),
     fontWeight: "600",
     borderRadius: 12,
     paddingVertical: toSize(1),

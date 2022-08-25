@@ -11,6 +11,7 @@ import {
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
+import TitleInfo from "../../../components/common/TitleInfoScreen";
 import { toSize } from "../../../globalStyle";
 
 import { WithLocalSvg } from "react-native-svg";
@@ -30,8 +31,7 @@ export default function Categories() {
       <StatusBar style="auto" />
       <Header Title={"Category"} />
       <ScrollView contentContainerStyle={styles.MainView}>
-        <Text style={styles.MainText}>Category</Text>
-        <Text style={styles.SubText}>Choose your own category</Text>
+        <TitleInfo title={"Category"} content={"Choose your own category"} />
         <View style={styles.ButtonView}>
           <View style={styles.HorizontalView}>
             <TouchableOpacity
