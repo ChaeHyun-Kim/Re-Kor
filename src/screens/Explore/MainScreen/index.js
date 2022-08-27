@@ -34,6 +34,7 @@ const ExploreMainScreen = () => {
   };
   const placeArray = [
     {
+      spotId: "1",
       place_name: "Petite France",
       region: "Gapyeong",
       keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
@@ -49,6 +50,7 @@ const ExploreMainScreen = () => {
       heart: true,
     },
     {
+      spotId: "2",
       place_name: "Petite France",
       region: "Gapyeong",
       keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
