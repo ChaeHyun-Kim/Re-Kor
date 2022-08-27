@@ -4,6 +4,7 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { WithLocalSvg } from "react-native-svg";
 import { AntDesign } from "@expo/vector-icons";
 import { toSize } from "../globalStyle";
+import Constants from "expo-constants";
 
 import no_heart from "../icons/icon_NoHeart.svg";
 import heart from "../icons/icon_Heart.svg";
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    marginTop: toSize(44),
+    marginTop: Constants.statusBarHeight,
     paddingVertical: toSize(12),
     justifyContent: "space-between",
     flexDirection: "row",

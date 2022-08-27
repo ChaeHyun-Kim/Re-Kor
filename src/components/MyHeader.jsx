@@ -1,8 +1,8 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import Constants from "expo-constants";
 import { toSize } from "../globalStyle";
 
 export default function MyHeader({ Title }) {
@@ -22,13 +22,12 @@ export default function MyHeader({ Title }) {
         </TouchableOpacity>
 
         <Text style={styles.TabTitleText}>{Title}</Text>
-        {find && (
-          <MaterialIcons
-            name="arrow-back-ios"
-            style={{ fontSize: toSize(20) }}
-            color="#FFF"
-          />
-        )}
+
+        <MaterialIcons
+          name="arrow-back-ios"
+          style={{ fontSize: toSize(20) }}
+          color="#FFF"
+        />
       </View>
     </View>
   );
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     height: toSize(63),
-    marginTop: toSize(44),
+    marginTop: Constants.statusBarHeight,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",

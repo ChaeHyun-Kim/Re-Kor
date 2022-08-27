@@ -107,6 +107,5 @@ export const FormStyles = StyleSheet.create({
   hideText: {
     fontWeight: "400",
     fontSize: toSize(12),
-    color: "#FF453A",
   },
 });

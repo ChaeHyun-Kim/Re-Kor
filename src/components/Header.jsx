@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { WithLocalSvg } from "react-native-svg";
+import Constants from "expo-constants";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     height: toSize(63),
-    marginTop: toSize(44),
+    marginTop: Constants.statusBarHeight,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",

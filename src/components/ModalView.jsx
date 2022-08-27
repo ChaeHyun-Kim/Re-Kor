@@ -4,9 +4,8 @@ import { TouchableOpacity } from "react-native";
 import Form from "./SignUpForm";
 import PopupView from "./Modal/PopupView";
 
-const ModalView = ({ title, placeholder, setChangeBackGround }) => {
+const ModalView = ({ language, setLanguage, setChangeBackGround }) => {
   const [visibleModal, setVisibleModal] = useState(false);
-  const [text, setChangeText] = useState("");
   return (
     <>
       <TouchableOpacity
@@ -15,13 +14,13 @@ const ModalView = ({ title, placeholder, setChangeBackGround }) => {
           setVisibleModal(true);
         }}
       >
-        <Form title={title} placeholder={placeholder} text={text} />
+        <Form title={"Language"} placeholder={"Language"} text={language} />
       </TouchableOpacity>
       <PopupView
         visibleModal={visibleModal}
         setVisibleModal={setVisibleModal}
         setChangeBackGround={setChangeBackGround}
-        setChangeText={setChangeText}
+        setChangeText={setLanguage}
       />
     </>
   );

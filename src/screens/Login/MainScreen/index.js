@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -19,9 +19,35 @@ import logo from "../../../images/logo_back.png";
 import { FormStyles } from "../../../styles/FormView";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { loginAPI, formCheckAPI } from "../../../api/Login";
 
 const LoginMainScreen = () => {
   const navigation = useNavigation();
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    if (phone != 0 && password != "") {
+      loginAPI(phone, password).then((response) => {
+        if (response === 1) {
+          formCheckAPI().then((res) => {
+            res === 1
+              ? navigation.navigate("Explore")
+              : navigation.navigate("SignUpScreen");
+          });
+        }
+      });
+    }
+  };
+
+  const handleCheckPhone = async () => {
+    if (isNaN(phone) === false && (phone.length == 10 || phone.length == 11)) {
+      phoneCheckAPI(phone).then((response) => {
+        setConfirmCheckPhone(response);
+      });
+    } else setConfirmCheckPhone(0);
+  };
+
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
@@ -41,7 +67,14 @@ const LoginMainScreen = () => {
               color="#8F9098"
               style={{ marginRight: toSize(13) }}
             />
-            <TextInput placeholder="Phone Number" />
+            <TextInput
+              onChangeText={setPhone}
+              value={phone.toString()}
+              maxLength={11}
+              returnKeyType="done"
+              keyboardType="number-pad"
+              placeholder="Phone Number"
+            />
           </View>
 
           <View
@@ -57,23 +90,29 @@ const LoginMainScreen = () => {
               color="#8F9098"
               style={{ marginRight: toSize(13) }}
             />
-            <TextInput placeholder="Password" />
+            <TextInput
+              onChangeText={setPassword}
+              value={password.toString()}
+              placeholder="Password"
+            />
           </View>
 
           <Text style={styles.forgotPW}>Forgot password?</Text>
 
           <View style={styles.LoginView}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => navigation.navigate("SelectTagScreen")}
-            >
+            <TouchableOpacity activeOpacity={0.8} onPress={handleLogin}>
               <Text style={styles.BottomButtonText}>Login</Text>
             </TouchableOpacity>
           </View>
 
           <View style={[FormStyles.Row, { justifyContent: "center" }]}>
             <Text style={styles.subText}>Not a member? </Text>
-            <Text style={styles.forgotPW}> Register now</Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate("CreateAccountScreen")}
+            >
+              <Text style={styles.forgotPW}> Register now</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.line} />
