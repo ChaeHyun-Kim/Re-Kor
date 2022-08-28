@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -12,16 +12,28 @@ import SecondView from "./SecondView";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import { FontAwesome } from "@expo/vector-icons";
 
-const CourseListView = ({ folder, course }) => {
+const CourseListView = ({ partdata, course, data, index, setCourselist }) => {
+  const folder = partdata.folder;
+  // const course = partdata.course;
   const [click, setClick] = useState(false);
   const [rename, setRename] = useState(false);
-  const refName = useRef();
+  const [foldername, setFoldername] = useState(folder);
+  const [coursepart, setCoursepart] = useState();
   const items = [{ id: "rename", label: "Rename a folder" }];
   const onMenuPress = (id) => {
     if (id === "rename") {
       setRename(true);
     }
   };
+  useEffect(() => {
+    // AsyncStorage.setItem("@courselist", JSON.stringify(courselist), () => {
+    //   console.log("코스 리스트 저장 완료", courselist);
+    // });
+
+    partdata.course = coursepart;
+    data[index] = partdata;
+    setCourselist(data);
+  }, [coursepart]);
 
   return (
     <View style={{ padding: toSize(2), marginBottom: toSize(16) }}>
@@ -36,20 +48,23 @@ const CourseListView = ({ folder, course }) => {
 
         <View style={styles.textView}>
           <TextInput
-            value={folder}
+            value={foldername}
             editable={rename}
             style={styles.mainText}
             // ref={refName}
             placeholder={"Text"}
+            onChangeText={(text) => {
+              setFoldername(text);
+            }}
             onBlur={() => {
               setRename(false);
+              partdata.folder = foldername;
+              data[index] = partdata;
+              setCourselist(data);
             }}
-            // autoFocus={true}
-            // returnKeyType="done"
-            // onSubmitEditing={() => refName.current.focus()}
           />
 
-          <Text style={styles.numText}>{course.length}</Text>
+          {/* <Text style={styles.numText}>{course.length}</Text> */}
         </View>
         <SimplePopupMenu
           items={items}
@@ -63,11 +78,12 @@ const CourseListView = ({ folder, course }) => {
         </SimplePopupMenu>
       </TouchableOpacity>
       {click === true &&
-        course.map((item, key) => (
+        course.map((item, index) => (
           <SecondView
-            course_name={item.course_name}
-            course_info={item.course_info}
-            key={key}
+            data={course}
+            partdata={item}
+            index={index}
+            setCoursepart={setCoursepart}
           />
         ))}
     </View>

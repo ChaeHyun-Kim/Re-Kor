@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Header from "../../../components/Header";
@@ -9,8 +9,9 @@ import { AntDesign } from "@expo/vector-icons";
 import folder from "../../../icons/folder.svg";
 import AutoScrollView from "react-native-auto-scroll-view";
 import { WithLocalSvg } from "react-native-svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const CourseListMainScreen = () => {
-  const emptyfolder = { folder: "", course: [] };
+  const emptyfolder = [{ folder: "", course: [] }];
   const data = [
     {
       folder: "Recent travel courses created",
@@ -99,20 +100,64 @@ const CourseListMainScreen = () => {
         },
       ],
     },
-
-    { folder: "", course: [] },
-    { folder: "", course: [] },
   ];
 
+  // const course = AsyncStorage.getItem("@courselist", (err, result) => {
+  //   return JSON.parse(result);
+  // });
+
   const [courselist, setCourselist] = useState(data);
+
+  useEffect(() => {
+    // AsyncStorage.setItem("@courselist", JSON.stringify(courselist), () => {
+    //   console.log("코스 리스트 저장 완료", courselist);
+    // });
+    console.log("courselist변경됨1");
+  }, [courselist]);
+
+  data.myself = data;
+  const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
+
+  AsyncStorage.setItem(
+    "@courselist",
+    JSON.stringify(data, getCircularReplacer()),
+    () => {
+      console.log("코스 리스트 저장 완료");
+    }
+  );
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header Title={"CourseList"} />
-      <AutoScrollView style={styles.MainView}>
+      <AutoScrollView
+        style={styles.MainView}
+        onScrollEndDrag={() => {
+          console.log(
+            "현재 페이지와 마지막 페이지 값이 같다면 데이터 불러오기 중단하라 !"
+          );
+        }}
+      >
         {courselist.map((item, index) => {
           return (
-            <ListView folder={item.folder} course={item.course} key={index} />
+            <ListView
+              partdata={item}
+              course={item.course}
+              index={index}
+              setCourselist={setCourselist}
+              data={data}
+            />
           );
         })}
         <View style={{ height: toSize(50) }}></View>
@@ -120,10 +165,8 @@ const CourseListMainScreen = () => {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          courselist.push(emptyfolder);
-          setCourselist(courselist),
-            console.log("===================================="),
-            console.log(courselist);
+          setCourselist(courselist.concat(emptyfolder)),
+            console.log("====================================");
         }}
       >
         <WithLocalSvg
