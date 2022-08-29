@@ -108,7 +108,6 @@ const CourseListMainScreen = () => {
   // });
 
   const [courselist, setCourselist] = useState(data);
-  const [movefolder, setMovefolder] = useState(false);
   const [confirmCheck, setConfirmCheck] = useState(false);
   const getCircularReplacer = () => {
     const seen = new WeakSet();
@@ -145,8 +144,7 @@ const CourseListMainScreen = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
-      {movefolder === true ? <BackHeader /> : <Header Title={"CourseList"} />}
+      <StatusBar style="auto" /><Header Title={"CourseList"} />
       <AutoScrollView
         style={styles.MainView}
         onScrollEndDrag={() => {
@@ -162,40 +160,13 @@ const CourseListMainScreen = () => {
               partdata={item}
               index={index}
               setCourselist={setCourselist}
-              movefolder={movefolder}
-              setMovefolder={setMovefolder}
             />
           );
         })}
         <View style={{ height: toSize(50) }}></View>
       </AutoScrollView>
 
-      {(movefolder && (
-        <View style={{ width: "100%", alignItems: "center" }}>
-          <View
-            style={[
-              styles.BottomView,
-              confirmCheck
-                ? { backgroundColor: "#FFCC00" }
-                : { borderColor: "#FFCC00", borderWidth: 2 },
-            ]}
-          >
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => setMovefolder(false)}
-            >
-              <Text
-                style={[
-                  styles.BottomButtonText,
-                  confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
-                ]}
-              >
-                Submit
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )) || (
+      
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
@@ -213,8 +184,7 @@ const CourseListMainScreen = () => {
             asset={folder}
           />
         </TouchableOpacity>
-      )}
-      {movefolder || <Bottom num={3} />}
+   <Bottom num={3} />
     </View>
   );
 };

@@ -17,8 +17,6 @@ const CourseListView = ({
   partdata, // 한 인덱스 데이터
   index, //인덱스
   setCourselist, //코스 리스트 관리하는 함수
-  movefolder,
-  setMovefolder
 }) => {
   const folder_name = partdata.folder;
   const coursedata = partdata.course;
@@ -48,58 +46,47 @@ const CourseListView = ({
         onPress={() => setClick(click === false ? true : false)}
         style={styles.ListView}
       >
-        {(movefolder && (
-          <FontAwesome name="folder" size={20} color="#71727A" />
-        )) ||
-          (click && (
-            <FontAwesome name="folder-open" size={20} color="#71727A" />
-          )) || <FontAwesome name="folder" size={20} color="#71727A" />}
+        {(click && (
+          <FontAwesome name="folder-open" size={20} color="#71727A" />
+        )) || <FontAwesome name="folder" size={20} color="#71727A" />}
 
         <View style={styles.textView}>
-          {(movefolder && (
-            <Text style={styles.mainText}>{folder_name}</Text>
-          )) || (
-            <TextInput
-              value={folder_name}
-              editable={rename}
-              style={styles.mainText}
-              placeholder={"Text"}
-              onChangeText={(text) => {
-                setFoldername(text);
-              }}
-              onBlur={() => {
-                setRename(false);
-                partdata.folder = foldername;
-                courselist[index] = partdata;
-                setCourselist(courselist);
-              }}
-            />
-          )}
+          <TextInput
+            value={folder_name}
+            editable={rename}
+            style={styles.mainText}
+            placeholder={"Text"}
+            onChangeText={(text) => {
+              setFoldername(text);
+            }}
+            onBlur={() => {
+              setRename(false);
+              partdata.folder = foldername;
+              courselist[index] = partdata;
+              setCourselist(courselist);
+            }}
+          />
 
           <Text style={styles.numText}>{coursedata.length}</Text>
         </View>
-        {movefolder || (
-          <SimplePopupMenu
-            items={items}
-            style={styles.button}
-            onSelect={(items) => {
-              onMenuPress(items.id);
-            }}
-            onCancel={() => console.log("onCancel")}
-          >
-            <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
-          </SimplePopupMenu>
-        )}
+        <SimplePopupMenu
+          items={items}
+          style={styles.button}
+          onSelect={(items) => {
+            onMenuPress(items.id);
+          }}
+          onCancel={() => console.log("onCancel")}
+        >
+          <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
+        </SimplePopupMenu>
       </TouchableOpacity>
       {click === true &&
-        movefolder === false &&
         coursedata.map((item, index) => (
           <SecondView
             courselist={courselist}
             partcoursedata={item}
             index={index}
             setCoursepart={setCoursepart}
-            setMovefolder={setMovefolder}
             setCourselist={setCourselist}
           />
         ))}
