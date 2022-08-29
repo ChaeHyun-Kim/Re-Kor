@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Header from "../../../components/Header";
+import BackHeader from "../../../components/BackHeader";
 import Bottom from "../../../components/Bottom";
 import ListView from "../../../components/Course/FirstView";
 import { toSize } from "../../../globalStyle";
@@ -14,7 +15,7 @@ const CourseListMainScreen = () => {
   const emptyfolder = [{ folder: "", course: [] }];
   const data = [
     {
-      folder: "Recent travel courses created",
+      folder: "Recent travel courses",
       course: [
         {
           course_name: "My First Trip",
@@ -66,7 +67,7 @@ const CourseListMainScreen = () => {
       ],
     },
     {
-      folder: "Recent travel courses created",
+      folder: "My Trip in Korea~",
       course: [
         {
           course_name: "My First Trip",
@@ -107,15 +108,8 @@ const CourseListMainScreen = () => {
   // });
 
   const [courselist, setCourselist] = useState(data);
-
-  useEffect(() => {
-    // AsyncStorage.setItem("@courselist", JSON.stringify(courselist), () => {
-    //   console.log("코스 리스트 저장 완료", courselist);
-    // });
-    console.log("courselist변경됨1");
-  }, [courselist]);
-
-  data.myself = data;
+  const [movefolder, setMovefolder] = useState(false);
+  const [confirmCheck, setConfirmCheck] = useState(false);
   const getCircularReplacer = () => {
     const seen = new WeakSet();
     return (key, value) => {
@@ -129,6 +123,18 @@ const CourseListMainScreen = () => {
     };
   };
 
+  useEffect(() => {
+    AsyncStorage.setItem(
+      "@courselist",
+      JSON.stringify(data, getCircularReplacer()),
+      () => {
+        console.log("코스 리스트 재저장");
+      }
+    );
+    console.log("courselist변경됨1");
+  }, [courselist]);
+
+  data.myself = data;
   AsyncStorage.setItem(
     "@courselist",
     JSON.stringify(data, getCircularReplacer()),
@@ -140,7 +146,7 @@ const CourseListMainScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Header Title={"CourseList"} />
+      {movefolder === true ? <BackHeader /> : <Header Title={"CourseList"} />}
       <AutoScrollView
         style={styles.MainView}
         onScrollEndDrag={() => {
@@ -152,35 +158,63 @@ const CourseListMainScreen = () => {
         {courselist.map((item, index) => {
           return (
             <ListView
+              courselist={courselist}
               partdata={item}
-              course={item.course}
               index={index}
               setCourselist={setCourselist}
-              data={data}
+              movefolder={movefolder}
+              setMovefolder={setMovefolder}
             />
           );
         })}
         <View style={{ height: toSize(50) }}></View>
       </AutoScrollView>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {
-          setCourselist(courselist.concat(emptyfolder)),
-            console.log("====================================");
-        }}
-      >
-        <WithLocalSvg
-          style={{
-            fontSize: toSize(60),
 
-            position: "absolute",
-            bottom: toSize(28),
-            right: toSize(23),
+      {(movefolder && (
+        <View style={{ width: "100%", alignItems: "center" }}>
+          <View
+            style={[
+              styles.BottomView,
+              confirmCheck
+                ? { backgroundColor: "#FFCC00" }
+                : { borderColor: "#FFCC00", borderWidth: 2 },
+            ]}
+          >
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setMovefolder(false)}
+            >
+              <Text
+                style={[
+                  styles.BottomButtonText,
+                  confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
+                ]}
+              >
+                Submit
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )) || (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            setCourselist(courselist.concat(emptyfolder));
           }}
-          asset={folder}
-        />
-      </TouchableOpacity>
-      <Bottom num={3} />
+        >
+          <WithLocalSvg
+            style={{
+              fontSize: toSize(60),
+
+              position: "absolute",
+              bottom: toSize(28),
+              right: toSize(23),
+            }}
+            asset={folder}
+          />
+        </TouchableOpacity>
+      )}
+      {movefolder || <Bottom num={3} />}
     </View>
   );
 };
@@ -193,7 +227,7 @@ const styles = StyleSheet.create({
   },
   MainView: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#fff",
     paddingHorizontal: toSize(22),
     paddingTop: toSize(22),
   },

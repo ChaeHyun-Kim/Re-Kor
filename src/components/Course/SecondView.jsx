@@ -14,9 +14,18 @@ import SimplePopupMenu from "react-native-simple-popup-menu";
 import SecondSmallView from "./SecondSmallView";
 import SecondBigView from "./SecondBigView";
 
-const SecondView = ({ data, partdata, index, setCoursepart }) => {
-  const course_name = partdata.course_name;
-  const course_info = partdata.course_info;
+import { useNavigation } from "@react-navigation/native";
+const SecondView = ({
+  courselist, //전체 코스리스트
+  partcoursedata, //한 인덱스 코스 데이터
+  index, //인덱스
+  setCoursepart, //코스 정보 관리
+  setMovefolder,
+  setCourselist,
+}) => {
+  const navigation = useNavigation();
+  const course_name = partcoursedata.course_name;
+  const course_info = partcoursedata.course_info;
 
   const [click, setClick] = useState(false);
   const place = require("../../images/place1.png");
@@ -31,9 +40,15 @@ const SecondView = ({ data, partdata, index, setCoursepart }) => {
     if (id === "rename") {
       setRename(true);
     } else if (id === "move") {
+      setMovefolder(true);
+      // navigation.navigate("MoveFolder", {
+      //   // Data: courselist,
+      //   setCourselist: setCourselist,
+      // });
     } else if (id === "order") {
     }
   };
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -54,10 +69,10 @@ const SecondView = ({ data, partdata, index, setCoursepart }) => {
           }}
           onBlur={() => {
             setRename(false);
-            partdata.course_name = coursename;
-            data[index] = partdata;
-            console.log("코스 전체 데이터:", data);
-            setCoursepart(data);
+            partcoursedata.course_name = coursename;
+            courselist[index] = partcoursedata;
+            console.log("코스 전체 데이터:", courselist);
+            setCoursepart(courselist);
             // setCourselist(data);
           }}
         />

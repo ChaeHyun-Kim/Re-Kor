@@ -12,13 +12,20 @@ import SecondView from "./SecondView";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import { FontAwesome } from "@expo/vector-icons";
 
-const CourseListView = ({ partdata, course, data, index, setCourselist }) => {
-  const folder = partdata.folder;
-  // const course = partdata.course;
+const CourseListView = ({
+  courselist, //전체 데이터
+  partdata, // 한 인덱스 데이터
+  index, //인덱스
+  setCourselist, //코스 리스트 관리하는 함수
+  movefolder,
+  setMovefolder
+}) => {
+  const folder_name = partdata.folder;
+  const coursedata = partdata.course;
   const [click, setClick] = useState(false);
   const [rename, setRename] = useState(false);
-  const [foldername, setFoldername] = useState(folder);
-  const [coursepart, setCoursepart] = useState();
+  const [foldername, setFoldername] = useState(false);
+  const [coursepart, setCoursepart] = useState(coursedata);
   const items = [{ id: "rename", label: "Rename a folder" }];
   const onMenuPress = (id) => {
     if (id === "rename") {
@@ -29,10 +36,9 @@ const CourseListView = ({ partdata, course, data, index, setCourselist }) => {
     // AsyncStorage.setItem("@courselist", JSON.stringify(courselist), () => {
     //   console.log("코스 리스트 저장 완료", courselist);
     // });
-
     partdata.course = coursepart;
-    data[index] = partdata;
-    setCourselist(data);
+    courselist[index] = partdata;
+    setCourselist(courselist);
   }, [coursepart]);
 
   return (
@@ -42,48 +48,59 @@ const CourseListView = ({ partdata, course, data, index, setCourselist }) => {
         onPress={() => setClick(click === false ? true : false)}
         style={styles.ListView}
       >
-        {(click && (
-          <FontAwesome name="folder-open" size={20} color="#71727A" />
-        )) || <FontAwesome name="folder" size={20} color="#71727A" />}
+        {(movefolder && (
+          <FontAwesome name="folder" size={20} color="#71727A" />
+        )) ||
+          (click && (
+            <FontAwesome name="folder-open" size={20} color="#71727A" />
+          )) || <FontAwesome name="folder" size={20} color="#71727A" />}
 
         <View style={styles.textView}>
-          <TextInput
-            value={foldername}
-            editable={rename}
-            style={styles.mainText}
-            // ref={refName}
-            placeholder={"Text"}
-            onChangeText={(text) => {
-              setFoldername(text);
-            }}
-            onBlur={() => {
-              setRename(false);
-              partdata.folder = foldername;
-              data[index] = partdata;
-              setCourselist(data);
-            }}
-          />
+          {(movefolder && (
+            <Text style={styles.mainText}>{folder_name}</Text>
+          )) || (
+            <TextInput
+              value={folder_name}
+              editable={rename}
+              style={styles.mainText}
+              placeholder={"Text"}
+              onChangeText={(text) => {
+                setFoldername(text);
+              }}
+              onBlur={() => {
+                setRename(false);
+                partdata.folder = foldername;
+                courselist[index] = partdata;
+                setCourselist(courselist);
+              }}
+            />
+          )}
 
-          {/* <Text style={styles.numText}>{course.length}</Text> */}
+          <Text style={styles.numText}>{coursedata.length}</Text>
         </View>
-        <SimplePopupMenu
-          items={items}
-          style={styles.button}
-          onSelect={(items) => {
-            onMenuPress(items.id);
-          }}
-          onCancel={() => console.log("onCancel")}
-        >
-          <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
-        </SimplePopupMenu>
+        {movefolder || (
+          <SimplePopupMenu
+            items={items}
+            style={styles.button}
+            onSelect={(items) => {
+              onMenuPress(items.id);
+            }}
+            onCancel={() => console.log("onCancel")}
+          >
+            <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
+          </SimplePopupMenu>
+        )}
       </TouchableOpacity>
       {click === true &&
-        course.map((item, index) => (
+        movefolder === false &&
+        coursedata.map((item, index) => (
           <SecondView
-            data={course}
-            partdata={item}
+            courselist={courselist}
+            partcoursedata={item}
             index={index}
             setCoursepart={setCoursepart}
+            setMovefolder={setMovefolder}
+            setCourselist={setCourselist}
           />
         ))}
     </View>
