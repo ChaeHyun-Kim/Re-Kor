@@ -20,7 +20,6 @@ const SecondView = ({
   partcoursedata, //한 인덱스 코스 데이터
   index, //인덱스
   setCoursepart, //코스 정보 관리
-  setMovefolder,
   setCourselist,
 }) => {
   const navigation = useNavigation();
@@ -40,11 +39,7 @@ const SecondView = ({
     if (id === "rename") {
       setRename(true);
     } else if (id === "move") {
-      setMovefolder(true);
-      // navigation.navigate("MoveFolder", {
-      //   // Data: courselist,
-      //   setCourselist: setCourselist,
-      // });
+      navigation.navigate("MoveFolder");
     } else if (id === "order") {
     }
   };
