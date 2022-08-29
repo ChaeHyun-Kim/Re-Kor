@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, ImageBackground, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { toSize } from "../src/globalStyle";
 import { StatusBar } from "expo-status-bar";
 
@@ -9,8 +10,10 @@ import logo from "./icons/logo_back.png";
 import logo1 from "./icons/logo_back_white.png";
 import logo_character from "./images/logo_character.png";
 
-function Loading() {
+const Loading = () => {
   const random = Math.floor(Math.random() * 3);
+  // AsyncStorage.clear();
+  
   return (
     <ImageBackground
       source={random === 0 ? lb0 : random === 1 ? lb1 : null}
@@ -28,7 +31,7 @@ function Loading() {
       />
     </ImageBackground>
   );
-}
+};
 
 export default Loading;
 

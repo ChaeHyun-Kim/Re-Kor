@@ -14,6 +14,7 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
 import { WithLocalSvg } from "react-native-svg";
@@ -29,9 +30,7 @@ import TagForm from "../../../components/PlaceForm/TagForm";
 import { Ionicons } from "@expo/vector-icons";
 
 const ExploreMainScreen = () => {
-  const userData = {
-    user_name: "Gayoung",
-  };
+  const [userName, getUserName] = useState("");
   const placeArray = [
     {
       spotId: "1",
@@ -41,14 +40,15 @@ const ExploreMainScreen = () => {
       place_heart: 100,
       place_star: 4.5,
       category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Theme Parks", tag_category: "C" },
-        { tag_name: "#Fun", tag_category: "B" },
+      tags: [
+        // { tag_name: "#Fun3", tag_category: "A" },
+        // { tag_name: "#Theme Parks", tag_category: "C" },
+        // { tag_name: "#Fun", tag_category: "B" },
       ],
       picture: require("../../../images/place2.png"),
       heart: true,
     },
+
     {
       spotId: "2",
       place_name: "Petite France",
@@ -65,11 +65,18 @@ const ExploreMainScreen = () => {
       picture: require("../../../images/place1.png"),
       heart: false,
     },
+
   ];
   const arrayNum = placeArray.length;
   const [placeNumber, setPlaceNumber] = useState(0);
   const [ClickHeart, setHeartClick] = useState(placeArray[placeNumber]);
   const [HeartShow, setHeartShow] = useState(false);
+
+  const getUserData = async () => {
+    const userNickName = await AsyncStorage.getItem("userNickName");
+    getUserName(JSON.parse(userNickName));
+  };
+  getUserData();
 
   const HomeBack = require("../../../icons/ic_homeBack.png");
 
@@ -90,7 +97,6 @@ const ExploreMainScreen = () => {
   const HandleDoubleTap = () => {
     const now = Date.now();
     const DOUBLE_PRESS_DELAY = 300;
-    // 두번째 tap이 지난 tap을 한지 0.03초 이내에 이뤄졌을 때 -> Double tap
     if (lastTap && now - lastTap < DOUBLE_PRESS_DELAY) {
       heartClick();
     } else {
@@ -104,7 +110,6 @@ const ExploreMainScreen = () => {
 
   const placeDown = () => {
     setPlaceNumber(placeNumber != arrayNum ? placeNumber + 1 : placeNumber);
-    console.log(placeNumber);
   };
 
   return (
@@ -112,7 +117,7 @@ const ExploreMainScreen = () => {
       <StatusBar style="auto" />
       <Header />
       <View style={styles.MainView}>
-        <UserInfo userData={userData} />
+        <UserInfo userNickName={userName} />
         <View style={styles.recommend_view}>
           <Text style={styles.recommend_title}>Today's recommended place</Text>
           <View style={styles.place_view}>
@@ -186,7 +191,7 @@ const ExploreMainScreen = () => {
                       </Text>
                     </View>
                     <View style={styles.tagView}>
-                      {placeArray[placeNumber].tag.map((item, index) => {
+                      {placeArray[placeNumber].tags.map((item, index) => {
                         return <TagForm tag={item} key={index} />;
                       })}
                     </View>

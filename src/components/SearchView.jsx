@@ -11,6 +11,7 @@ const SearchView = ({
   setChangeSearch,
   rightIcon,
   text,
+  onclick,
 }) => {
   const navigation = useNavigation();
   const handelClick = () => {
@@ -44,7 +45,9 @@ const SearchView = ({
             placeholder={placeholder}
           />
         ) : null}
-        <FontAwesome name="search" size={toSize(16)} color="#2F3036" />
+        <TouchableOpacity activeOpacity={0.8} onPress={onclick}>
+          <FontAwesome name="search" size={toSize(16)} color="#2F3036" />
+        </TouchableOpacity>
       </TouchableOpacity>
     </>
   );

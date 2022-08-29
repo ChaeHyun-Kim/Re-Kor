@@ -6,12 +6,12 @@ import { toSize } from "../../globalStyle.js";
 
 import user_character from "../../icons/ic_typeImage1.svg";
 
-export default function UserInfo({ userData }) {
+export default function UserInfo({ userNickName }) {
   const HomeLine = require("../../icons/ic_homeLine.png");
   return (
     <View style={styles.user_information}>
       <View style={styles.textView}>
-        <Text style={styles.title_text}>Hi, {userData.user_name}</Text>
+        <Text style={styles.title_text}>Hi, {userNickName}</Text>
         <Text style={styles.welcome_text}>I'll recommend it to you again!</Text>
       </View>
       <WithLocalSvg

@@ -40,6 +40,7 @@ export default function Categories() {
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
                   Category: "K-LANDSCAPE",
+                  cat: 0,
                 })
               }
             >
@@ -52,6 +53,7 @@ export default function Categories() {
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
                   Category: "K-CULTURE",
+                  cat: 1,
                 })
               }
             >
@@ -67,6 +69,7 @@ export default function Categories() {
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
                   Category: "K-FOOD",
+                  cat: 2,
                 })
               }
             >
@@ -79,6 +82,7 @@ export default function Categories() {
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
                   Category: "K-SHOPPING",
+                  cat: 3,
                 })
               }
             >
@@ -94,6 +98,7 @@ export default function Categories() {
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
                   Category: "K-POP",
+                  cat: 4,
                 })
               }
             >
@@ -106,6 +111,7 @@ export default function Categories() {
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
                   Category: "K-DRAMA",
+                  cat: 5,
                 })
               }
             >
@@ -121,6 +127,7 @@ export default function Categories() {
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
                   Category: "K-FESTIVAL",
+                  cat: 6,
                 })
               }
             >
@@ -133,6 +140,7 @@ export default function Categories() {
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
                   Category: "K-LEISURE",
+                  cat: 7,
                 })
               }
             >

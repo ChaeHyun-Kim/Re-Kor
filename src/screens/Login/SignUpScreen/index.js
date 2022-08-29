@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
 import { styles } from "./styles";
 import { toSize } from "../../../globalStyle";
 import ModalView from "../../../components/ModalView";
@@ -12,6 +12,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { NicknameCheckAPI } from "../../../api/Login";
 import Country from "../../../components/Login/CountrySelect";
 import { FormJoinAPI } from "../../../api/Login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ToastMessage from "../../../components/Modal/Toast";
 
 const monthNames = [
   "Jan",
@@ -39,6 +41,7 @@ export default function SignUpScreen({ navigation }) {
   const [checkBox, setChangeCheckBox] = useState(false);
   const [background, setChangeBackGround] = useState(false);
   const [confirmCheck, setConfirmCheck] = useState("000000");
+  const [confirmNickName, setConfirmNickName] = useState(0);
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
@@ -60,7 +63,13 @@ export default function SignUpScreen({ navigation }) {
 
   const handleCheckNickName = async () => {
     NicknameCheckAPI(nickname).then((response) => {
-      changeArray(0);
+      if (response === 1) {
+        changeArray(0);
+        setConfirmNickName(1);
+      } else {
+        setConfirmNickName(0);
+        Alert.alert("nickname overlap");
+      }
     });
   };
   const changeArray = (index) => {
@@ -90,7 +99,12 @@ export default function SignUpScreen({ navigation }) {
       };
       FormJoinAPI(userData).then((response) => {
         if (response != null) {
-          response === 1 ? navigation.navigate("SelectTagScreen") : null;
+          if (response === 1) {
+            AsyncStorage.setItem("userNickName", JSON.stringify(nickname));
+            navigation.navigate("SelectTagScreen");
+          } else Alert.alert("login fail");
+        } else {
+          Alert.alert("login fail");
         }
       });
     }
@@ -102,10 +116,12 @@ export default function SignUpScreen({ navigation }) {
       <View style={styles.container}>
         <Text style={styles.MainText}>Join us</Text>
         <Text style={styles.MainSubText}>Create an account to get started</Text>
-        {/* <ToastMessage
-          visible={confirmCheck}
-          setConfirmCheck={setConfirmCheck}
-        /> */}
+        <ToastMessage
+          visible={confirmNickName}
+          handleFunction={setConfirmNickName}
+          title={"Success"}
+          content={"Validation verified"}
+        />
         <View style={styles.FormView}>
           <View style={FormStyles.FormOneView}>
             <View style={styles.RowView}>
@@ -177,7 +193,11 @@ export default function SignUpScreen({ navigation }) {
           </View>
 
           <View style={FormStyles.FormOneView}>
-            <Text style={FormStyles.FormTitleText}>Gender</Text>
+            <View style={styles.RowView}>
+              <Text style={FormStyles.FormTitleText}>Gender</Text>
+              <Text style={FormStyles.EssentialText}>*</Text>
+            </View>
+
             <View style={FormStyles.RowView}>
               <TouchableOpacity
                 activeOpacity={0.8}
