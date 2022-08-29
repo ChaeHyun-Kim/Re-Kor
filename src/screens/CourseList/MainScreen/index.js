@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Header from "../../../components/Header";
+import BackHeader from "../../../components/BackHeader";
 import Bottom from "../../../components/Bottom";
 import ListView from "../../../components/Course/FirstView";
 import { toSize } from "../../../globalStyle";
@@ -9,11 +10,12 @@ import { AntDesign } from "@expo/vector-icons";
 import folder from "../../../icons/folder.svg";
 import AutoScrollView from "react-native-auto-scroll-view";
 import { WithLocalSvg } from "react-native-svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const CourseListMainScreen = () => {
-  const emptyfolder = { folder: "", course: [] };
+  const emptyfolder = [{ folder: "", course: [] }];
   const data = [
     {
-      folder: "Recent travel courses created",
+      folder: "Recent travel courses",
       course: [
         {
           course_name: "My First Trip",
@@ -65,7 +67,7 @@ const CourseListMainScreen = () => {
       ],
     },
     {
-      folder: "Recent travel courses created",
+      folder: "My Trip in Korea~",
       course: [
         {
           course_name: "My First Trip",
@@ -99,45 +101,120 @@ const CourseListMainScreen = () => {
         },
       ],
     },
-
-    { folder: "", course: [] },
-    { folder: "", course: [] },
   ];
 
+  // const course = AsyncStorage.getItem("@courselist", (err, result) => {
+  //   return JSON.parse(result);
+  // });
+
   const [courselist, setCourselist] = useState(data);
+  const [movefolder, setMovefolder] = useState(false);
+  const [confirmCheck, setConfirmCheck] = useState(false);
+  const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
+
+  useEffect(() => {
+    AsyncStorage.setItem(
+      "@courselist",
+      JSON.stringify(data, getCircularReplacer()),
+      () => {
+        console.log("코스 리스트 재저장");
+      }
+    );
+    console.log("courselist변경됨1");
+  }, [courselist]);
+
+  data.myself = data;
+  AsyncStorage.setItem(
+    "@courselist",
+    JSON.stringify(data, getCircularReplacer()),
+    () => {
+      console.log("코스 리스트 저장 완료");
+    }
+  );
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Header Title={"CourseList"} />
-      <AutoScrollView style={styles.MainView}>
+      {movefolder === true ? <BackHeader /> : <Header Title={"CourseList"} />}
+      <AutoScrollView
+        style={styles.MainView}
+        onScrollEndDrag={() => {
+          console.log(
+            "현재 페이지와 마지막 페이지 값이 같다면 데이터 불러오기 중단하라 !"
+          );
+        }}
+      >
         {courselist.map((item, index) => {
           return (
-            <ListView folder={item.folder} course={item.course} key={index} />
+            <ListView
+              courselist={courselist}
+              partdata={item}
+              index={index}
+              setCourselist={setCourselist}
+              movefolder={movefolder}
+              setMovefolder={setMovefolder}
+            />
           );
         })}
         <View style={{ height: toSize(50) }}></View>
       </AutoScrollView>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {
-          courselist.push(emptyfolder);
-          setCourselist(courselist),
-            console.log("===================================="),
-            console.log(courselist);
-        }}
-      >
-        <WithLocalSvg
-          style={{
-            fontSize: toSize(60),
 
-            position: "absolute",
-            bottom: toSize(28),
-            right: toSize(23),
+      {(movefolder && (
+        <View style={{ width: "100%", alignItems: "center" }}>
+          <View
+            style={[
+              styles.BottomView,
+              confirmCheck
+                ? { backgroundColor: "#FFCC00" }
+                : { borderColor: "#FFCC00", borderWidth: 2 },
+            ]}
+          >
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setMovefolder(false)}
+            >
+              <Text
+                style={[
+                  styles.BottomButtonText,
+                  confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
+                ]}
+              >
+                Submit
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )) || (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            setCourselist(courselist.concat(emptyfolder));
           }}
-          asset={folder}
-        />
-      </TouchableOpacity>
-      <Bottom num={3} />
+        >
+          <WithLocalSvg
+            style={{
+              fontSize: toSize(60),
+
+              position: "absolute",
+              bottom: toSize(28),
+              right: toSize(23),
+            }}
+            asset={folder}
+          />
+        </TouchableOpacity>
+      )}
+      {movefolder || <Bottom num={3} />}
     </View>
   );
 };
@@ -150,7 +227,7 @@ const styles = StyleSheet.create({
   },
   MainView: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#fff",
     paddingHorizontal: toSize(22),
     paddingTop: toSize(22),
   },

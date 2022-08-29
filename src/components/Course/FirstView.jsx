@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -12,16 +12,34 @@ import SecondView from "./SecondView";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import { FontAwesome } from "@expo/vector-icons";
 
-const CourseListView = ({ folder, course }) => {
+const CourseListView = ({
+  courselist, //전체 데이터
+  partdata, // 한 인덱스 데이터
+  index, //인덱스
+  setCourselist, //코스 리스트 관리하는 함수
+  movefolder,
+  setMovefolder
+}) => {
+  const folder_name = partdata.folder;
+  const coursedata = partdata.course;
   const [click, setClick] = useState(false);
   const [rename, setRename] = useState(false);
-  const refName = useRef();
+  const [foldername, setFoldername] = useState(false);
+  const [coursepart, setCoursepart] = useState(coursedata);
   const items = [{ id: "rename", label: "Rename a folder" }];
   const onMenuPress = (id) => {
     if (id === "rename") {
       setRename(true);
     }
   };
+  useEffect(() => {
+    // AsyncStorage.setItem("@courselist", JSON.stringify(courselist), () => {
+    //   console.log("코스 리스트 저장 완료", courselist);
+    // });
+    partdata.course = coursepart;
+    courselist[index] = partdata;
+    setCourselist(courselist);
+  }, [coursepart]);
 
   return (
     <View style={{ padding: toSize(2), marginBottom: toSize(16) }}>
@@ -30,44 +48,59 @@ const CourseListView = ({ folder, course }) => {
         onPress={() => setClick(click === false ? true : false)}
         style={styles.ListView}
       >
-        {(click && (
-          <FontAwesome name="folder-open" size={20} color="#71727A" />
-        )) || <FontAwesome name="folder" size={20} color="#71727A" />}
+        {(movefolder && (
+          <FontAwesome name="folder" size={20} color="#71727A" />
+        )) ||
+          (click && (
+            <FontAwesome name="folder-open" size={20} color="#71727A" />
+          )) || <FontAwesome name="folder" size={20} color="#71727A" />}
 
         <View style={styles.textView}>
-          <TextInput
-            value={folder}
-            editable={rename}
-            style={styles.mainText}
-            // ref={refName}
-            placeholder={"Text"}
-            onBlur={() => {
-              setRename(false);
-            }}
-            // autoFocus={true}
-            // returnKeyType="done"
-            // onSubmitEditing={() => refName.current.focus()}
-          />
+          {(movefolder && (
+            <Text style={styles.mainText}>{folder_name}</Text>
+          )) || (
+            <TextInput
+              value={folder_name}
+              editable={rename}
+              style={styles.mainText}
+              placeholder={"Text"}
+              onChangeText={(text) => {
+                setFoldername(text);
+              }}
+              onBlur={() => {
+                setRename(false);
+                partdata.folder = foldername;
+                courselist[index] = partdata;
+                setCourselist(courselist);
+              }}
+            />
+          )}
 
-          <Text style={styles.numText}>{course.length}</Text>
+          <Text style={styles.numText}>{coursedata.length}</Text>
         </View>
-        <SimplePopupMenu
-          items={items}
-          style={styles.button}
-          onSelect={(items) => {
-            onMenuPress(items.id);
-          }}
-          onCancel={() => console.log("onCancel")}
-        >
-          <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
-        </SimplePopupMenu>
+        {movefolder || (
+          <SimplePopupMenu
+            items={items}
+            style={styles.button}
+            onSelect={(items) => {
+              onMenuPress(items.id);
+            }}
+            onCancel={() => console.log("onCancel")}
+          >
+            <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
+          </SimplePopupMenu>
+        )}
       </TouchableOpacity>
       {click === true &&
-        course.map((item, key) => (
+        movefolder === false &&
+        coursedata.map((item, index) => (
           <SecondView
-            course_name={item.course_name}
-            course_info={item.course_info}
-            key={key}
+            courselist={courselist}
+            partcoursedata={item}
+            index={index}
+            setCoursepart={setCoursepart}
+            setMovefolder={setMovefolder}
+            setCourselist={setCourselist}
           />
         ))}
     </View>

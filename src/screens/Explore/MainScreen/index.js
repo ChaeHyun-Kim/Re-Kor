@@ -33,6 +33,7 @@ const ExploreMainScreen = () => {
   const [userName, getUserName] = useState("");
   const placeArray = [
     {
+      spotId: "1",
       place_name: "Petite France",
       region: "Gapyeong",
       keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
@@ -47,6 +48,24 @@ const ExploreMainScreen = () => {
       picture: require("../../../images/place2.png"),
       heart: true,
     },
+
+    {
+      spotId: "2",
+      place_name: "Petite France",
+      region: "Gapyeong",
+      keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
+      place_heart: 120,
+      place_star: 4.5,
+      category: "K-DRAMA",
+      tag: [
+        { tag_name: "#Fun3", tag_category: "A" },
+        { tag_name: "#Theme Parks", tag_category: "C" },
+        { tag_name: "#Fun", tag_category: "B" },
+      ],
+      picture: require("../../../images/place1.png"),
+      heart: false,
+    },
+
   ];
   const arrayNum = placeArray.length;
   const [placeNumber, setPlaceNumber] = useState(0);

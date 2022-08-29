@@ -13,13 +13,42 @@ import { Feather } from "@expo/vector-icons";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import SecondSmallView from "./SecondSmallView";
 import SecondBigView from "./SecondBigView";
-const SecondView = ({ course_name, course_info }) => {
+
+import { useNavigation } from "@react-navigation/native";
+const SecondView = ({
+  courselist, //전체 코스리스트
+  partcoursedata, //한 인덱스 코스 데이터
+  index, //인덱스
+  setCoursepart, //코스 정보 관리
+  setMovefolder,
+  setCourselist,
+}) => {
+  const navigation = useNavigation();
+  const course_name = partcoursedata.course_name;
+  const course_info = partcoursedata.course_info;
+
   const [click, setClick] = useState(false);
   const place = require("../../images/place1.png");
   const items = [
     { id: "move", label: "Move to a different folder" },
     { id: "rename", label: "Rename a course" },
+    { id: "order", label: "change the order" },
   ];
+  const [rename, setRename] = useState(false);
+  const [coursename, setCoursename] = useState(course_name);
+  const onMenuPress = (id) => {
+    if (id === "rename") {
+      setRename(true);
+    } else if (id === "move") {
+      setMovefolder(true);
+      // navigation.navigate("MoveFolder", {
+      //   // Data: courselist,
+      //   setCourselist: setCourselist,
+      // });
+    } else if (id === "order") {
+    }
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -31,16 +60,28 @@ const SecondView = ({ course_name, course_info }) => {
           <AntDesign name="down" size={toSize(12)} color="#8F9098" />
         )) || <AntDesign name="right" size={toSize(12)} color="#8F9098" />}
         <TextInput
-          value={course_name}
-          editable={false}
+          value={coursename}
+          editable={rename}
           style={styles.mainText}
+          placeholder={"Text"}
+          onChangeText={(text) => {
+            setCoursename(text);
+          }}
+          onBlur={() => {
+            setRename(false);
+            partcoursedata.course_name = coursename;
+            courselist[index] = partcoursedata;
+            console.log("코스 전체 데이터:", courselist);
+            setCoursepart(courselist);
+            // setCourselist(data);
+          }}
         />
 
         <SimplePopupMenu
           items={items}
           style={styles.button}
           onSelect={(items) => {
-            // onMenuPress(items.id);
+            onMenuPress(items.id);
           }}
           onCancel={() => console.log("onCancel")}
         >
