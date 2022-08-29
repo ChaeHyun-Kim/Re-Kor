@@ -84,6 +84,10 @@ export const FormStyles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  Row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   checkNickName: {
     width: toSize(84),
     height: toSize(19),
@@ -103,6 +107,5 @@ export const FormStyles = StyleSheet.create({
   hideText: {
     fontWeight: "400",
     fontSize: toSize(12),
-    color: "#FF453A",
   },
 });

@@ -11,7 +11,6 @@ import logo_character from "./images/logo_character.png";
 
 function Loading() {
   const random = Math.floor(Math.random() * 3);
-  console.log(random);
   return (
     <ImageBackground
       source={random === 0 ? lb0 : random === 1 ? lb1 : null}

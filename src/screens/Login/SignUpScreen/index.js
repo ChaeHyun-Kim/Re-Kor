@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 import { toSize } from "../../../globalStyle";
 import ModalView from "../../../components/ModalView";
@@ -15,7 +9,9 @@ import { FormStyles } from "../../../styles/FormView";
 import { Foundation } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import ToastMessage from "../../../components/Modal/Toast";
+import { NicknameCheckAPI } from "../../../api/Login";
+import Country from "../../../components/Login/CountrySelect";
+import { FormJoinAPI } from "../../../api/Login";
 
 const monthNames = [
   "Jan",
@@ -38,32 +34,11 @@ export default function SignUpScreen({ navigation }) {
   const [DB_putBirth, set_putBirth] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [gender, setChangeGender] = useState(0);
+  const [country, setCountry] = useState(null);
+  const [language, setLanguage] = useState("");
   const [checkBox, setChangeCheckBox] = useState(false);
   const [background, setChangeBackGround] = useState(false);
-  const [confirmCheck, setConfirmCheck] = useState(0); // 회원 가입 양식 기입되었는지 확인하는 변수
-
-  useEffect(() => {
-    let check = true;
-    if (nickname === "") {
-      console.log("1");
-      check = false;
-    } else if (DB_putBirth === "") {
-      console.log("2");
-      check = false;
-    } else if (gender === 0) {
-      console.log("3");
-      check = false;
-    }
-
-    check === true ? setConfirmCheck(1) : setConfirmCheck(0);
-
-    console.log("**" + confirmCheck);
-  }, [nickname, DB_putBirth, gender]);
-
-  // console.log(nickname);
-  // console.log(birth);
-  // console.log(gender);
-  // console.log(nickname);
+  const [confirmCheck, setConfirmCheck] = useState("000000");
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
@@ -75,27 +50,62 @@ export default function SignUpScreen({ navigation }) {
     let month = String(date.getMonth()).padStart(2, "0");
     let day = String(date.getDate()).padStart(2, "0");
     setChangeBirth(day + " " + monthNames[date.getMonth()] + " " + year);
-    set_putBirth(year + month + day);
+    set_putBirth(year + "-" + month + "-" + day);
+    changeArray(1);
   };
 
   const ClickCheckBox = () => {
     checkBox == false ? setChangeCheckBox(true) : setChangeCheckBox(false);
   };
 
-  const handleCheckNickName = () => {
-    // if (nickname) setConfirmCheck(1);
-    // else setConfirmCheck(2);
+  const handleCheckNickName = async () => {
+    NicknameCheckAPI(nickname).then((response) => {
+      changeArray(0);
+    });
+  };
+  const changeArray = (index) => {
+    const array = [];
+    for (let i = 0; i < 6; i++) {
+      if (index === i) array.push("1");
+      else array.push(confirmCheck[i]);
+    }
+    setConfirmCheck(array.toString().replace(/,/g, ""));
+  };
+
+  useEffect(() => {
+    if (gender != 0) changeArray(2);
+    if (country != null) changeArray(3);
+    if (language != "") changeArray(4);
+    if (checkBox == true) changeArray(5);
+  }, [gender, country, language, checkBox]);
+
+  const handleSubmit = async () => {
+    if (confirmCheck == 111111) {
+      const userData = {
+        name: nickname,
+        birth: DB_putBirth,
+        gender: gender === 2 ? 0 : 1,
+        country: country.name,
+        language: language === "Korean" ? 0 : 1,
+      };
+      FormJoinAPI(userData).then((response) => {
+        if (response != null) {
+          response === 1 ? navigation.navigate("SelectTagScreen") : null;
+        }
+      });
+    }
   };
 
   return (
     <View style={background === false ? styles.fullscreen : styles.fullOpacity}>
+      <StatusBar style="auto" />
       <View style={styles.container}>
         <Text style={styles.MainText}>Join us</Text>
         <Text style={styles.MainSubText}>Create an account to get started</Text>
-        <ToastMessage
+        {/* <ToastMessage
           visible={confirmCheck}
           setConfirmCheck={setConfirmCheck}
-        />
+        /> */}
         <View style={styles.FormView}>
           <View style={FormStyles.FormOneView}>
             <View style={styles.RowView}>
@@ -106,9 +116,9 @@ export default function SignUpScreen({ navigation }) {
               style={[
                 FormStyles.FormInput,
                 FormStyles.RowView,
-                confirmCheck === 0
+                confirmCheck[0] == 0
                   ? { borderColor: "#8F9098" }
-                  : confirmCheck === 2
+                  : confirmCheck == 2
                   ? { borderColor: "#FF0000" }
                   : { borderColor: "#23A047" },
               ]}
@@ -224,17 +234,17 @@ export default function SignUpScreen({ navigation }) {
             </View>
           </View>
 
-          {/* <ModalView
-            title={"Country"}
-            placeholder={"Country"}
+          <Country
+            country={country}
+            setCountry={setCountry}
             setChangeBackGround={setChangeBackGround}
-          /> */}
+          />
 
-          {/* <ModalView
-            title={"Language"}
-            placeholder={"Language"}
+          <ModalView
+            language={language}
+            setLanguage={setLanguage}
             setChangeBackGround={setChangeBackGround}
-          /> */}
+          />
 
           <TouchableOpacity
             activeOpacity={0.8}
@@ -263,19 +273,18 @@ export default function SignUpScreen({ navigation }) {
         <View
           style={[
             styles.BottomView,
-            confirmCheck
-              ? { backgroundColor: "#FFCC00" }
-              : { borderColor: "#FFCC00", borderWidth: 2 },
+            confirmCheck != "111111"
+              ? { borderColor: "#FFCC00", borderWidth: 2 }
+              : { backgroundColor: "#FFCC00" },
           ]}
         >
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => navigation.navigate("SelectTagScreen")}
-          >
+          <TouchableOpacity activeOpacity={0.8} onPress={handleSubmit}>
             <Text
               style={[
                 styles.BottomButtonText,
-                confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
+                confirmCheck != "111111"
+                  ? { color: "#FFCC00" }
+                  : { color: "#fff" },
               ]}
             >
               Submit

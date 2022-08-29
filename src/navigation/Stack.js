@@ -1,6 +1,7 @@
 import React from "react";
 
 import Login from "../screens/Login/MainScreen/index";
+import CreateAccountScreen from "../screens/Login/CreateAccountScreen";
 import LoginKakaoScreen from "../screens/Login/KakaoScreen";
 import SignUpScreen from "../screens/Login/SignUpScreen/index";
 import SelectTagScreen from "../screens/Login/SelectTagScreen";
@@ -23,6 +24,10 @@ const StackNavigation = () => {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen
+        name="CreateAccountScreen"
+        component={CreateAccountScreen}
+      />
       <Stack.Screen name="LoginKakaoScreen" component={LoginKakaoScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       <Stack.Screen name="SelectTagScreen" component={SelectTagScreen} />
@@ -35,7 +40,6 @@ const StackNavigation = () => {
         component={SelectCategoryScreen}
       />
       <Stack.Screen name="DetailedScreen" component={DetailedScreen} />
-
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CourseList" component={CourseList} />
       <Stack.Screen name="WishList" component={WishList} />

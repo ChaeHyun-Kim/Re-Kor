@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    marginBottom: toSize(27),
     borderRadius: 50,
     padding: toSize(16),
     backgroundColor: "#ffffff",

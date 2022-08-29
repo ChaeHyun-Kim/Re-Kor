@@ -11,9 +11,21 @@ import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import TagForm from "./TagForm";
 import { useNavigation } from "@react-navigation/native";
+import CategoryColorForm from "./CategoryColorForm";
 const place = require("../../../src/images/place1.png");
+import SimplePopupMenu from "react-native-simple-popup-menu";
 
-const PlaceForm = ({ place_name, region, heartScore, starScore, tag }) => {
+const PlaceForm = ({
+  place_name,
+  region,
+  heartScore,
+  starScore,
+  tag,
+  category,
+  menu,
+  items,
+  onClickMenu,
+}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -28,7 +40,18 @@ const PlaceForm = ({ place_name, region, heartScore, starScore, tag }) => {
       <Image style={styles.picture} source={place} />
       <View style={styles.PlaceView}>
         <View style={styles.InfoView}>
-          <Text style={styles.Place_Text}>{place_name}</Text>
+          <View style={styles.rowView}>
+            <Text style={styles.Place_Text}>{place_name}</Text>
+            {menu && (
+              <SimplePopupMenu
+                items={items}
+                onSelect={onClickMenu}
+                onCancel={() => console.log("onCancel")}
+              >
+                <AntDesign name="ellipsis1" size={toSize(22)} color="#D4D6DD" />
+              </SimplePopupMenu>
+            )}
+          </View>
           <Text style={styles.Region_Text}>{region}</Text>
 
           <View style={styles.ScoreView}>
@@ -46,8 +69,19 @@ const PlaceForm = ({ place_name, region, heartScore, starScore, tag }) => {
             <Text style={styles.Score_Text}>{starScore}</Text>
           </View>
         </View>
-
+        {category && <CategoryColorForm category={category} />}
         <View style={styles.tagView}>
+          {/* <FlatList
+            contentContainerStyle={{ alignSelf: "flex-start" }}
+            numColumns={3}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            nestedScrollEnabled={false}
+            data={tag}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item, index }) => <TagForm key={index} tag={item} />}
+            ListEmptyComponent={null}
+          /> */}
           {tag.map((item, index) => {
             return <TagForm key={index} tag={item} />;
           })}
@@ -76,6 +110,10 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 3,
   },
+  rowView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   picture: {
     width: toSize(105),
     height: toSize(124),
@@ -83,11 +121,11 @@ const styles = StyleSheet.create({
   },
   PlaceView: {
     flex: 1,
-    paddingLeft: toSize(12),
+    paddingHorizontal: toSize(12),
     justifyContent: "center",
   },
   InfoView: {
-    marginBottom: toSize(11),
+    marginBottom: toSize(6),
   },
   Place_Text: {
     fontSize: toSize(14),
@@ -114,5 +152,6 @@ const styles = StyleSheet.create({
   },
   tagView: {
     flexDirection: "row",
+    marginTop: toSize(4),
   },
 });

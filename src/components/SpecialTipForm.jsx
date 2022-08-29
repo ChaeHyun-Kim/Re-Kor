@@ -1,16 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import { toSize } from "../globalStyle";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
 import { AntDesign } from "@expo/vector-icons";
+
 const SpecialTipForm = ({ tip }) => {
-  console.log(tip);
   return (
     <View style={styles.TipView}>
-      <AntDesign name="staro" size={16} color="black" />
+      <AntDesign name="staro" size={toSize(16)} color="#000000" />
       <Text style={styles.TipText}>{tip}</Text>
     </View>
   );
@@ -23,11 +18,11 @@ const styles = StyleSheet.create({
     paddingVertical: toSize(3),
     alignItems: "flex-start",
     justifyContent: "flex-start",
+    paddingVertical: toSize(4),
   },
   TipText: {
-    fontSize: toSize(10),
-    width: "90%",
-    backgroundColor: "#FFFFFF",
+    fontSize: toSize(14),
+    fontWeight: "400",
     paddingHorizontal: toSize(5),
     alignItems: "flex-end",
   },

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { toSize } from "../globalStyle";
+import Constants from "expo-constants";
 
 export default function Header({ title }) {
   const navigation = useNavigation();
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     height: toSize(63),
-    marginTop: toSize(44),
+    marginTop: Constants.statusBarHeight,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
