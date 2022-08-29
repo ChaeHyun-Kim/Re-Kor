@@ -9,11 +9,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
@@ -28,48 +24,38 @@ import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 import TagForm from "../../../components/PlaceForm/TagForm";
 
 import { Ionicons } from "@expo/vector-icons";
+import { recommendTourAPI } from "../../../api/Explore";
 
 const ExploreMainScreen = () => {
   const [userName, getUserName] = useState("");
-  const placeArray = [
-    {
-      spotId: "1",
-      place_name: "Petite France",
-      region: "Gapyeong",
-      keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
-      place_heart: 100,
-      place_star: 4.5,
-      category: "K-DRAMA",
-      tags: [
-        // { tag_name: "#Fun3", tag_category: "A" },
-        // { tag_name: "#Theme Parks", tag_category: "C" },
-        // { tag_name: "#Fun", tag_category: "B" },
-      ],
-      picture: require("../../../images/place2.png"),
-      heart: true,
-    },
+  const [placeArray, handlePlaceArray] = useState([]);
+  // const [placeArray, handlePlaceArray] = useState([
+  //   {
+  //     title: "",
+  //     address: [],
+  //     rekorCategory: "",
+  //     rating: 0,
+  //     likeCount: 0,
+  //     tagList: [],
+  //     images: null,
+  //   },
+  // ]);
+  useEffect(() => {
+    handleList();
+  }, []);
 
-    {
-      spotId: "2",
-      place_name: "Petite France",
-      region: "Gapyeong",
-      keyword: ["Fun", "K-Drama", "Fun", "Fun", "Fun"],
-      place_heart: 120,
-      place_star: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Theme Parks", tag_category: "C" },
-        { tag_name: "#Fun", tag_category: "B" },
-      ],
-      picture: require("../../../images/place1.png"),
-      heart: false,
-    },
+  const handleList = async () => {
+    recommendTourAPI().then((response) => {
+      if (response != null) {
+        handlePlaceArray(response);
+        console.log(placeArray);
+      }
+    });
+  };
 
-  ];
   const arrayNum = placeArray.length;
-  const [placeNumber, setPlaceNumber] = useState(0);
   const [ClickHeart, setHeartClick] = useState(placeArray[placeNumber]);
+  const [placeNumber, setPlaceNumber] = useState(0);
   const [HeartShow, setHeartShow] = useState(false);
 
   const getUserData = async () => {
@@ -112,6 +98,8 @@ const ExploreMainScreen = () => {
     setPlaceNumber(placeNumber != arrayNum ? placeNumber + 1 : placeNumber);
   };
 
+  const placeImage = require("../../../images/place1.png");
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -121,7 +109,10 @@ const ExploreMainScreen = () => {
         <View style={styles.recommend_view}>
           <Text style={styles.recommend_title}>Today's recommended place</Text>
           <View style={styles.place_view}>
-            <TouchableOpacity activeOpacity={0.8} onPress={placeUp}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={placeNumber != 0 ? placeUp : null}
+            >
               <Ionicons
                 name="md-chevron-up"
                 size={toSize(30)}
@@ -131,7 +122,13 @@ const ExploreMainScreen = () => {
             <TouchableWithoutFeedback onPress={HandleDoubleTap}>
               <ImageBackground
                 style={styles.picture}
-                source={placeArray[placeNumber].picture}
+                source={
+                  placeArray.length == 0
+                    ? placeImage
+                    : placeArray[placeNumber].images[0] === ""
+                    ? placeImage
+                    : { uri: placeArray[placeNumber].images[0] }
+                }
                 resizeMode="cover"
                 imageStyle={{ borderRadius: toSize(20) }}
               >
@@ -161,16 +158,24 @@ const ExploreMainScreen = () => {
                 <View style={styles.fullView}>
                   <View style={styles.place_information}>
                     <Text style={styles.region_text}>
-                      {placeArray[placeNumber].region}
+                      {placeArray.length != 0
+                        ? placeArray[placeNumber].address.addr1
+                        : ""}
                     </Text>
 
                     <Text style={styles.place_text}>
-                      {placeArray[placeNumber].place_name}
+                      {placeArray.length != 0
+                        ? placeArray[placeNumber].title
+                        : ""}
                     </Text>
 
                     <View style={styles.row}>
                       <CategoryColorForm
-                        category={placeArray[placeNumber].category}
+                        category={
+                          placeArray.length != 0
+                            ? placeArray[placeNumber].rekorCategory
+                            : ""
+                        }
                       />
                       <View style={styles.line} />
                       <AntDesign
@@ -179,7 +184,9 @@ const ExploreMainScreen = () => {
                         color="#FF7272"
                       />
                       <Text style={styles.sub_text}>
-                        {placeArray[placeNumber].place_heart}
+                        {placeArray.length != 0
+                          ? placeArray[placeNumber].likeCount
+                          : 0}
                       </Text>
                       <AntDesign
                         name="star"
@@ -187,19 +194,25 @@ const ExploreMainScreen = () => {
                         color="#FDB600"
                       />
                       <Text style={styles.sub_text}>
-                        {placeArray[placeNumber].place_star}
+                        {placeArray.length != 0
+                          ? placeArray[placeNumber].rating
+                          : 0}
                       </Text>
                     </View>
                     <View style={styles.tagView}>
-                      {placeArray[placeNumber].tags.map((item, index) => {
-                        return <TagForm tag={item} key={index} />;
-                      })}
+                      {placeArray.length != 0 &&
+                        placeArray[placeNumber].tagList.map((item, index) => {
+                          return <TagForm tag={item.tagName} key={index} />;
+                        })}
                     </View>
                   </View>
                 </View>
               </ImageBackground>
             </TouchableWithoutFeedback>
-            <TouchableOpacity activeOpacity={0.8} onPress={placeDown}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={placeNumber != arrayNum - 1 ? placeDown : null}
+            >
               <Ionicons
                 name="md-chevron-down"
                 size={toSize(30)}

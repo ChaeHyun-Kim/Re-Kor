@@ -23,7 +23,6 @@ const SelectCategoryScreen = ({ route }) => {
   ];
 
   useEffect(() => {
-    console.log("**" + menu);
     handleList();
   }, [menu]);
 

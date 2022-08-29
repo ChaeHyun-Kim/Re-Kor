@@ -48,6 +48,7 @@ export const loginAPI = async (phone, password) => {
   if (data.status === "SUCCESS") {
     await AsyncStorage.removeItem("refreshToken");
     await AsyncStorage.removeItem("accessToken");
+    await AsyncStorage.removeItem("userNickName");
     await AsyncStorage.setItem(
       "refreshToken",
       JSON.stringify(data.data[0].refreshToken)
@@ -55,6 +56,10 @@ export const loginAPI = async (phone, password) => {
     await AsyncStorage.setItem(
       "accessToken",
       JSON.stringify(data.data[0].accessToken)
+    );
+    await AsyncStorage.setItem(
+      "userNickName",
+      JSON.stringify(data.data[0].nickName)
     );
   }
   const putValue = data.status === "SUCCESS" ? 1 : 0;

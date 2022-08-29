@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, Text, Image } from "react-native";
 import Header from "../../../components/MyHeader";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -11,7 +12,12 @@ import { AntDesign } from "@expo/vector-icons";
 import SettingView from "../../../components/Explore/SettingView.jsx";
 
 const MyPageScreen = () => {
-  const userInfo = { nickname: "Jenny_Rekor", tag: ["K-Drama", "Fun"] };
+  const [userName, getUserName] = useState("");
+  const getUserData = async () => {
+    const userNickName = await AsyncStorage.getItem("userNickName");
+    getUserName(JSON.parse(userNickName));
+  };
+  getUserData();
   const place = require("../../../images/place1.png");
   return (
     <View style={styles.fullscreen}>
@@ -24,7 +30,7 @@ const MyPageScreen = () => {
             <View style={styles.iconView}>
               <AntDesign name="setting" size={toSize(20)} color="black" />
             </View>
-            <Text style={styles.Nickname}>{userInfo.nickname}</Text>
+            <Text style={styles.Nickname}>{userName}</Text>
           </View>
         </View>
         <View style={styles.settingView}>

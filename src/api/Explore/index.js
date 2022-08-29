@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const uri = "https://kwhcclab.com:20874";
 
-/* 회원가입 정보 중복 확인 */
+/* 관광지 검색하기 */
 export const searchPlaceAPI = async (text) => {
   const userToken = await AsyncStorage.getItem("accessToken");
   const response = await fetch(
@@ -15,6 +15,20 @@ export const searchPlaceAPI = async (text) => {
     }
   );
   const data = await response.json();
-  //   const putValue = data.status === "SUCCESS" ? 1 : 0;
+  return data.data;
+};
+
+/* 추천 관광지 4개 보여주기 */
+export const recommendTourAPI = async () => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/tourspot/recommend", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + JSON.parse(userToken),
+    },
+  });
+  const data = await response.json();
+  console.log(data);
   return data.data;
 };
