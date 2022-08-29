@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 const uri = "https://kwhcclab.com:20874";
 
 /* 회원가입 정보 중복 확인 */
@@ -47,6 +46,8 @@ export const loginAPI = async (phone, password) => {
   const data = await response.json();
 
   if (data.status === "SUCCESS") {
+    await AsyncStorage.removeItem("refreshToken");
+    await AsyncStorage.removeItem("accessToken");
     await AsyncStorage.setItem(
       "refreshToken",
       JSON.stringify(data.data[0].refreshToken)
@@ -89,14 +90,12 @@ export const NicknameCheckAPI = async (name) => {
     }
   );
   const data = await response.json();
-  console.log(data);
   const putValue = data.status === "SUCCESS" ? 1 : 0;
   return putValue;
 };
 
 /* 최초 추가 정보 입력 */
 export const FormJoinAPI = async (userData) => {
-  console.log(userData);
   const userToken = await AsyncStorage.getItem("accessToken");
   const response = await fetch(uri + "/api/user/join", {
     method: "POST",
@@ -109,4 +108,25 @@ export const FormJoinAPI = async (userData) => {
   const data = await response.json();
   const putValue = data.status === "SUCCESS" ? 1 : 0;
   return putValue;
+};
+
+/* Token 재발급 */
+export const refreshTokenAPI = async () => {
+  const userNickName = await AsyncStorage.getItem("userNickName");
+  const accessToken = await AsyncStorage.getItem("accessToken");
+  const refreshToken = await AsyncStorage.getItem("refreshToken");
+
+  if (userNickName != null) {
+    const response = await fetch(uri + "/authapi/refresh", {
+      method: "POST",
+      headers: {
+        "Access-Token": JSON.parse(accessToken),
+        "Refresh-Token": JSON.parse(refreshToken),
+      },
+    });
+    const data = await response.json();
+    const putValue = data.status === "SUCCESS" ? 1 : 0;
+    return putValue;
+  }
+  return false;
 };

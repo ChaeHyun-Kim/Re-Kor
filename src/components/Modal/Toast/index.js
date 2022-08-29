@@ -4,7 +4,7 @@ import { styles } from "./styles";
 import { toSize } from "../../../globalStyle";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-const ToastMessage = ({ visible, handleFunction, title, content }) => {
+const ToastMessage = ({ visible, handleFunction, title, content, fail }) => {
   const popAnim = useRef(new Animated.Value(-500)).current;
 
   useEffect(() => {
@@ -31,7 +31,11 @@ const ToastMessage = ({ visible, handleFunction, title, content }) => {
 
   return (
     <Animated.View
-      style={[styles.toastContainer, { transform: [{ translateY: popAnim }] }]}
+      style={[
+        styles.toastContainer,
+        { transform: [{ translateY: popAnim }] },
+        fail ? { backgroundColor: "#ECFFF2" } : { backgroundColor: "#ECFFF2" },
+      ]}
     >
       <View style={styles.flexRow}>
         <FontAwesome5 name="check-circle" size={toSize(24)} color="#23A047" />

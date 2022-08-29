@@ -20,13 +20,15 @@ const PlaceForm = ({
   region,
   heartScore,
   starScore,
-  tag,
+  tags,
   category,
   menu,
   items,
+  images,
   onClickMenu,
 }) => {
   const navigation = useNavigation();
+  console.log(images[0]);
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -37,11 +39,16 @@ const PlaceForm = ({
       }
       style={styles.CategoryView}
     >
-      <Image style={styles.picture} source={place} />
+      <Image
+        style={styles.picture}
+        source={images[0] ? { uri: images[0] } : place}
+      />
       <View style={styles.PlaceView}>
         <View style={styles.InfoView}>
           <View style={styles.rowView}>
-            <Text style={styles.Place_Text}>{place_name}</Text>
+            <Text numberOfLines={1} style={styles.Place_Text}>
+              {place_name}
+            </Text>
             {menu && (
               <SimplePopupMenu
                 items={items}
@@ -70,20 +77,19 @@ const PlaceForm = ({
           </View>
         </View>
         {category && <CategoryColorForm category={category} />}
+
         <View style={styles.tagView}>
-          {/* <FlatList
-            contentContainerStyle={{ alignSelf: "flex-start" }}
-            numColumns={3}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            nestedScrollEnabled={false}
-            data={tag}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={({ item, index }) => <TagForm key={index} tag={item} />}
-            ListEmptyComponent={null}
-          /> */}
-          {tag.map((item, index) => {
-            return <TagForm key={index} tag={item} />;
+          {tags.map((item, index) => {
+            if (index < 3) {
+              return <TagForm key={index} tag={item.tagName} />;
+            }
+          })}
+        </View>
+        <View style={styles.ScoreView}>
+          {tags.map((item, index) => {
+            if (index >= 3) {
+              return <TagForm key={index} tag={item.tagName} />;
+            }
           })}
         </View>
       </View>

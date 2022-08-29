@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { WithLocalSvg } from "react-native-svg";
@@ -10,99 +10,33 @@ import filter_arrow from "../../../icons/filter_arrow.svg";
 import Category_Header from "../../../components/Category_Header";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import PlaceForm from "../../../components/PlaceForm/PlaceForm";
+import { categoryListAPI } from "../../../api/Category";
 
 const SelectCategoryScreen = ({ route }) => {
-  const { Category } = route.params;
+  const { Category, cat } = route.params;
+  const [Data, getData] = useState([]);
+  const [menu, handleMenu] = useState("Name");
   const items = [
-    { id: "name", label: "Name" },
-    { id: "heart", label: "Likes" },
-    { id: "star", label: "Rates" },
+    { id: "Name", label: "Name" },
+    { id: "Likes", label: "Likes" },
+    { id: "Rates", label: "Rates" },
   ];
-  const arr = [
-    {
-      place_name: "Gapyeong Rail Park1",
-      region: "Gapyeong123",
-      heartscore: 1,
-      starscore: 4.5,
-      category: "K-POP",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-    },
-    {
-      place_name: "Gapyeong1 Rail Park1",
-      region: "Gapyeong1234",
-      heartscore: 1000,
-      starscore: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-    },
-    {
-      place_name: "Gapyeong1 Rail Park1",
-      region: "Gapyeong1234",
-      heartscore: 400,
-      starscore: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun3", tag_category: "B" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-    },
-    {
-      place_name: "Gapyeong1 Rail Park1",
-      region: "Gapyeong1234",
-      heartscore: 400,
-      starscore: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun3", tag_category: "B" },
-        { tag_name: "#Fun32", tag_category: "C" },
-        { tag_name: "#Fun3", tag_category: "B" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-    },
-    {
-      place_name: "Gapyeong1 Rail Park1",
-      region: "Gapyeong1234",
-      heartscore: 400,
-      starscore: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun3", tag_category: "B" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-    },
-    {
-      place_name: "Gapyeong1 Rail Park1",
-      region: "Gapyeong1234",
-      heartscore: 400,
-      starscore: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun3", tag_category: "B" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-    },
-  ];
+
+  useEffect(() => {
+    console.log("**" + menu);
+    handleList();
+  }, [menu]);
+
+  const handleList = async () => {
+    categoryListAPI(cat, menu).then((response) => {
+      if (response != null) {
+        getData(response);
+      }
+    });
+  };
 
   const onMenuPress = (id) => {
-    if (id === "heart") {
-      // 찜 개수 순으로 정렬된 데이터 받아오기
-    } else if (id === "star") {
-      // 별점 순으로 정렬된 데이터 받아오기
-    } else if (id === "name") {
-      // 이름 순으로 정렬된 데이터 받아오기
-    }
-
-    console.log(arr);
+    handleMenu(id);
   };
 
   return (
@@ -110,36 +44,41 @@ const SelectCategoryScreen = ({ route }) => {
       <StatusBar style="auto" />
       <Category_Header title={Category} />
       <View style={styles.MainView}>
-        <ScrollView contentContainerStyle={styles.listView}>
-          <View style={styles.FilterView}>
-            <SimplePopupMenu
-              items={items}
-              style={styles.button}
-              onSelect={(items) => {
-                onMenuPress(items.id);
-              }}
-              onCancel={() => console.log("onCancel")}
-            >
-              <View style={styles.filterMenuView}>
-                <WithLocalSvg asset={filter_arrow} />
-                <Text style={styles.filterMenuText}>Order</Text>
-                <SimpleLineIcons
-                  name="arrow-down"
-                  size={toSize(10)}
-                  color="#C5C6CC"
-                />
-              </View>
-            </SimplePopupMenu>
-          </View>
-          {arr.map((item, index) => {
+        <ScrollView
+          contentContainerStyle={styles.listView}
+          nestedScrollEnabled={true}
+        >
+          {Data.length != 0 && (
+            <View style={styles.FilterView}>
+              <SimplePopupMenu
+                items={items}
+                style={styles.button}
+                onSelect={(items) => {
+                  onMenuPress(items.id);
+                }}
+                onCancel={() => console.log("onCancel")}
+              >
+                <View style={styles.filterMenuView}>
+                  <WithLocalSvg asset={filter_arrow} />
+                  <Text style={styles.filterMenuText}>{menu}</Text>
+                  <SimpleLineIcons
+                    name="arrow-down"
+                    size={toSize(10)}
+                    color="#C5C6CC"
+                  />
+                </View>
+              </SimplePopupMenu>
+            </View>
+          )}
+          {Data.map((item, index) => {
             return (
               <PlaceForm
-                place_name={item.place_name}
-                region={item.region}
-                heartScore={item.heartscore}
-                starScore={item.starscore}
-                category={item.category}
-                tag={item.tag}
+                place_name={item.title}
+                region={item.address.addr1}
+                heartScore={item.likeCount}
+                starScore={item.rating}
+                tags={item.tags}
+                images={item.images}
                 key={index}
               />
             );
@@ -189,7 +128,6 @@ const styles = StyleSheet.create({
   listView: {
     backgroundColor: "#fff",
     paddingHorizontal: responsiveScreenWidth(5),
-    flexGrow: 1,
     width: "100%",
   },
 });
