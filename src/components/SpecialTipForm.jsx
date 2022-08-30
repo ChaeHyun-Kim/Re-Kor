@@ -2,11 +2,12 @@ import { StyleSheet, Text, View } from "react-native";
 import { toSize } from "../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 
-const SpecialTipForm = ({ tip }) => {
+const SpecialTipForm = ({ infoName, infoText }) => {
   return (
     <View style={styles.TipView}>
       <AntDesign name="staro" size={toSize(16)} color="#000000" />
-      <Text style={styles.TipText}>{tip}</Text>
+      <Text style={styles.TipText}>{`$infoName : `}</Text>
+      <Text style={styles.TipText}>{infoText}</Text>
     </View>
   );
 };

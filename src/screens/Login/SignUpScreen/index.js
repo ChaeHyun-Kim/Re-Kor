@@ -62,15 +62,19 @@ export default function SignUpScreen({ navigation }) {
   };
 
   const handleCheckNickName = async () => {
-    NicknameCheckAPI(nickname).then((response) => {
-      if (response === 1) {
-        changeArray(0);
-        setConfirmNickName(1);
-      } else {
-        setConfirmNickName(0);
-        Alert.alert("nickname overlap");
-      }
-    });
+    NicknameCheckAPI(nickname)
+      .then((response) => {
+        if (response === 1) {
+          changeArray(0);
+          setConfirmNickName(1);
+        } else {
+          setConfirmNickName(0);
+          Alert.alert("nickname overlap");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const changeArray = (index) => {
     const array = [];
@@ -97,16 +101,20 @@ export default function SignUpScreen({ navigation }) {
         country: country.name,
         language: language === "Korean" ? 0 : 1,
       };
-      FormJoinAPI(userData).then((response) => {
-        if (response != null) {
-          if (response === 1) {
-            AsyncStorage.setItem("userNickName", JSON.stringify(nickname));
-            navigation.navigate("SelectTagScreen");
-          } else Alert.alert("login fail");
-        } else {
-          Alert.alert("login fail");
-        }
-      });
+      FormJoinAPI(userData)
+        .then((response) => {
+          if (response != null) {
+            if (response === 1) {
+              AsyncStorage.setItem("userNickName", JSON.stringify(nickname));
+              navigation.navigate("SelectTagScreen");
+            } else Alert.alert("login fail");
+          } else {
+            Alert.alert("login fail");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 

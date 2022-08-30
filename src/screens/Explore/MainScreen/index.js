@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -10,61 +11,62 @@ import {
   Image,
 } from "react-native";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Header from "../../../components/Header";
-import Bottom from "../../../components/Bottom";
+
+import { Ionicons } from "@expo/vector-icons";
 import { WithLocalSvg } from "react-native-svg";
 import { AntDesign } from "@expo/vector-icons";
 
-import no_heart from "../../../icons/icon_NoHeart.svg";
-import heart from "../../../icons/icon_Heart.svg";
 import { toSize } from "../../../globalStyle";
+import { recommendTourAPI } from "../../../api/Explore";
+
+import Header from "../../../components/Header";
+import Bottom from "../../../components/Bottom";
 import UserInfo from "../../../components/Explore/UserInfo";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 import TagForm from "../../../components/PlaceForm/TagForm";
 
-import { Ionicons } from "@expo/vector-icons";
-import { recommendTourAPI } from "../../../api/Explore";
+import no_heart from "../../../icons/icon_NoHeart.svg";
+import heart from "../../../icons/icon_Heart.svg";
 
 const ExploreMainScreen = () => {
   const [userName, getUserName] = useState("");
   const [placeArray, handlePlaceArray] = useState([]);
-  // const [placeArray, handlePlaceArray] = useState([
-  //   {
-  //     title: "",
-  //     address: [],
-  //     rekorCategory: "",
-  //     rating: 0,
-  //     likeCount: 0,
-  //     tagList: [],
-  //     images: null,
-  //   },
-  // ]);
-  useEffect(() => {
-    handleList();
-  }, []);
-
-  const handleList = async () => {
-    recommendTourAPI().then((response) => {
-      if (response != null) {
-        handlePlaceArray(response);
-        console.log(placeArray);
-      }
-    });
-  };
-
-  const arrayNum = placeArray.length;
-  const [ClickHeart, setHeartClick] = useState(placeArray[placeNumber]);
+  const [ClickHeart, setHeartClick] = useState(false);
   const [placeNumber, setPlaceNumber] = useState(0);
   const [HeartShow, setHeartShow] = useState(false);
 
+  const arrayNum = placeArray.length;
+  const HomeBack = require("../../../icons/ic_homeBack.png");
+  const placeImage = require("../../../images/place1.png");
+
+  /*추천 관광지 API 불러오기 */
+  const handleList = async () => {
+    recommendTourAPI()
+      .then((response) => {
+        if (response != null) {
+          handlePlaceArray(response);
+          setHeartClick(
+            placeArray[placeNumber]?.isInWishList
+              ? placeArray[placeNumber].isInWishList
+              : false
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  /*유저 닉네임 */
   const getUserData = async () => {
     const userNickName = await AsyncStorage.getItem("userNickName");
     getUserName(JSON.parse(userNickName));
   };
   getUserData();
 
-  const HomeBack = require("../../../icons/ic_homeBack.png");
+  useEffect(() => {
+    handleList();
+  }, []);
 
   const heartClick = () => {
     setHeartClick(ClickHeart == false ? true : false);
@@ -97,8 +99,6 @@ const ExploreMainScreen = () => {
   const placeDown = () => {
     setPlaceNumber(placeNumber != arrayNum ? placeNumber + 1 : placeNumber);
   };
-
-  const placeImage = require("../../../images/place1.png");
 
   return (
     <View style={styles.container}>
@@ -201,7 +201,7 @@ const ExploreMainScreen = () => {
                     </View>
                     <View style={styles.tagView}>
                       {placeArray.length != 0 &&
-                        placeArray[placeNumber].tagList.map((item, index) => {
+                        placeArray[placeNumber].tags.map((item, index) => {
                           return <TagForm tag={item.tagName} key={index} />;
                         })}
                     </View>

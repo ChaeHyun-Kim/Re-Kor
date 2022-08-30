@@ -17,7 +17,9 @@ export const categoryListAPI = async (cat, menu) => {
   const data = await response.json();
   return data.data;
 };
-export const detailedinfoAPI = async (spotId) => {
+
+/* 관광지 상세 정보 불러오기 */
+export const detailedInfoAPI = async (spotId) => {
   const userToken = await AsyncStorage.getItem("accessToken");
   const response = await fetch(uri + "/api/tourspot/detail/" + spotId, {
     method: "GET",
@@ -26,6 +28,7 @@ export const detailedinfoAPI = async (spotId) => {
       Authorization: "Bearer " + JSON.parse(userToken),
     },
   });
+
   const data = await response.json();
   return data.data;
 };

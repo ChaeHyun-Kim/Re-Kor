@@ -41,11 +41,15 @@ const LoginMainScreen = () => {
     if (phone != 0 && password != "") {
       loginAPI(phone, password).then((response) => {
         if (response === 1) {
-          formCheckAPI().then((res) => {
-            res === 1
-              ? navigation.navigate("Explore")
-              : navigation.navigate("SignUpScreen");
-          });
+          formCheckAPI()
+            .then((res) => {
+              res === 1
+                ? navigation.navigate("Explore")
+                : navigation.navigate("SignUpScreen");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         } else {
           handelFailLogin(1);
         }

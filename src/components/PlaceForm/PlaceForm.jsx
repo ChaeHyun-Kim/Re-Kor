@@ -16,6 +16,8 @@ const place = require("../../../src/images/place1.png");
 import SimplePopupMenu from "react-native-simple-popup-menu";
 
 const PlaceForm = ({
+  id,
+  data,
   place_name,
   region,
   heartScore,
@@ -28,13 +30,13 @@ const PlaceForm = ({
   onClickMenu,
 }) => {
   const navigation = useNavigation();
-  console.log(images[0]);
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() =>
         navigation.navigate("DetailedScreen", {
-          Content_ID: "관광지의 Content_ID",
+          Content_ID: id,
+          data: data,
         })
       }
       style={styles.CategoryView}

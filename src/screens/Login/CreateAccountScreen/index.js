@@ -36,19 +36,27 @@ export default function CreateAccountScreen() {
 
   const handleCheckPhone = async () => {
     if (isNaN(phone) === false && (phone.length == 10 || phone.length == 11)) {
-      phoneCheckAPI(phone).then((response) => {
-        setConfirmCheckPhone(response);
-      });
+      phoneCheckAPI(phone)
+        .then((response) => {
+          setConfirmCheckPhone(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else setConfirmCheckPhone(0);
   };
 
   const handleSignUp = async () => {
     if (confirmCheck === 1) {
-      signUpAPI(phone, password).then((response) => {
-        if (response != null) {
-          response === 1 ? navigation.navigate("Login") : null;
-        }
-      });
+      signUpAPI(phone, password)
+        .then((response) => {
+          if (response != null) {
+            response === 1 ? navigation.navigate("Login") : null;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 

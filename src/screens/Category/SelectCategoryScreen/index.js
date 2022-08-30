@@ -27,11 +27,15 @@ const SelectCategoryScreen = ({ route }) => {
   }, [menu]);
 
   const handleList = async () => {
-    categoryListAPI(cat, menu).then((response) => {
-      if (response != null) {
-        getData(response);
-      }
-    });
+    categoryListAPI(cat, menu)
+      .then((response) => {
+        if (response != null) {
+          getData(response);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const onMenuPress = (id) => {
@@ -72,12 +76,14 @@ const SelectCategoryScreen = ({ route }) => {
           {Data.map((item, index) => {
             return (
               <PlaceForm
+                data={item}
                 place_name={item.title}
                 region={item.address.addr1}
                 heartScore={item.likeCount}
                 starScore={item.rating}
                 tags={item.tags}
                 images={item.images}
+                id={item.spotId.id}
                 key={index}
               />
             );
