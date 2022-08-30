@@ -7,12 +7,9 @@ const FolderView = ({
   courselist,
   folder_name,
   index,
-  confirmCheck,
-  setConfirmCheck,
   isSelected,
   handleClick,
 }) => {
-  const [confirm, setConfirm] = useState(false);
   const checkfunc = () => {
     handleClick(index);
   };

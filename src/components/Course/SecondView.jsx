@@ -16,9 +16,11 @@ import SecondBigView from "./SecondBigView";
 
 import { useNavigation } from "@react-navigation/native";
 const SecondView = ({
+  partdata,
   courselist, //전체 코스리스트
   partcoursedata, //한 인덱스 코스 데이터
-  index, //인덱스
+  folderindex,
+  courseindex, //인덱스
   setCoursepart, //코스 정보 관리
   setCourselist,
 }) => {
@@ -39,8 +41,16 @@ const SecondView = ({
     if (id === "rename") {
       setRename(true);
     } else if (id === "move") {
-      navigation.navigate("MoveFolder");
+      navigation.navigate("MoveFolder", {
+        Folderindex: folderindex,
+        Courseindex: courseindex,
+      });
     } else if (id === "order") {
+      navigation.navigate("MoveCourseOrder", {
+        Folderdata: partdata,
+        Folderindex: folderindex,
+        Courseindex: courseindex,
+      });
     }
   };
 
@@ -65,7 +75,7 @@ const SecondView = ({
           onBlur={() => {
             setRename(false);
             partcoursedata.course_name = coursename;
-            courselist[index] = partcoursedata;
+            courselist[courseindex] = partcoursedata;
             console.log("코스 전체 데이터:", courselist);
             setCoursepart(courselist);
             // setCourselist(data);
