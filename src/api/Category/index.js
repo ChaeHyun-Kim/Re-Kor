@@ -17,3 +17,15 @@ export const categoryListAPI = async (cat, menu) => {
   const data = await response.json();
   return data.data;
 };
+export const detailedinfoAPI = async (spotId) => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/tourspot/detail/" + spotId, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + JSON.parse(userToken),
+    },
+  });
+  const data = await response.json();
+  return data.data;
+};

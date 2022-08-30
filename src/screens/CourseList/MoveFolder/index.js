@@ -9,13 +9,15 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MoveFolder = ({ route }) => {
+  const courseindex = route.params.Courseindex;
+  const folderindex = route.params.Folderindex;
   //  courselist async로 get함
   const courselist = [
     {
       folder: "Recent travel courses",
       course: [
         {
-          course_name: "My First Trip",
+          course_name: "이것이 맨 뒤로 갈 것이야!",
           course_info: [
             {
               place_name: "Gapyeong Rail Park1",
@@ -45,7 +47,7 @@ const MoveFolder = ({ route }) => {
           ],
         },
         {
-          course_name: "My Second Trip",
+          course_name: "얘가 첫번째로 올 것이야!",
           course_info: [
             {
               place_name: "Gapyeong Rail Park1",
@@ -67,7 +69,7 @@ const MoveFolder = ({ route }) => {
       folder: "My Trip in Korea~",
       course: [
         {
-          course_name: "My First Trip",
+          course_name: "얘 뒤에 붙어!",
           course_info: [
             {
               place_name: "Gapyeong Rail Park1",
@@ -104,14 +106,22 @@ const MoveFolder = ({ route }) => {
   const handleClick = (index) => {
     const newArr = Array(courselist.length).fill(false);
     newArr[index] = true;
+    setSelectindex(index);
     setOnlyone(newArr);
     setConfirmCheck(true);
-    console.log(index);
-    // 해당 인덱스의 폴더의 가장 마지막에... push / concat
   };
+  const [selectindex, setSelectindex] = useState(-1);
+  const handleSelect = () => {
+    const moveCourse = courselist[folderindex].course[courseindex];
+    courselist[folderindex].course.splice(courseindex, 1);
+    courselist[selectindex].course.push(moveCourse);
+    // 코스 리스트를 setItem
+    console.log("여기봐!!", courselist);
+    navigation.navigate("CourseList");
+  };
+
   const navigation = useNavigation();
   const [confirmCheck, setConfirmCheck] = useState(false);
-  //   console.log("폴더 이동:  ", courselist);
 
   return (
     <View style={styles.container}>
@@ -124,8 +134,6 @@ const MoveFolder = ({ route }) => {
               courselist={courselist}
               folder_name={item.folder}
               index={index}
-              confirmCheck={confirmCheck}
-              setConfirmCheck={setConfirmCheck}
               isSelected={onlyone[index]}
               handleClick={handleClick}
             />
@@ -143,7 +151,7 @@ const MoveFolder = ({ route }) => {
               : { borderColor: "#FFCC00", borderWidth: 2 },
           ]}
           onPress={() => {
-            confirmCheck && navigation.navigate("CourseList");
+            confirmCheck && handleSelect();
           }}
         >
           <Text

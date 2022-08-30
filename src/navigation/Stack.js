@@ -9,7 +9,7 @@ import Explore from "../screens/Explore/MainScreen/index";
 import Categories from "../screens/Category/MainScreen/index";
 import CourseList from "../screens/CourseList/MainScreen/index";
 import MoveFolder from "../screens/CourseList/MoveFolder/index";
-// import MoveCourseOrder from "../screens/CourseList/MoveCourseOrder/index";
+import MoveCourseOrder from "../screens/CourseList/MoveCourseOrder/index";
 import WishList from "../screens/WishList/MainScreen";
 import MakeCourse from "../screens/MakeCourse/MainScreen";
 import SearchTravelScreen from "../screens/Explore/SearchTravelScreen/index";
@@ -45,7 +45,7 @@ const StackNavigation = () => {
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CourseList" component={CourseList} />
       <Stack.Screen name="MoveFolder" component={MoveFolder} />
-      {/* <Stack.Screen name="MoveCourseOrder" component={MoveCourseOrder} /> */}
+      <Stack.Screen name="MoveCourseOrder" component={MoveCourseOrder} />
       <Stack.Screen name="WishList" component={WishList} />
       <Stack.Screen name="MakeCourse" component={MakeCourse} />
     </Stack.Navigator>

@@ -144,7 +144,8 @@ const CourseListMainScreen = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" /><Header Title={"CourseList"} />
+      <StatusBar style="auto" />
+      <Header Title={"CourseList"} />
       <AutoScrollView
         style={styles.MainView}
         onScrollEndDrag={() => {
@@ -158,7 +159,7 @@ const CourseListMainScreen = () => {
             <ListView
               courselist={courselist}
               partdata={item}
-              index={index}
+              folderindex={index}
               setCourselist={setCourselist}
             />
           );
@@ -166,25 +167,24 @@ const CourseListMainScreen = () => {
         <View style={{ height: toSize(50) }}></View>
       </AutoScrollView>
 
-      
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => {
-            setCourselist(courselist.concat(emptyfolder));
-          }}
-        >
-          <WithLocalSvg
-            style={{
-              fontSize: toSize(60),
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => {
+          setCourselist(courselist.concat(emptyfolder));
+        }}
+      >
+        <WithLocalSvg
+          style={{
+            fontSize: toSize(60),
 
-              position: "absolute",
-              bottom: toSize(28),
-              right: toSize(23),
-            }}
-            asset={folder}
-          />
-        </TouchableOpacity>
-   <Bottom num={3} />
+            position: "absolute",
+            bottom: toSize(28),
+            right: toSize(23),
+          }}
+          asset={folder}
+        />
+      </TouchableOpacity>
+      <Bottom num={3} />
     </View>
   );
 };

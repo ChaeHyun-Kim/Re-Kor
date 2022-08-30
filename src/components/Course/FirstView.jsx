@@ -15,7 +15,7 @@ import { FontAwesome } from "@expo/vector-icons";
 const CourseListView = ({
   courselist, //전체 데이터
   partdata, // 한 인덱스 데이터
-  index, //인덱스
+  folderindex, //인덱스
   setCourselist, //코스 리스트 관리하는 함수
 }) => {
   const folder_name = partdata.folder;
@@ -35,7 +35,7 @@ const CourseListView = ({
     //   console.log("코스 리스트 저장 완료", courselist);
     // });
     partdata.course = coursepart;
-    courselist[index] = partdata;
+    courselist[folderindex] = partdata;
     setCourselist(courselist);
   }, [coursepart]);
 
@@ -62,7 +62,7 @@ const CourseListView = ({
             onBlur={() => {
               setRename(false);
               partdata.folder = foldername;
-              courselist[index] = partdata;
+              courselist[folderindex] = partdata;
               setCourselist(courselist);
             }}
           />
@@ -83,9 +83,11 @@ const CourseListView = ({
       {click === true &&
         coursedata.map((item, index) => (
           <SecondView
+            partdata={partdata}
+            folderindex={folderindex}
             courselist={courselist}
             partcoursedata={item}
-            index={index}
+            courseindex={index}
             setCoursepart={setCoursepart}
             setCourselist={setCourselist}
           />

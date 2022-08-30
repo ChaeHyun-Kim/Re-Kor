@@ -26,8 +26,10 @@ import { refreshTokenAPI } from "../../../api/Login";
 
 const LoginMainScreen = () => {
   const navigation = useNavigation();
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("12312312312");
+  const [password, setPassword] = useState("123");
   const [failLogin, handelFailLogin] = useState();
 
   useEffect(() => {
@@ -110,11 +112,15 @@ const LoginMainScreen = () => {
 
             <Text style={styles.forgotPW}>Forgot password?</Text>
 
-            <View style={styles.LoginView}>
-              <TouchableOpacity activeOpacity={0.8} onPress={handleLogin}>
-                <Text style={styles.BottomButtonText}>Login</Text>
-              </TouchableOpacity>
-            </View>
+            {/* <View style={styles.LoginView}> */}
+            <TouchableOpacity
+              style={styles.LoginView}
+              activeOpacity={0.8}
+              onPress={handleLogin}
+            >
+              <Text style={styles.BottomButtonText}>Login</Text>
+            </TouchableOpacity>
+            {/* </View> */}
 
             <View style={[FormStyles.Row, { justifyContent: "center" }]}>
               <Text style={styles.subText}>Not a member? </Text>
