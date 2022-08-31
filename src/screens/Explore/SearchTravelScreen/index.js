@@ -26,12 +26,16 @@ const SearchTravelScreen = () => {
     if (search.length <= 2) {
       Alert.alert("2자 이상 입력해주세요.");
     } else {
-      searchPlaceAPI(search).then((response) => {
-        if (response != null) {
-          getSearchData(response);
-          handelShowPlace(false);
-        }
-      });
+      searchPlaceAPI(search)
+        .then((response) => {
+          if (response != null) {
+            getSearchData(response);
+            handelShowPlace(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
   return (
@@ -62,7 +66,6 @@ const SearchTravelScreen = () => {
             {searchData.map((item, index) => {
               return (
                 <PlaceForm
-                
                   place_name={item.title}
                   region={item.address.addr1}
                   category={item.rekorCategory}

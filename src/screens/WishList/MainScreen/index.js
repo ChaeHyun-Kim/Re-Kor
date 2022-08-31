@@ -22,11 +22,15 @@ const WishListMainScreen = () => {
   }, []);
 
   const handleWishList = async () => {
-    wishListAPI().then((response) => {
-      if (response != null) {
-        getData(response);
-      }
-    });
+    wishListAPI()
+      .then((response) => {
+        if (response != null) {
+          getData(response);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
