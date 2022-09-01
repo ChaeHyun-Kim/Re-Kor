@@ -72,6 +72,7 @@ const SearchTravelScreen = () => {
                   heartScore={item.likeCount}
                   starScore={item.rating}
                   tags={item.tags}
+                  images={item.images}
                   key={index}
                   // onClickMenu={onClickMenu}
                 />

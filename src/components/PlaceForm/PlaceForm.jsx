@@ -30,15 +30,16 @@ const PlaceForm = ({
   onClickMenu,
 }) => {
   const navigation = useNavigation();
+  console.log(images);
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() =>
-        navigation.navigate("DetailedScreen", {
-          Content_ID: id,
-          data: data,
-        })
-      }
+      // onPress={() =>
+      //   navigation.navigate("DetailedScreen", {
+      //     Content_ID: id,
+      //     data: data,
+      //   })
+      // }
       style={styles.CategoryView}
     >
       <Image

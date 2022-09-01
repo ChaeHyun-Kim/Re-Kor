@@ -66,14 +66,14 @@ const PlaceList = ({
       <TouchableOpacity
         activeOpacity={screentype === "complete" ? 0.8 : 1}
         style={styles.CategoryView}
-        onPress={
-          screentype === "complete"
-            ? () =>
-                navigation.navigate("DetailedScreen", {
-                  Content_ID: "관광지의 Content_ID",
-                })
-            : null
-        }
+        // onPress={
+        //   screentype === "complete"
+        //     ? () =>
+        //         navigation.navigate("DetailedScreen", {
+        //           Content_ID: "관광지의 Content_ID",
+        //         })
+        //     : null
+        // }
       >
         <View
           style={{
@@ -193,11 +193,11 @@ const PlaceList = ({
             <TouchableOpacity
               activeOpacity={0.8}
               // style={styles.CategoryView}
-              onPress={() =>
-                navigation.navigate("DetailedScreen", {
-                  Content_ID: "관광지의 Content_ID",
-                })
-              }
+              // onPress={() =>
+              //   navigation.navigate("DetailedScreen", {
+              //     Content_ID: "관광지의 Content_ID",
+              //   })
+              // }
             >
               <MaterialCommunityIcons
                 name="information"
