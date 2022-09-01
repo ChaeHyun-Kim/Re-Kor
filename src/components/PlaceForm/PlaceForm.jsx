@@ -30,73 +30,80 @@ const PlaceForm = ({
   onClickMenu,
 }) => {
   const navigation = useNavigation();
-  console.log(images);
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      // onPress={() =>
-      //   navigation.navigate("DetailedScreen", {
-      //     Content_ID: id,
-      //     data: data,
-      //   })
-      // }
-      style={styles.CategoryView}
-    >
-      <Image
-        style={styles.picture}
-        source={images[0] ? { uri: images[0] } : place}
-      />
-      <View style={styles.PlaceView}>
-        <View style={styles.InfoView}>
-          <View style={styles.rowView}>
-            <Text numberOfLines={1} style={styles.Place_Text}>
-              {place_name}
-            </Text>
-            {menu && (
-              <SimplePopupMenu
-                items={items}
-                onSelect={onClickMenu}
-                onCancel={() => console.log("onCancel")}
-              >
-                <AntDesign name="ellipsis1" size={toSize(22)} color="#D4D6DD" />
-              </SimplePopupMenu>
-            )}
-          </View>
-          <Text style={styles.Region_Text}>{region}</Text>
+    <>
+      {place_name !== "" && (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() =>
+            navigation.navigate("DetailedScreen", {
+              Content_ID: id,
+            })
+          }
+          style={styles.CategoryView}
+        >
+          <Image
+            style={styles.picture}
+            source={images[0] ? { uri: images[0] } : place}
+          />
+          <View style={styles.PlaceView}>
+            <View style={styles.InfoView}>
+              <View style={styles.rowView}>
+                <Text numberOfLines={1} style={styles.Place_Text}>
+                  {place_name}
+                </Text>
+                {menu && (
+                  <SimplePopupMenu
+                    items={items}
+                    onSelect={onClickMenu}
+                    onCancel={() => console.log("onCancel")}
+                  >
+                    <AntDesign
+                      name="ellipsis1"
+                      size={toSize(22)}
+                      color="#D4D6DD"
+                    />
+                  </SimplePopupMenu>
+                )}
+              </View>
+              <Text style={styles.Region_Text}>{region.split(" ")[1]}</Text>
 
-          <View style={styles.ScoreView}>
-            <AntDesign
-              name="heart"
-              style={{ fontSize: toSize(13) }}
-              color="#FF7272"
-            />
-            <Text style={styles.Score_Text}>{heartScore}</Text>
-            <AntDesign
-              name="star"
-              style={{ fontSize: toSize(13) }}
-              color="#FDB600"
-            />
-            <Text style={styles.Score_Text}>{starScore}</Text>
-          </View>
-        </View>
-        {category && <CategoryColorForm category={category} />}
+              <View style={styles.ScoreView}>
+                <AntDesign
+                  name="heart"
+                  style={{ fontSize: toSize(13) }}
+                  color="#FF7272"
+                />
+                <Text style={styles.Score_Text}>{heartScore}</Text>
+                <AntDesign
+                  name="star"
+                  style={{ fontSize: toSize(13) }}
+                  color="#FDB600"
+                />
+                <Text style={styles.Score_Text}>{starScore}</Text>
+              </View>
+            </View>
+            {category && <CategoryColorForm category={category} />}
 
-        <View style={styles.tagView}>
-          {tags.map((item, index) => {
-            if (index < 3) {
-              return <TagForm key={index} tag={item.tagName} />;
-            }
-          })}
-        </View>
-        <View style={styles.ScoreView}>
-          {tags.map((item, index) => {
-            if (index >= 3) {
-              return <TagForm key={index} tag={item.tagName} />;
-            }
-          })}
-        </View>
-      </View>
-    </TouchableOpacity>
+            <View style={styles.tagView}>
+              {tags.map((item, index) => {
+                if (index < 3) {
+                  return <TagForm key={index} tag={item.tagName} />;
+                }
+              })}
+            </View>
+            <View style={styles.ScoreView}>
+              {tags.map((item, index) => {
+                if (index >= 3) {
+                  return <TagForm key={index} tag={item.tagName} />;
+                }
+              })}
+            </View>
+          </View>
+        </TouchableOpacity>
+      )}
+    </>
   );
 };
 export default PlaceForm;

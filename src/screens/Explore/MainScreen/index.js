@@ -159,7 +159,7 @@ const ExploreMainScreen = () => {
                   <View style={styles.place_information}>
                     <Text style={styles.region_text}>
                       {placeArray.length != 0
-                        ? placeArray[placeNumber].address.addr1
+                        ? placeArray[placeNumber].address.addr1.split(" ")[1]
                         : ""}
                     </Text>
 

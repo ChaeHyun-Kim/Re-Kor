@@ -6,7 +6,9 @@ const SpecialTipForm = ({ infoName, infoText }) => {
   return (
     <View style={styles.TipView}>
       <AntDesign name="staro" size={toSize(16)} color="#000000" />
-      <Text style={styles.TipText}>{`$infoName : `}</Text>
+      <Text style={[styles.TipText, { paddingHorizontal: toSize(5) }]}>
+        {infoName}:
+      </Text>
       <Text style={styles.TipText}>{infoText}</Text>
     </View>
   );
@@ -22,9 +24,8 @@ const styles = StyleSheet.create({
     paddingVertical: toSize(4),
   },
   TipText: {
-    fontSize: toSize(14),
+    fontSize: toSize(13),
     fontWeight: "400",
-    paddingHorizontal: toSize(5),
     alignItems: "flex-end",
   },
 });

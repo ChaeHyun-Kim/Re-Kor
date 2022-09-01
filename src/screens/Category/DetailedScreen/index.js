@@ -17,9 +17,10 @@ import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 import { detailedInfoAPI } from "../../../api/Category";
 
 import { useNavigation } from "@react-navigation/native";
+
 const DetailedScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { Content_ID, data } = route.params;
+  const { Content_ID } = route.params;
 
   useEffect(() => {
     handleList();
@@ -31,6 +32,21 @@ const DetailedScreen = ({ route }) => {
       .then((response) => {
         if (response != null) {
           getData(response[0]);
+
+          const fixedLocation = {
+            lat: parseFloat(
+              response[0].spotInfo.address.mapx
+                ? response[0].spotInfo.address.mapy
+                : 0
+            ),
+            lng: parseFloat(
+              response[0].spotInfo.address.mapy
+                ? response[0].spotInfo.address.mapx
+                : 0
+            ),
+          };
+          console.log(fixedLocation);
+          setLocation(fixedLocation);
         }
       })
       .catch((error) => {
@@ -56,10 +72,7 @@ const DetailedScreen = ({ route }) => {
     }
   }, [ClickHeart]);
 
-  const fixedLocation = {
-    lat: parseFloat(data.address.mapx ? data.address.mapx : 0),
-    lng: parseFloat(data.address.mapy ? data.address.mapy : 0),
-  };
+  const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
   const [location, setLocation] = useState(fixedLocation);
 
   return (
@@ -69,8 +82,10 @@ const DetailedScreen = ({ route }) => {
       {Data != null && (
         <View style={styles.MainView}>
           <View style={styles.placeInfoView}>
-            <Text style={styles.Place_text}>{data.title}</Text>
-            <Text style={styles.Region_Text}>{data.address.addr1}</Text>
+            <Text style={styles.Place_text}>{Data.spotInfo.title}</Text>
+            <Text style={styles.Region_Text}>
+              {Data.spotInfo.address.addr1.split(" ")[1]}
+            </Text>
 
             <View style={styles.ScoreView}>
               <AntDesign
@@ -78,21 +93,22 @@ const DetailedScreen = ({ route }) => {
                 style={{ fontSize: toSize(16) }}
                 color="#FF7272"
               />
-              <Text style={styles.Score_Text}>{data.likeCount}</Text>
+              <Text style={styles.Score_Text}>{Data.spotInfo.likeCount}</Text>
               <AntDesign
                 name="star"
                 style={{ fontSize: toSize(16) }}
                 color="#FDB600"
               />
-              <Text style={styles.Score_Text}>{data.rating}</Text>
+              <Text style={styles.Score_Text}>{Data.spotInfo.rating}</Text>
             </View>
 
             <View style={styles.CategoryView}>
-              <CategoryColorForm category={data.rekorCategory} />
+              <CategoryColorForm category={Data.spotInfo.rekorCategory} />
               <View style={styles.tagView}>
-                {data.tags.map((item, index) => {
-                  return <TagForm tag={item.tagName} key={index} />;
-                })}
+                {Data.spotInfo.tags &&
+                  Data.spotInfo.tags.map((item, index) => {
+                    return <TagForm tag={item.tagName} key={index} />;
+                  })}
               </View>
             </View>
           </View>
@@ -101,23 +117,21 @@ const DetailedScreen = ({ route }) => {
             contentContainerStyle={{ alignItems: "center" }}
             style={styles.informationView}
           >
-            {Data.imageList.length > 0 && (
+            {Data.imageList && Data.imageList.length > 0 && (
               <View
                 style={{
                   width: "100%",
                   paddingTop: toSize(30),
-                  backgroundColor: "red",
                 }}
               >
                 <ScrollView style={styles.PictureInfoView} horizontal={true}>
-                  <Image style={styles.picture} source={place} />
-                  <Image style={styles.picture} source={place} />
-                  <Image style={styles.picture} source={place} />
-                  {Data.imageList.map((item, index) => {
-                    <Image
-                      style={styles.picture}
-                      source={{ uri: item.smallimageurl }}
-                    />;
+                  {Data.imageList.map((item) => {
+                    return (
+                      <Image
+                        style={styles.picture}
+                        source={{ uri: item.originimgurl }}
+                      />
+                    );
                   })}
                 </ScrollView>
               </View>
@@ -161,7 +175,7 @@ const DetailedScreen = ({ route }) => {
                   numberOfLines={2}
                   ellipsizeMode={"tail"}
                 >
-                  {data.address.addr1}
+                  {Data.spotInfo.address.addr1}
                 </Text>
               </View>
 
@@ -179,17 +193,19 @@ const DetailedScreen = ({ route }) => {
                 </View>
               )}
 
-              <View style={styles.mapInfoView}>
-                <Feather name="home" size={toSize(15)} color="#2F3036" />
-                <Text style={styles.mapInfoText}>HomePage</Text>
-                <Text
-                  style={styles.subInfoText}
-                  numberOfLines={2}
-                  ellipsizeMode={"tail"}
-                >
-                  {Data.commonInfo.homepage}
-                </Text>
-              </View>
+              {Data.commonInfo.homepage !== "" && (
+                <View style={styles.mapInfoView}>
+                  <Feather name="home" size={toSize(15)} color="#2F3036" />
+                  <Text style={styles.mapInfoText}>HomePage</Text>
+                  <Text
+                    style={styles.subInfoText}
+                    numberOfLines={2}
+                    ellipsizeMode={"tail"}
+                  >
+                    {Data.commonInfo.homepage}
+                  </Text>
+                </View>
+              )}
             </View>
 
             <View style={styles.separator} />
@@ -197,23 +213,27 @@ const DetailedScreen = ({ route }) => {
             {Data.detailList != null && (
               <View style={styles.infoView}>
                 <Text style={styles.TipTitleText}>A special Tip!</Text>
-                {Data.detailList.map((item, key) => (
-                  <SpecialTipForm
-                    infoName={item.infoName}
-                    infoText={item.infoText}
-                    key={key}
-                  />
-                ))}
+                {Data.detailList.map((item) => {
+                  return (
+                    <SpecialTipForm
+                      infoName={item.infoname}
+                      infoText={item.infotext}
+                    />
+                  );
+                })}
               </View>
             )}
 
-            <View style={styles.separator} />
-
-            <View style={styles.FinalInfoView}>
-              <Text style={styles.TitleText}>Review</Text>
-            </View>
-            <View style={styles.Bottomborder} />
-            <View style={styles.Topborder} />
+            {Data.reviewList.length > 0 && (
+              <>
+                <View style={styles.separator} />
+                <View style={styles.FinalInfoView}>
+                  <Text style={styles.TitleText}>Review</Text>
+                </View>
+              </>
+            )}
+            {/* <View style={styles.Bottomborder} />
+            <View style={styles.Topborder} /> */}
 
             {Data.reviewList && (
               <View style={styles.recommendInfoView}>
