@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -25,8 +27,11 @@
       },
       "softwareKeyboardLayoutMode": "pan",
       "config": {
-        "googleMaps": { "apiKey": "AIzaSyAewVmLSZSKrljVbur2uZzQYB89hMeVb1U" }
-      }
+        "googleMaps": {
+          "apiKey": "AIzaSyAewVmLSZSKrljVbur2uZzQYB89hMeVb1U"
+        }
+      },
+      "package": "com.suji_chae.ReKor"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

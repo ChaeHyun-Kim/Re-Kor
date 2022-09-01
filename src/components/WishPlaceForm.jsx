@@ -35,11 +35,11 @@ const WishPlaceForm = ({ place_name, region, heartscore, starscore, tag }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() =>
-        navigation.navigate("DetailedScreen", {
-          Content_ID: "관광지의 Content_ID",
-        })
-      }
+      // onPress={() =>
+      //   navigation.navigate("DetailedScreen", {
+      //     Content_ID: "관광지의 Content_ID",
+      //   })
+      // }
       style={styles.CategoryView}
     >
       <Image style={styles.picture} source={place} />

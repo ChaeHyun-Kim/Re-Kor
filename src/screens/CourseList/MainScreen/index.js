@@ -157,6 +157,7 @@ const CourseListMainScreen = () => {
         {courselist.map((item, index) => {
           return (
             <ListView
+              key={index}
               courselist={courselist}
               partdata={item}
               folderindex={index}
