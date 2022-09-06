@@ -23,7 +23,7 @@ export default function Header({ title }) {
         <Ionicons
           name="ios-search"
           style={{ fontSize: toSize(20) }}
-          color="#2F3036"
+          color="#FFFF"
         />
       </View>
     </View>

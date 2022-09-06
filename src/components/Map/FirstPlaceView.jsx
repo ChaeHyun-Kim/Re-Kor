@@ -1,18 +1,22 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { toSize } from "../../globalStyle.js";
-import { Fontisto } from "@expo/vector-icons";
 import { WithLocalSvg } from "react-native-svg";
 
 import ic_map from "../../icons/ic_map.svg";
 
-export default function FirstPlaceView({ SelectView, setSelectView, back }) {
+export default function FirstPlaceView() {
+  const navigation = useNavigation();
+  const handleFirstPlaceClick = () => {
+    navigation.navigate("SelectPlaceScreen");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.line} />
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => setSelectView(back ? SelectView - 1 : SelectView + 1)}
+        onPress={handleFirstPlaceClick}
         style={styles.SelectBtn}
       >
         <WithLocalSvg width={toSize(15)} height={toSize(15)} asset={ic_map} />

@@ -135,3 +135,17 @@ export const refreshTokenAPI = async () => {
   }
   return false;
 };
+
+/*Tag 정보 받아오기 */
+export const getTagAPI = async () => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/tag", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + userToken.slice(1, -1),
+    },
+  });
+  const data = await response.json();
+  return data.data;
+};

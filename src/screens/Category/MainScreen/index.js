@@ -15,14 +15,15 @@ import TitleInfo from "../../../components/common/TitleInfoScreen";
 import { toSize } from "../../../globalStyle";
 
 import { WithLocalSvg } from "react-native-svg";
+
 import landscape from "../../../icons/icon_landscape.svg";
 import culture from "../../../icons/icon_culture.svg";
 import food from "../../../icons/icon_food.svg";
 import shopping from "../../../icons/icon_shopping.svg";
-import pop from "../../../icons/icon_pop.svg";
+import pop from "../../../icons/icon_kpop.svg";
 import drama from "../../../icons/icon_drama.svg";
 import festival from "../../../icons/icon_festival.svg";
-import leisure from "../../../icons/icon_leisure.svg";
+import leisure from "../../../icons/icon_enter.svg";
 
 export default function Categories() {
   const navigation = useNavigation();
@@ -145,7 +146,7 @@ export default function Categories() {
               }
             >
               <WithLocalSvg asset={leisure} />
-              <Text style={styles.Category_text}>K-LEISURE</Text>
+              <Text style={styles.Category_text}>K-ENTERTAINMENT</Text>
             </TouchableOpacity>
           </View>
         </View>

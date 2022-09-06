@@ -1,64 +1,36 @@
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle.js";
-import { Fontisto } from "@expo/vector-icons";
 import PlaceList from "./PlaceList.jsx";
 
 import { useNavigation } from "@react-navigation/native";
-export default function SelectMakeCourse({ SelectView, setSelectView }) {
+export default function SelectMakeCourse({ params, handleInputCheck }) {
   const navigation = useNavigation();
-  const arr = {
-    place_name: "Gapyeong Rail Park1",
-    region: "Gapyeong123",
-    heartscore: 1,
-    starscore: 4.5,
-    category: "K-POP",
-    tag: [
-      { tag_name: "#Fun3", tag_category: "A" },
-      { tag_name: "#Fun32", tag_category: "C" },
-    ],
-    selecttype: "Heart",
-  };
-
-  const handelSelect = () => {
-    setSelectView(SelectView + 1);
+  const handelSelectButton = () => {
+    handleInputCheck(true);
   };
   return (
     <View style={styles.container}>
       <View style={styles.line} />
       <Text style={styles.titleText}>Do you want to select this location?</Text>
-      <PlaceList
-        place_name={arr.place_name}
-        region={arr.region}
-        category={arr.category}
-        tag={arr.tag}
-        num={1}
-        selecttype={arr.selecttype}
-        screentype={"info"}
-        km={1}
-      />
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
+      <PlaceList params={params} num={1} />
+      <View style={styles.buttonView}>
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => {
-            navigation.goBack();
+            navigation.navigate("MakeCourse", { params: [] });
           }}
           style={styles.CancelBtn}
         >
-          <Text style={styles.CancelbtnText}>Cancel</Text>
+          <Text style={styles.CancelBtnText}>Cancel</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           activeOpacity={1}
-          onPress={handelSelect}
+          onPress={handelSelectButton}
           style={styles.SelectBtn}
         >
-          <Text style={styles.SelectbtnText}>Select</Text>
+          <Text style={styles.SelectBtnText}>Select</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -89,6 +61,11 @@ const styles = StyleSheet.create({
     marginTop: toSize(10),
     marginBottom: toSize(28),
   },
+  buttonView: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
+  },
   CancelBtn: {
     marginTop: toSize(26),
     width: toSize(156),
@@ -112,12 +89,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  CancelbtnText: {
+  CancelBtnText: {
     fontWeight: "600",
     fontSize: toSize(12),
     color: "#71727A",
   },
-  SelectbtnText: {
+  SelectBtnText: {
     fontWeight: "600",
     fontSize: toSize(12),
     color: "#FFCC00",

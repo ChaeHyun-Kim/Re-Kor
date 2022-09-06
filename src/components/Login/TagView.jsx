@@ -33,7 +33,7 @@ export default function TagView({ data, clickTagData, changeTagData }) {
           indicatorStyle={{ marginHorizontal: toSize(16) }}
           numColumns={3}
           data={data}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.tagId.id.toString()}
           renderItem={({ item, index }) => (
             <TouchableOpacity onPress={clickTag(index)}>
               <Text
@@ -45,7 +45,7 @@ export default function TagView({ data, clickTagData, changeTagData }) {
                     : { backgroundColor: "#FFCC00", color: "#fff" },
                 ]}
               >
-                {"#" + item.content}
+                {"#" + item.tagName}
               </Text>
             </TouchableOpacity>
           )}

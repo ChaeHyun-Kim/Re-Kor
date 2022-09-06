@@ -1,37 +1,27 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import React from "react";
+import { Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { toSize } from "../../globalStyle";
-import { WithLocalSvg } from "react-native-svg";
-import TagForm from "../PlaceForm/TagForm";
-import heart from "../../icons/heart.svg";
-import star from "../../icons/star.svg";
 import { useNavigation } from "@react-navigation/native";
-const place = require("../../../src/images/place1.png");
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CategoryColorForm from "../PlaceForm/CategoryColorForm";
+import { styles } from "../../styles/PlaceListStyle";
+
+const place = require("../../../src/images/place1.png");
+
 const PlaceList = ({
-  place_name,
-  region,
-  heartScore,
-  starScore,
-  category,
+  params,
   num,
-  selecttype,
-  screentype,
+  screenType,
   km,
+  img,
+  type,
 }) => {
   const navigation = useNavigation();
+  console.log(params);
   return (
     <>
       {km && (
@@ -63,26 +53,19 @@ const PlaceList = ({
           </Text>
         </View>
       )}
+
       <TouchableOpacity
-        activeOpacity={screentype === "complete" ? 0.8 : 1}
+        activeOpacity={screenType === "complete" ? 0.8 : 1}
         style={styles.CategoryView}
-        // onPress={
-        //   screentype === "complete"
-        //     ? () =>
-        //         navigation.navigate("DetailedScreen", {
-        //           Content_ID: "관광지의 Content_ID",
-        //         })
-        //     : null
-        // }
       >
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            marginRight: toSize(9),
-          }}
-        >
-          {screentype === "edit" && (
+        {screenType === "edit" && (
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              marginRight: toSize(12),
+            }}
+          >
             <TouchableOpacity
               TouchableOpacity={0.8}
               onPress={() => {
@@ -109,8 +92,9 @@ const PlaceList = ({
                 style={{ paddingTop: toSize(11) }}
               />
             </TouchableOpacity>
-          )}
-        </View>
+          </View>
+        )}
+
         {num && (
           <View
             style={{
@@ -121,17 +105,17 @@ const PlaceList = ({
           >
             <FontAwesome
               name={
-                selecttype === "Heart"
+                params.type === "wish"
                   ? "heart"
-                  : selecttype === "good"
+                  : params.type === "recommend"
                   ? "thumbs-up"
                   : "eye"
               }
               size={toSize(11)}
               color={
-                selecttype === "Heart"
+                params.type === "wish"
                   ? "#F88E8E"
-                  : selecttype === "good"
+                  : params.type === "recommend"
                   ? "#A593E0"
                   : "#FFFFFF"
               }
@@ -139,9 +123,9 @@ const PlaceList = ({
             <View
               style={[
                 styles.circle,
-                selecttype === "Heart"
+                params.type === "wish"
                   ? { backgroundColor: "#FF7272" }
-                  : selecttype === "good"
+                  : params.type === "recommend"
                   ? { backgroundColor: "#A593E0" }
                   : { backgroundColor: "#A3DAFF" },
               ]}
@@ -154,7 +138,7 @@ const PlaceList = ({
           <Image
             style={[
               styles.picture,
-              screentype === "info"
+              screenType === "info"
                 ? {
                     width: toSize(92),
                     height: toSize(88),
@@ -164,32 +148,17 @@ const PlaceList = ({
                     height: toSize(79),
                   },
             ]}
-            source={place}
+            source={
+              params.img?.uri === undefined ? place : { uri: params.img.uri }
+            }
           />
           <View style={styles.PlaceView}>
-            <Text style={styles.Place_Text}>{place_name}</Text>
+            <Text style={styles.Place_Text}>{params.placeName}</Text>
 
-            <Text style={styles.Region_Text}>{region}</Text>
-            <CategoryColorForm category={category}></CategoryColorForm>
-
-            {heartScore && (
-              <View style={styles.ScoreView}>
-                <AntDesign
-                  name="heart"
-                  style={{ fontSize: toSize(12) }}
-                  color="#FF7272"
-                />
-                <Text style={styles.Score_Text}>{heartScore}</Text>
-                <AntDesign
-                  name="star"
-                  style={{ fontSize: toSize(13) }}
-                  color="#FDB600"
-                />
-                <Text style={styles.Score_Text}>{starScore}</Text>
-              </View>
-            )}
+            <Text style={styles.Region_Text}>{params.addr}</Text>
+            <CategoryColorForm category={params.cat}></CategoryColorForm>
           </View>
-          {screentype === "info" && (
+          {screenType === "info" && (
             <TouchableOpacity
               activeOpacity={0.8}
               // style={styles.CategoryView}
@@ -209,7 +178,7 @@ const PlaceList = ({
           )}
         </View>
 
-        {screentype === "edit" && (
+        {screenType === "edit" && (
           <SimpleLineIcons
             style={{ paddingLeft: toSize(12) }}
             name="menu"
@@ -222,79 +191,3 @@ const PlaceList = ({
   );
 };
 export default PlaceList;
-
-const styles = StyleSheet.create({
-  CategoryView: {
-    width: "100%",
-    // height: toSize(85),
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    paddingVertical: toSize(10),
-    flex: 1,
-  },
-  picture: {
-    borderRadius: 17,
-  },
-  borderView: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "#FFFFFF",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 3,
-    borderRadius: 17,
-  },
-  PlaceView: {
-    flex: 1,
-    marginLeft: toSize(9),
-    justifyContent: "center",
-  },
-  Category_Place_View: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-  },
-  ScoreView: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginVertical: toSize(1),
-  },
-  Place_Text: {
-    fontSize: toSize(14),
-    fontWeight: "800",
-    marginBottom: toSize(1),
-  },
-  Region_Text: {
-    fontSize: toSize(12),
-    color: "#71727A",
-    fontWeight: "400",
-    marginBottom: toSize(11),
-  },
-  Score_Text: {
-    marginLeft: 5,
-    marginRight: 10,
-  },
-  circle: {
-    width: toSize(18),
-    height: toSize(18),
-    borderRadius: toSize(100) / 2,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: toSize(3),
-  },
-  text: {
-    fontWeight: "600",
-    fontSize: toSize(10),
-    color: "#FFF",
-  },
-});
