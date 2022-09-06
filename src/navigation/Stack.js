@@ -12,6 +12,7 @@ import MoveFolder from "../screens/CourseList/MoveFolder/index";
 import MoveCourseOrder from "../screens/CourseList/MoveCourseOrder/index";
 import WishList from "../screens/WishList/MainScreen";
 import MakeCourse from "../screens/MakeCourse/MainScreen";
+import SelectPlaceScreen from "../screens/MakeCourse/SelectPlaceScreen";
 import SearchTravelScreen from "../screens/Explore/SearchTravelScreen/index";
 import MyPageScreen from "../screens/Explore/MyPageScreen/index";
 import SelectCategoryScreen from "../screens/Category/SelectCategoryScreen/index";
@@ -47,7 +48,17 @@ const StackNavigation = () => {
       <Stack.Screen name="MoveFolder" component={MoveFolder} />
       <Stack.Screen name="MoveCourseOrder" component={MoveCourseOrder} />
       <Stack.Screen name="WishList" component={WishList} />
-      <Stack.Screen name="MakeCourse" component={MakeCourse} />
+
+      <Stack.Screen
+        name="MakeCourse"
+        component={MakeCourse}
+        initialParams={{ params: [] }}
+      />
+      <Stack.Screen
+        name="SelectPlaceScreen"
+        component={SelectPlaceScreen}
+        initialParams={{ params: [] }}
+      />
     </Stack.Navigator>
   );
 };

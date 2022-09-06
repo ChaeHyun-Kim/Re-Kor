@@ -88,7 +88,7 @@ export default function FullMakeCourse({ SelectView, setSelectView }) {
                   starScore={item.starscore}
                   category={item.category}
                   selecttype={""}
-                  screentype={"info"}
+                  screenType={"info"}
                   tag={item.tag}
                 />
               );

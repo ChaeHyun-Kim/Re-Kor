@@ -45,7 +45,6 @@ const DetailedScreen = ({ route }) => {
                 : 0
             ),
           };
-          console.log(fixedLocation);
           setLocation(fixedLocation);
         }
       })
@@ -54,7 +53,7 @@ const DetailedScreen = ({ route }) => {
       });
   };
   const [Data, getData] = useState(null);
-
+  console.log(Data);
   const place = require("../../../images/place1.png");
   const [ClickHeart, setHeartClick] = useState(false);
   const [HeartShow, setHeartShow] = useState(false);
@@ -125,9 +124,10 @@ const DetailedScreen = ({ route }) => {
                 }}
               >
                 <ScrollView style={styles.PictureInfoView} horizontal={true}>
-                  {Data.imageList.map((item) => {
+                  {Data.imageList.map((item, index) => {
                     return (
                       <Image
+                        key={index}
                         style={styles.picture}
                         source={{ uri: item.originimgurl }}
                       />
@@ -213,9 +213,10 @@ const DetailedScreen = ({ route }) => {
             {Data.detailList != null && (
               <View style={styles.infoView}>
                 <Text style={styles.TipTitleText}>A special Tip!</Text>
-                {Data.detailList.map((item) => {
+                {Data.detailList.map((item, index) => {
                   return (
                     <SpecialTipForm
+                      key={index}
                       infoName={item.infoname}
                       infoText={item.infotext}
                     />

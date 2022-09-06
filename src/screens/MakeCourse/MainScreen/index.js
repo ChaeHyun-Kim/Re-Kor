@@ -15,12 +15,12 @@ import FullMakeCourse from "../../../components/Map/FullMakeCourse";
 import SelectMakeCourse from "../../../components/Map/SelectMakeCourse";
 import SetMakeCourse from "../../../components/Map/SetMakeCourse";
 
-export default function MakeCourseMainScreen() {
+export default function MakeCourseMainScreen({ route }) {
+  const { params } = route.params;
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
-  const fixedLocation1 = { lat: 37.62152994129975, lng: 127.05627425222845 };
-
+  console.log(params.length);
   const [location, setLocation] = useState(fixedLocation);
-  const [SelectView, setSelectView] = useState(0);
+  const [SelectView, setSelectView] = useState(false);
 
   return (
     <View style={styles.fullscreen}>
@@ -35,38 +35,34 @@ export default function MakeCourseMainScreen() {
           longitudeDelta: 0.0421,
         }}
       >
-        <MarkerCustom location={location} icon={"Heart"} num={1} />
-        <MarkerCustom location={fixedLocation1} icon={"Heart"} num={1} />
+        {/* <MarkerCustom location={location} icon={"Heart"} num={1} /> */}
       </MapView>
 
-      <View style={styles.container}>
-        <View style={styles.rowView}>
-          <SearchView text={"Search"} />
-        </View>
-        <View style={styles.MainView}></View>
+      <View style={[styles.container, styles.rowView]}>
+        <SearchView text={"Search"} />
       </View>
 
       <View style={styles.bottomView}>
-        {SelectView === 0 && (
-          <FirstPlaceView
-            SelectView={SelectView}
-            setSelectView={setSelectView}
+        {params.length === 0 && <FirstPlaceView />}
+        {params.length === 1 && !SelectView && (
+          // <FullMakeCourse
+          //   SelectView={SelectView}
+          //   setSelectView={setSelectView}
+          // />
+          <SelectMakeCourse
+            params={params[0]}
+            handleInputCheck={setSelectView}
           />
         )}
-        {SelectView === 1 && (
-          <FullMakeCourse
-            SelectView={SelectView}
-            setSelectView={setSelectView}
-          />
-        )}
-        {SelectView === 2 && (
+        {/* {SelectView === 2 && (
           <SelectMakeCourse
             SelectView={SelectView}
             setSelectView={setSelectView}
           />
-        )}
-        {SelectView === 3 && (
+        )} */}
+        {SelectView && (
           <SetMakeCourse
+            params={params}
             SelectView={SelectView}
             setSelectView={setSelectView}
           />

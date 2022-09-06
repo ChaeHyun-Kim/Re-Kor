@@ -7,66 +7,27 @@ import {
   TextInput,
 } from "react-native";
 import { toSize } from "../../globalStyle.js";
-import { Fontisto } from "@expo/vector-icons";
 import PlaceList from "./PlaceList.jsx";
 import { Entypo } from "@expo/vector-icons";
 import { MapStyles } from "../../styles/MapView";
 import { WithLocalSvg } from "react-native-svg";
 
 import ic_map from "../../icons/ic_map.svg";
-import AutoScrollView from "react-native-auto-scroll-view";
+import { useNavigation } from "@react-navigation/native";
 
-export default function SetMakeCourse({ SelectView, setSelectView }) {
+export default function SetMakeCourse({ params, setSelectView }) {
+  const navigation = useNavigation();
   const [complete, setComplete] = useState("edit");
-  const arr = [
-    {
-      place_name: "Gapyeong Rail Park1",
-      region: "Gapyeong123",
-      heartscore: 1,
-      starscore: 4.5,
-      category: "K-POP",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-      selecttype: "Heart",
-    },
-    {
-      place_name: "Gapyeong1 Rail Park1",
-      region: "Gapyeong1234",
-      heartscore: 1000,
-      starscore: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
-      km: 50,
-      selecttype: "",
-    },
-    {
-      place_name: "Gapyeong1 Rail Park1",
-      region: "Gapyeong1234",
-      heartscore: 1000,
-      starscore: 4.5,
-      category: "K-DRAMA",
-      tag: [
-        { tag_name: "#Fun3", tag_category: "A" },
-        { tag_name: "#Fun32", tag_category: "C" },
-      ],
+  const [search, setChangeSearch] = useState("");
 
-      km: 500,
-      selecttype: "good",
-    },
-  ];
   return (
     <View style={MapStyles.container}>
       <View style={MapStyles.line} />
       <View style={MapStyles.textInputView}>
         <TextInput
           style={MapStyles.inputText}
-          // onChangeText={setChangeSearch}
-          // value={search}
+          onChangeText={(text) => setChangeSearch(text)}
+          value={search}
           placeholder={"Set the name of the course"}
         />
         <TouchableOpacity
@@ -86,18 +47,13 @@ export default function SetMakeCourse({ SelectView, setSelectView }) {
           </Text>
         </TouchableOpacity>
       </View>
-      {arr.map((item, index) => {
+      {params.map((item, index) => {
         return (
           <PlaceList
             key={index}
-            place_name={item.place_name}
-            region={item.region}
-            category={item.category}
-            tag={item.tag}
+            params={item}
             num={index + 1}
-            selecttype={item.selecttype}
-            screentype={complete}
-            km={item.km}
+            screenType={complete}
           />
         );
       })}
@@ -110,7 +66,9 @@ export default function SetMakeCourse({ SelectView, setSelectView }) {
       />
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => setSelectView(SelectView === false ? true : false)}
+        onPress={() =>
+          navigation.navigate("SelectPlaceScreen", { params: params })
+        }
         style={styles.SelectBtn}
       >
         <WithLocalSvg width={toSize(15)} height={toSize(15)} asset={ic_map} />
