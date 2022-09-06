@@ -16,5 +16,4 @@ export const toSize = (input) => {
 
 export const images = {
   MarkerHeart: require("./icons/ic_marker_heart.png"),
-  MarkerOriginal: require("./icons/wishlist.svg"),
 };
