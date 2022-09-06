@@ -11,136 +11,37 @@ import folder from "../../../icons/folder.svg";
 import AutoScrollView from "react-native-auto-scroll-view";
 import { WithLocalSvg } from "react-native-svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CourseListAPI, AddFolderAPI } from "../../../api/Courselist";
 const CourseListMainScreen = () => {
-  const emptyfolder = [{ folder: "", course: [] }];
-  const data = [
-    {
-      folder: "Recent travel courses",
-      course: [
-        {
-          course_name: "My First Trip",
-          course_info: [
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-POP",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "",
-            },
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-DRAMA",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "Heart",
-              km: 5,
-            },
-          ],
-        },
-        {
-          course_name: "My Second Trip",
-          course_info: [
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-POP",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "good",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      folder: "My Trip in Korea~",
-      course: [
-        {
-          course_name: "My First Trip",
-          course_info: [
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-POP",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "Heart",
-            },
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-DRAMA",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "good",
-              km: 50,
-            },
-          ],
-        },
-      ],
-    },
-  ];
-
-  // const course = AsyncStorage.getItem("@courselist", (err, result) => {
-  //   return JSON.parse(result);
-  // });
-
-  const [courselist, setCourselist] = useState(data);
+  const emptyfolder = [{ folderName: "", courseList: [] }];
+  const [courselist, setCourselist] = useState([]);
   const [confirmCheck, setConfirmCheck] = useState(false);
-  const getCircularReplacer = () => {
-    const seen = new WeakSet();
-    return (key, value) => {
-      if (typeof value === "object" && value !== null) {
-        if (seen.has(value)) {
-          return;
+
+  const handleList = async () => {
+    CourseListAPI()
+      .then((response) => {
+        if (response != null) {
+          console.log(response);
+          setCourselist(response);
         }
-        seen.add(value);
-      }
-      return value;
-    };
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const AddFolder = async () => {
+    AddFolderAPI()
+      .then((response) => {
+        console.log("폴더 추가", response);
+      })
+      .catch((error) => {
+        console.log("에러", error);
+      });
   };
 
   useEffect(() => {
-    AsyncStorage.setItem(
-      "@courselist",
-      JSON.stringify(data, getCircularReplacer()),
-      () => {
-        console.log("코스 리스트 재저장");
-      }
-    );
-    console.log("courselist변경됨1");
-  }, [courselist]);
-
-  data.myself = data;
-  AsyncStorage.setItem(
-    "@courselist",
-    JSON.stringify(data, getCircularReplacer()),
-    () => {
-      console.log("코스 리스트 저장 완료");
-    }
-  );
+    handleList();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -172,12 +73,13 @@ const CourseListMainScreen = () => {
         activeOpacity={0.8}
         onPress={() => {
           setCourselist(courselist.concat(emptyfolder));
+          AddFolder();
+          handleList();
         }}
       >
         <WithLocalSvg
           style={{
             fontSize: toSize(60),
-
             position: "absolute",
             bottom: toSize(28),
             right: toSize(23),
