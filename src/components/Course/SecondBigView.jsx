@@ -42,13 +42,13 @@ const SecondBigView = ({ course_info }) => {
           <PlaceList
             key={index}
             place_name={item.place_name}
-            region={item.region}
-            category={item.category}
-            tag={item.tag}
+            region={item.addr1}
+            category={item.rekorCategory}
+            tag={item.tags.tagName}
             num={index + 1}
-            selecttype={item.selecttype}
-            screenType={"course_list"}
-            km={item.km}
+            selecttype={""}
+            screentype={"course_list"}
+            km={"임의의"}
           ></PlaceList>
         );
       })}

@@ -10,22 +10,31 @@ const SecondSmallView = ({ course_info }) => {
   return (
     <View style={styles.rowView_space}>
       <View style={styles.rowView}>
-        <Image style={styles.picture} source={place} />
-        <Image style={styles.picture} source={place} />
-        <Image style={styles.picture} source={place} />
+        <Image
+          style={styles.picture}
+          source={{ uri: course_info[0].images[0] }}
+        />
+        <Image
+          style={styles.picture}
+          source={{ uri: course_info[1].images[0] }}
+        />
+        <Image
+          style={styles.picture}
+          source={{ uri: course_info[2].images[0] }}
+        />
       </View>
       <View>
         <View style={styles.rowView}>
           <Feather name="map-pin" size={toSize(17)} color="black" />
           <View style={styles.rowView_place}>
-            <Text style={styles.boldText}>3 </Text>
+            <Text style={styles.boldText}>{course_info.length} </Text>
             <Text style={styles.normalText}>places</Text>
           </View>
         </View>
         <View style={styles.border}></View>
         <View style={styles.rowView}>
           <Text style={styles.boldText}>Total </Text>
-          <Text style={styles.normalText}>10km</Text>
+          <Text style={styles.normalText}>임의의km</Text>
         </View>
       </View>
     </View>

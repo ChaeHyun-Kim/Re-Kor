@@ -25,9 +25,7 @@ const SecondView = ({
   setCourselist,
 }) => {
   const navigation = useNavigation();
-  const course_name = partcoursedata.course_name;
-  const course_info = partcoursedata.course_info;
-
+  const course_name = partcoursedata.title;
   const [click, setClick] = useState(false);
   const place = require("../../images/place1.png");
   const items = [
@@ -68,13 +66,13 @@ const SecondView = ({
           value={coursename}
           editable={rename}
           style={styles.mainText}
-          placeholder={"Text"}
+          placeholder={"Course"}
           onChangeText={(text) => {
             setCoursename(text);
           }}
           onBlur={() => {
             setRename(false);
-            partcoursedata.course_name = coursename;
+            partcoursedata.courseName = coursename;
             courselist[courseindex] = partcoursedata;
             console.log("코스 전체 데이터:", courselist);
             setCoursepart(courselist);
@@ -94,8 +92,8 @@ const SecondView = ({
         </SimplePopupMenu>
       </View>
 
-      {(click && <SecondBigView course_info={course_info}></SecondBigView>) || (
-        <SecondSmallView course_info={course_info}></SecondSmallView>
+      {(click && <SecondBigView course_info={partcoursedata}></SecondBigView>) || (
+        <SecondSmallView course_info={partcoursedata}></SecondSmallView>
       )}
     </TouchableOpacity>
   );

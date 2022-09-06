@@ -18,8 +18,8 @@ const CourseListView = ({
   folderindex, //인덱스
   setCourselist, //코스 리스트 관리하는 함수
 }) => {
-  const folder_name = partdata.folder;
-  const coursedata = partdata.course;
+  const folder_name = partdata.folderName;
+  const coursedata = partdata.courseList;
   const [click, setClick] = useState(false);
   const [rename, setRename] = useState(false);
   const [foldername, setFoldername] = useState(false);
@@ -34,55 +34,59 @@ const CourseListView = ({
     // AsyncStorage.setItem("@courselist", JSON.stringify(courselist), () => {
     //   console.log("코스 리스트 저장 완료", courselist);
     // });
-    partdata.course = coursepart;
+    partdata.courseList = coursepart;
     courselist[folderindex] = partdata;
     setCourselist(courselist);
   }, [coursepart]);
 
   return (
     <View style={{ padding: toSize(2), marginBottom: toSize(16) }}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => setClick(click === false ? true : false)}
-        style={styles.ListView}
-      >
-        {(click && (
-          <FontAwesome name="folder-open" size={20} color="#71727A" />
-        )) || <FontAwesome name="folder" size={20} color="#71727A" />}
-
-        <View style={styles.textView}>
-          <TextInput
-            value={folder_name}
-            editable={rename}
-            style={styles.mainText}
-            placeholder={"Text"}
-            onChangeText={(text) => {
-              setFoldername(text);
-            }}
-            onBlur={() => {
-              setRename(false);
-              partdata.folder = foldername;
-              courselist[folderindex] = partdata;
-              setCourselist(courselist);
-            }}
-          />
-
-          <Text style={styles.numText}>{coursedata.length}</Text>
-        </View>
-        <SimplePopupMenu
-          items={items}
-          style={styles.button}
-          onSelect={(items) => {
-            onMenuPress(items.id);
-          }}
-          onCancel={() => console.log("onCancel")}
+      {partdata.folderName === "" || (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => setClick(click === false ? true : false)}
+          style={styles.ListView}
         >
-          <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
-        </SimplePopupMenu>
-      </TouchableOpacity>
+          {(click && (
+            <FontAwesome name="folder-open" size={20} color="#71727A" />
+          )) || <FontAwesome name="folder" size={20} color="#71727A" />}
+
+          <View style={styles.textView}>
+            <TextInput
+              value={folder_name}
+              editable={rename}
+              style={styles.mainText}
+              placeholder={"Foler Name"}
+              value={"New Folder"}
+              onChangeText={(text) => {
+                setFoldername(text);
+              }}
+              onBlur={() => {
+                setRename(false);
+                partdata.folderName = foldername;
+                courselist[folderindex] = partdata;
+                setCourselist(courselist);
+              }}
+            />
+
+            <Text style={styles.numText}>{coursedata.length}</Text>
+          </View>
+          <SimplePopupMenu
+            items={items}
+            style={styles.button}
+            onSelect={(items) => {
+              onMenuPress(items.id);
+            }}
+            onCancel={() => console.log("onCancel")}
+          >
+            <AntDesign name="ellipsis1" size={toSize(24)} color="#8F9098" />
+          </SimplePopupMenu>
+        </TouchableOpacity>
+      )}
       {click === true &&
         coursedata.map((item, index) => (
           <SecondView
+            key={index}
             partdata={partdata}
             folderindex={folderindex}
             courselist={courselist}
