@@ -9,21 +9,14 @@ import {
 import { toSize } from "../../../globalStyle";
 import Header from "../../../components/MyHeader";
 import TagView from "../../../components/Login/TagView";
+import { getTagAPI } from "../../../api/Login";
 
 export default function SelectTagScreen() {
   const navigation = useNavigation();
   const [confirmCheck, setConfirmCheck] = useState(0);
   const [clickTagData, changeTagData] = useState(Array(20).fill(0));
-  const data = [
-    { id: 1, content: "Funssssssssssssss" },
-    { id: 2, content: "Helpful" },
-    { id: 3, content: "Fun1" },
-    { id: 4, content: "Helpful2" },
-    { id: 5, content: "Fun2" },
-    { id: 6, content: "Helpful3" },
-    { id: 7, content: "Fun3" },
-    { id: 8, content: "Helpful4" },
-  ];
+  const [data, getData] = useState([]);
+
   useEffect(() => {
     let clickCheck = 0;
     clickTagData.map((item) => {
@@ -32,6 +25,22 @@ export default function SelectTagScreen() {
 
     clickCheck > 0 ? setConfirmCheck(1) : setConfirmCheck(0);
   }, [clickTagData]);
+
+  useEffect(() => {
+    handleTagList();
+  }, []);
+
+  const handleTagList = async () => {
+    getTagAPI()
+      .then((response) => {
+        if (response != null) {
+          getData(response);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const nextPage = () => {
     if (confirmCheck === 1) {

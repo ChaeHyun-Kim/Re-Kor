@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    height: toSize(63),
+    height: toSize(60),
     marginTop: Constants.statusBarHeight,
     justifyContent: "space-between",
     flexDirection: "row",
