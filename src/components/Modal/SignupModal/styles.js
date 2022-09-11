@@ -3,7 +3,6 @@ import { toSize } from "../../../globalStyle";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
-  responsiveScreenFontSize,
 } from "react-native-responsive-dimensions";
 
 export const styles = StyleSheet.create({
@@ -18,21 +17,24 @@ export const styles = StyleSheet.create({
   },
   toastContainer: {
     backgroundColor: "#FFFFFF",
-    opacity: 2,
-    height: toSize(418),
     width: toSize(328),
-    padding: toSize(20),
+    height: toSize(428),
     paddingTop: toSize(40),
+    paddingBottom: toSize(24),
+    paddingHorizontal: toSize(20),
     borderRadius: 15,
     zIndex: 100,
-    justifyContent: "flex-start",
     alignItems: "center",
+  },
+  clickView: {
+    width: "100%",
+    marginVertical: toSize(30),
   },
   mainText: {
     fontWeight: "800",
     fontSize: toSize(20),
     color: "#1F2024",
-    marginBottom: toSize(4),
+    marginBottom: toSize(2),
   },
   subText: {
     fontWeight: "400",
@@ -41,26 +43,8 @@ export const styles = StyleSheet.create({
   },
   FullTermsView: {
     flexDirection: "row",
-    width: toSize(277),
     alignItems: "center",
-    marginVertical: toSize(5),
-    marginTop: toSize(31),
-  },
-  TermsView: {
-    flexDirection: "row",
-    width: toSize(277),
-    alignItems: "center",
-    marginVertical: toSize(5),
-    paddingLeft: toSize(10),
-    width: toSize(288),
-  },
-  TermsText: {
-    fontWeight: "400",
-    fontSize: toSize(14),
-    color: "#2C2C2E",
-    marginLeft: toSize(8),
-    flexShrink: 1,
-    width: toSize(199),
+    marginBottom: toSize(8),
   },
   FullTermsText: {
     fontWeight: "700",
@@ -68,24 +52,44 @@ export const styles = StyleSheet.create({
     color: "#2C2C2E",
     marginLeft: toSize(8),
   },
+  TermsView: {
+    flexDirection: "row",
+    paddingLeft: toSize(8),
+    marginBottom: toSize(10),
+    alignItems: "center",
+  },
+  TermsText: {
+    fontWeight: "400",
+    fontSize: toSize(14),
+    color: "#2C2C2E",
+    marginLeft: toSize(8),
+  },
+
   BottomView: {
     width: "100%",
     height: toSize(48),
-    marginVertical: toSize(24),
     borderRadius: 12,
-    position: "absolute",
-    bottom: 0,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: toSize(20),
   },
   BottomButtonText: {
-    fontSize: toSize(16),
+    fontSize: toSize(14),
     fontWeight: "600",
   },
   borderline: {
-    borderColor: "#EAECF2",
-    width: toSize(288),
-    borderWidth: 0.8,
-    marginBottom: toSize(5),
+    backgroundColor: "#EAECF2",
+    height: 1,
+    marginBottom: toSize(13),
+  },
+  w_100: {
+    width: "100%",
+  },
+  Row: {
+    flexDirection: "row",
+  },
+  redText: {
+    color: "red",
+    fontSize: toSize(16),
   },
 });

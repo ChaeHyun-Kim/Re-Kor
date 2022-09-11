@@ -51,7 +51,7 @@ export default function CreateAccountScreen() {
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
-      {checkTerm && <SignupModal phone ={phone} password={password}/>}
+      {checkTerm && <SignupModal phone={phone} password={password} />}
       <Header />
       <View style={styles.container}>
         <Text style={styles.MainText}>Create Account</Text>
