@@ -12,7 +12,7 @@ import { AntDesign } from "@expo/vector-icons";
 import TagForm from "./TagForm";
 import { useNavigation } from "@react-navigation/native";
 import CategoryColorForm from "./CategoryColorForm";
-const place = require("../../../src/images/place1.png");
+const noImage = require("../../../src/images/noImage.png");
 import SimplePopupMenu from "react-native-simple-popup-menu";
 
 const PlaceForm = ({
@@ -45,7 +45,7 @@ const PlaceForm = ({
         >
           <Image
             style={styles.picture}
-            source={images[0] ? { uri: images[0] } : place}
+            source={images[0] ? { uri: images[0] } : noImage}
           />
           <View style={styles.PlaceView}>
             <View style={styles.InfoView}>

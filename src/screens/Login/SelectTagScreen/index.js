@@ -9,12 +9,12 @@ import {
 import { toSize } from "../../../globalStyle";
 import Header from "../../../components/MyHeader";
 import TagView from "../../../components/Login/TagView";
-import { getTagAPI } from "../../../api/Login";
+import { getTagAPI, saveTagAPI } from "../../../api/Login";
 
 export default function SelectTagScreen() {
   const navigation = useNavigation();
   const [confirmCheck, setConfirmCheck] = useState(0);
-  const [clickTagData, changeTagData] = useState(Array(20).fill(0));
+  const [clickTagData, changeTagData] = useState(Array(21).fill(0));
   const [data, getData] = useState([]);
 
   useEffect(() => {
@@ -44,9 +44,25 @@ export default function SelectTagScreen() {
 
   const nextPage = () => {
     if (confirmCheck === 1) {
-      navigation.navigate("Explore");
+      let tagSaveArray = [];
+      data.map((item, index) => {
+        if (clickTagData[index] === 1) {
+          tagSaveArray.push(item.tagId.id);
+        }
+      });
+
+      saveTagAPI(tagSaveArray)
+        .then((response) => {
+          if (response === "SUCCESS") {
+            navigation.navigate("Explore");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
+
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />

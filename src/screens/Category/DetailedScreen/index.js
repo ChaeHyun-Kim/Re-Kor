@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { styles } from "./styles";
-import { Text, ScrollView, View, Image, ImageBackground } from "react-native";
+import { styles, textUnderlineStyle } from "./styles";
+import {
+  Text,
+  ScrollView,
+  View,
+  Image,
+  ImageBackground,
+  Linking,
+} from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
 
@@ -14,6 +21,7 @@ import { Feather } from "@expo/vector-icons";
 
 import { toSize } from "../../../globalStyle";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
+import Review from "../../../components/Category/Review";
 import { detailedInfoAPI } from "../../../api/Category";
 
 import { useNavigation } from "@react-navigation/native";
@@ -53,7 +61,6 @@ const DetailedScreen = ({ route }) => {
       });
   };
   const [Data, getData] = useState(null);
-  console.log(Data);
   const place = require("../../../images/place1.png");
   const [ClickHeart, setHeartClick] = useState(false);
   const [HeartShow, setHeartShow] = useState(false);
@@ -201,6 +208,7 @@ const DetailedScreen = ({ route }) => {
                     style={styles.subInfoText}
                     numberOfLines={2}
                     ellipsizeMode={"tail"}
+                    onPress={() => Linking.openURL(Data.commonInfo.homepage)}
                   >
                     {Data.commonInfo.homepage}
                   </Text>
@@ -212,7 +220,10 @@ const DetailedScreen = ({ route }) => {
 
             {Data.detailList != null && (
               <View style={styles.infoView}>
-                <Text style={styles.TipTitleText}>A special Tip!</Text>
+                <View>
+                  <Text style={styles.TipTitleText}>A special Tip!</Text>
+                  <View style={textUnderlineStyle().container} />
+                </View>
                 {Data.detailList.map((item, index) => {
                   return (
                     <SpecialTipForm
@@ -227,16 +238,16 @@ const DetailedScreen = ({ route }) => {
 
             {Data.reviewList.length > 0 && (
               <>
-                <View style={styles.separator} />
                 <View style={styles.FinalInfoView}>
                   <Text style={styles.TitleText}>Review</Text>
                 </View>
+                {Data.reviewList.map((item, index) => {
+                  return <Review data={item} key={index} />;
+                })}
               </>
             )}
-            {/* <View style={styles.Bottomborder} />
-            <View style={styles.Topborder} /> */}
 
-            {Data.reviewList && (
+            {/* {Data.reviewList && (
               <View style={styles.recommendInfoView}>
                 <Text style={styles.TitleText}>Recommend a similar place</Text>
                 <View style={styles.recommendView}>
@@ -274,7 +285,7 @@ const DetailedScreen = ({ route }) => {
                   </ScrollView>
                 </View>
               </View>
-            )}
+            )} */}
           </ScrollView>
         </View>
       )}

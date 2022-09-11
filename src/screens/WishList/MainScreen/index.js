@@ -26,6 +26,7 @@ const WishListMainScreen = () => {
       .then((response) => {
         if (response != null) {
           getData(response);
+          console.log(response);
         }
       })
       .catch((error) => {
@@ -47,9 +48,10 @@ const WishListMainScreen = () => {
               category={item.rekorCategory}
               heartScore={item.likeCount}
               starScore={item.rating}
-              tags={item.tags}
+              tags={item.tagList}
               key={index}
               menu
+              images={item.images}
               items={items}
               onClickMenu={onClickMenu}
             />

@@ -17,7 +17,7 @@ import { WithLocalSvg } from "react-native-svg";
 import { AntDesign } from "@expo/vector-icons";
 
 import { toSize } from "../../../globalStyle";
-import { recommendTourAPI } from "../../../api/Explore";
+import { recommendTourAPI, addWishListAPI } from "../../../api/Explore";
 
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
@@ -37,7 +37,7 @@ const ExploreMainScreen = () => {
 
   const arrayNum = placeArray.length;
   const HomeBack = require("../../../icons/ic_homeBack.png");
-  const placeImage = require("../../../images/place1.png");
+  const noImage = require("../../../images/noImageTitle.png");
 
   /*추천 관광지 API 불러오기 */
   const handleList = async () => {
@@ -68,8 +68,24 @@ const ExploreMainScreen = () => {
     handleList();
   }, []);
 
+  useEffect(() => {
+    setHeartClick(
+      placeArray[placeNumber]?.isInWishList
+        ? placeArray[placeNumber].isInWishList
+        : false
+    );
+  }, [placeNumber]);
+
   const heartClick = () => {
-    setHeartClick(ClickHeart == false ? true : false);
+    addWishListAPI(placeArray[placeNumber].spotId.id)
+      .then((response) => {
+        if (response != null) {
+          setHeartClick(ClickHeart == false ? true : false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -124,9 +140,9 @@ const ExploreMainScreen = () => {
                 style={styles.picture}
                 source={
                   placeArray.length == 0
-                    ? placeImage
+                    ? noImage
                     : placeArray[placeNumber].images[0] === ""
-                    ? placeImage
+                    ? noImage
                     : { uri: placeArray[placeNumber].images[0] }
                 }
                 resizeMode="cover"

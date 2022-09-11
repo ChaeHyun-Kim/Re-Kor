@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import {
-  responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { toSize } from "../../../globalStyle";
@@ -154,7 +153,6 @@ export const styles = StyleSheet.create({
     fontSize: toSize(18),
     fontWeight: "800",
     marginBottom: toSize(11),
-    backgroundColor: "rgba(253, 182, 0, 0.4)",
   },
   FinalInfoView: {
     paddingTop: toSize(21),
@@ -192,27 +190,17 @@ export const styles = StyleSheet.create({
     fontWeight: "400",
     marginTop: toSize(3),
   },
-  Bottomborder: {
-    width: "100%",
-    height: "3%",
-    marginBottom: "10%",
-    backgroundColor: "#FFFFFF",
-    borderColor: "#ECECEC",
-    borderBottomWidth: 2,
-    borderEndWidth: 2,
-    borderStartWidth: 2,
-    borderBottomEndRadius: 28,
-    borderBottomStartRadius: 28,
-  },
-  Topborder: {
-    width: "100%",
-    height: "3%",
-    backgroundColor: "#FFFFFF",
-    borderColor: "#ECECEC",
-    borderTopWidth: 2,
-    borderEndWidth: 2,
-    borderStartWidth: 2,
-    borderTopEndRadius: 28,
-    borderTopStartRadius: 28,
-  },
 });
+
+export const textUnderlineStyle = () =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: "#FEDE8C",
+      width: toSize(125),
+      height: toSize(13),
+      position: "absolute",
+      bottom: 12,
+      left: 5,
+      zIndex: -10,
+    },
+  });

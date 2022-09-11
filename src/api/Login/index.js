@@ -149,3 +149,18 @@ export const getTagAPI = async () => {
   const data = await response.json();
   return data.data;
 };
+
+/*Tag 정보 저장하기 */
+export const saveTagAPI = async (array) => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/user/tag", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + userToken.slice(1, -1),
+    },
+    body: JSON.stringify(array),
+  });
+  const data = await response.json();
+  return data.status;
+};

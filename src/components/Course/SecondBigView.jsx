@@ -35,7 +35,7 @@ const SecondBigView = ({ course_info }) => {
           asset={full_course_icon}
           width={toSize(30)}
           height={toSize(30)}
-        ></WithLocalSvg>
+        />
       </View>
       {course_info.map((item, index) => {
         return (

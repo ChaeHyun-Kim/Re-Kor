@@ -21,8 +21,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { loginAPI, formCheckAPI } from "../../../api/Login";
 import ToastMessage from "../../../components/Modal/Toast";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { refreshTokenAPI } from "../../../api/Login";
+import MessageModal from "../../../components/Modal/MessageModal";
 
 const LoginMainScreen = () => {
   const navigation = useNavigation();
@@ -31,6 +31,7 @@ const LoginMainScreen = () => {
   const [phone, setPhone] = useState("12312312312");
   const [password, setPassword] = useState("123");
   const [failLogin, handelFailLogin] = useState();
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     const checkLogin = refreshTokenAPI();
@@ -66,6 +67,8 @@ const LoginMainScreen = () => {
         content={"Validation verified"}
         fail
       />
+      {update && <MessageModal handleFunction={setUpdate} />}
+
       <View style={styles.fullscreen}>
         <StatusBar style="auto" />
         <View style={styles.container}>
@@ -114,9 +117,8 @@ const LoginMainScreen = () => {
               />
             </View>
 
-            <Text style={styles.forgotPW}>Forgot password?</Text>
+            {/* <Text style={styles.forgotPW}>Forgot password?</Text> */}
 
-            {/* <View style={styles.LoginView}> */}
             <TouchableOpacity
               style={styles.LoginView}
               activeOpacity={0.8}
@@ -124,7 +126,6 @@ const LoginMainScreen = () => {
             >
               <Text style={styles.BottomButtonText}>Login</Text>
             </TouchableOpacity>
-            {/* </View> */}
 
             <View style={[FormStyles.Row, { justifyContent: "center" }]}>
               <Text style={styles.subText}>Not a member? </Text>

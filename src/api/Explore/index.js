@@ -29,6 +29,20 @@ export const recommendTourAPI = async () => {
     },
   });
   const data = await response.json();
-  // console.log(data);
+  return data.data;
+};
+
+/* wishlist 추가 */
+export const addWishListAPI = async (id) => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/wishlist/" + id, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + JSON.parse(userToken),
+    },
+  });
+  const data = await response.json();
+  console.log(data);
   return data.data;
 };

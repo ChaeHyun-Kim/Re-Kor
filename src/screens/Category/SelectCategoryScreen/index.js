@@ -6,6 +6,7 @@ import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { toSize } from "../../../globalStyle";
+import ic_loading from "../../../icons/ic_loading.svg";
 import filter_arrow from "../../../icons/filter_arrow.svg";
 import Category_Header from "../../../components/Category_Header";
 import SimplePopupMenu from "react-native-simple-popup-menu";
@@ -14,8 +15,9 @@ import { categoryListAPI } from "../../../api/Category";
 
 const SelectCategoryScreen = ({ route }) => {
   const { Category, cat } = route.params;
-  const [Data, getData] = useState([]);
+  const [data, getData] = useState([]);
   const [menu, handleMenu] = useState("Name");
+  const [loading, setLoading] = useState(false);
   const items = [
     { id: "Name", label: "Name" },
     { id: "Likes", label: "Likes" },
@@ -31,6 +33,7 @@ const SelectCategoryScreen = ({ route }) => {
       .then((response) => {
         if (response != null) {
           getData(response);
+          setLoading(true);
         }
       })
       .catch((error) => {
@@ -47,11 +50,17 @@ const SelectCategoryScreen = ({ route }) => {
       <StatusBar style="auto" />
       <Category_Header title={Category} />
       <View style={styles.MainView}>
+        {!loading && (
+          <View style={styles.loadingView}>
+            <WithLocalSvg asset={ic_loading} />
+          </View>
+        )}
+
         <ScrollView
           contentContainerStyle={styles.listView}
           nestedScrollEnabled={true}
         >
-          {Data.length != 0 && (
+          {loading && (
             <View style={styles.FilterView}>
               <SimplePopupMenu
                 items={items}
@@ -73,7 +82,7 @@ const SelectCategoryScreen = ({ route }) => {
               </SimplePopupMenu>
             </View>
           )}
-          {Data.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <PlaceForm
                 data={item}
@@ -134,5 +143,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: responsiveScreenWidth(5),
     width: "100%",
+  },
+  loadingView: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    paddingBottom: toSize(100),
   },
 });
