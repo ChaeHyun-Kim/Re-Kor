@@ -26,6 +26,8 @@ const PlaceForm = ({ data, type }) => {
         cat: data.rekorCategory,
         img: data.images[0] ? { uri: data.images[0] } : place,
         type: type,
+        mapx: data.address.mapx,
+        mapy: data.address.mapy,
       },
     ];
     navigation.navigate("MakeCourse", { params: params });

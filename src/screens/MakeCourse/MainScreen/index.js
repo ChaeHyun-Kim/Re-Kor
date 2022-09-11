@@ -1,30 +1,59 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, BackHandler, Text } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
+import { useNavigation } from "@react-navigation/native";
 import SearchView from "../../../components/SearchView";
 import Bottom from "../../../components/Bottom";
 import { toSize } from "../../../globalStyle";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
 import FirstPlaceView from "../../../components/Map/FirstPlaceView";
-import FullMakeCourse from "../../../components/Map/FullMakeCourse";
 import SelectMakeCourse from "../../../components/Map/SelectMakeCourse";
 import SetMakeCourse from "../../../components/Map/SetMakeCourse";
+import CenterModal from "../../../components/Modal/CenterModal";
 
 export default function MakeCourseMainScreen({ route }) {
   const { params } = route.params;
+  const navigation = useNavigation();
+
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
-  console.log(params.length);
+
   const [location, setLocation] = useState(fixedLocation);
+  const [cancelVisible, setCancelVisible] = useState(false);
   const [SelectView, setSelectView] = useState(false);
+
+  // 뒤로가기
+  const handleGoBack = () => {
+    setCancelVisible(false);
+    navigation.goBack();
+  };
+
+  // handle the native back button
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        setCancelVisible(true);
+        return true;
+      }
+    );
+    return () => backHandler.remove();
+  }, []);
+
+  useEffect(() => {
+    if (params.length === 1) {
+      console.log("click");
+      setLocation({ lat: params[0].mapy, lng: params[0].mapx });
+    }
+  }, [params]);
+  console.log("location", location);
 
   return (
     <View style={styles.fullscreen}>
-      <StatusBar style="auto" />
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
@@ -35,7 +64,9 @@ export default function MakeCourseMainScreen({ route }) {
           longitudeDelta: 0.0421,
         }}
       >
-        {/* <MarkerCustom location={location} icon={"Heart"} num={1} /> */}
+        {/* {params.length === 1 && (
+          <MarkerCustom location={location} icon={"Heart"} num={1} />
+        )} */}
       </MapView>
 
       <View style={[styles.container, styles.rowView]}>
@@ -45,21 +76,11 @@ export default function MakeCourseMainScreen({ route }) {
       <View style={styles.bottomView}>
         {params.length === 0 && <FirstPlaceView />}
         {params.length === 1 && !SelectView && (
-          // <FullMakeCourse
-          //   SelectView={SelectView}
-          //   setSelectView={setSelectView}
-          // />
           <SelectMakeCourse
             params={params[0]}
             handleInputCheck={setSelectView}
           />
         )}
-        {/* {SelectView === 2 && (
-          <SelectMakeCourse
-            SelectView={SelectView}
-            setSelectView={setSelectView}
-          />
-        )} */}
         {SelectView && (
           <SetMakeCourse
             params={params}
@@ -69,6 +90,20 @@ export default function MakeCourseMainScreen({ route }) {
         )}
         <Bottom num={5} border={false} />
       </View>
+
+      {/* 뒤로가기 경고 모달 */}
+      <CenterModal
+        visible={cancelVisible}
+        title={"뒤로가기 모달"}
+        leftPress={() => setCancelVisible(false)}
+        rightPress={handleGoBack}
+        leftText={"취소"}
+        rightText={"뒤로가기"}
+      >
+        <Text color={"#000"} lineHeight={15}>
+          {"뒤로가기 하시겠어요? 데이터가 다 사라집니다."}
+        </Text>
+      </CenterModal>
     </View>
   );
 }
