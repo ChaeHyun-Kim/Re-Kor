@@ -57,7 +57,7 @@ const CourseListView = ({
               editable={rename}
               style={styles.mainText}
               placeholder={"Foler Name"}
-              value={"New Folder"}
+              Value={"New Folder"}
               onChangeText={(text) => {
                 setFoldername(text);
               }}
