@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContext, useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
@@ -7,6 +7,7 @@ import { FormStyles } from "../../../styles/FormView";
 import { phoneCheckAPI, signUpAPI } from "../../../api/Login";
 
 import ToastMessage from "../../../components/Modal/Toast";
+import SignupModal from "../../../components/Modal/SignupModal";
 import Header from "../../../components/MyHeader";
 
 export default function CreateAccountScreen() {
@@ -18,6 +19,7 @@ export default function CreateAccountScreen() {
   const [confirmCheckPhone, setConfirmCheckPhone] = useState(true);
   const [confirmCheckPW, setConfirmCheckPW] = useState(0);
   const [confirmCheck, setConfirmCheck] = useState(0);
+  const [checkTerm, setCheckTerm] = useState(false);
 
   useEffect(() => {
     let check = 0;
@@ -46,44 +48,28 @@ export default function CreateAccountScreen() {
     } else setConfirmCheckPhone(0);
   };
 
-  const handleSignUp = async () => {
-    if (confirmCheck === 1) {
-      signUpAPI(phone, password)
-        .then((response) => {
-          if (response != null) {
-            response === 1 ? navigation.navigate("Login") : null;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
-
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
+      {checkTerm && <SignupModal phone ={phone} password={password}/>}
       <Header />
       <View style={styles.container}>
         <Text style={styles.MainText}>Create Account</Text>
         <Text style={styles.MainSubText}>
           Please fill out your phone number and password
         </Text>
-
         <ToastMessage
           visible={confirmCheckPhone}
           handleFunction={setConfirmCheckPhone}
           title={"Success"}
           content={"Validation verified"}
         />
-
         <ToastMessage
           visible={confirmCheckPW}
           handleFunction={setConfirmCheckPW}
           title={"Success"}
           content={"Validation verified"}
         />
-
         <View style={styles.FormView}>
           <View style={FormStyles.FormOneView}>
             <Text style={FormStyles.FormTitleText}>Phone Number</Text>
@@ -177,25 +163,27 @@ export default function CreateAccountScreen() {
             )}
           </View>
         </View>
-        <View
+        <TouchableOpacity
           style={[
             styles.BottomView,
             confirmCheck
               ? { backgroundColor: "#FFCC00" }
               : { borderColor: "#FFCC00", borderWidth: 2 },
           ]}
+          activeOpacity={0.8}
+          onPress={() => {
+            confirmCheck && setCheckTerm(true);
+          }}
         >
-          <TouchableOpacity activeOpacity={0.8} onPress={handleSignUp}>
-            <Text
-              style={[
-                styles.BottomButtonText,
-                confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
-              ]}
-            >
-              Create
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <Text
+            style={[
+              styles.BottomButtonText,
+              confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
+            ]}
+          >
+            Next
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

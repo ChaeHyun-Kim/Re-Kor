@@ -1,14 +1,15 @@
+// 코스에 넣을지 선택하는 컴포넌트
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle.js";
 import PlaceList from "./PlaceList.jsx";
-
 import { useNavigation } from "@react-navigation/native";
 export default function SelectMakeCourse({ params, handleInputCheck }) {
   const navigation = useNavigation();
   const handelSelectButton = () => {
     handleInputCheck(true);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.line} />

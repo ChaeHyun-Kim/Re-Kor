@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// 코스 최종 완성 화면
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -14,11 +15,49 @@ import { WithLocalSvg } from "react-native-svg";
 
 import ic_map from "../../icons/ic_map.svg";
 import { useNavigation } from "@react-navigation/native";
+import { MakeCourseAPI } from "../../api/MakeCourse";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AutoScrollView from "react-native-auto-scroll-view";
 
 export default function SetMakeCourse({ params, setSelectView }) {
   const navigation = useNavigation();
   const [complete, setComplete] = useState("edit");
   const [search, setChangeSearch] = useState("");
+  const [courseData, setCourseData] = useState([]);
+
+  // const makeCourse = () => {
+  //   setComplete(complete === "complete" ? "edit" : "complete");
+  //   AsyncStorage.setItem("@makeCourse", JSON.stringify(courseData), () => {
+  //     console.log("코스 만드는 중", courseData);
+  //   });
+  // };
+
+  const storeCourse = () => {
+    AsyncStorage.setItem("@makeCourse", JSON.stringify(courseData), () => {
+      console.log("코스저장", courseData);
+    });
+    navigation.navigate("SelectPlaceScreen", { params: params });
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await AsyncStorage.getItem("@makeCourse");
+      const courseList = JSON.parse(data);
+      if (courseList !== null) {
+        console.log("makeCourse가 비지 않았다면  ");
+        const finalcourseList = courseList.concat(params[0]);
+        setCourseData(finalcourseList);
+      } else {
+        console.log("makeCourse가 비었다면 ");
+        setCourseData(params);
+      }
+
+      // await AsyncStorage.setItem("@makeCourse", JSON.stringify(params), () => {
+      //   console.log("코스 만드는 중");
+      // });
+    }
+    fetchData();
+  }, []);
 
   return (
     <View style={MapStyles.container}>
@@ -32,9 +71,7 @@ export default function SetMakeCourse({ params, setSelectView }) {
         />
         <TouchableOpacity
           TouchableOpacity={0.8}
-          onPress={() =>
-            setComplete(complete === "complete" ? "edit" : "complete")
-          }
+          // onPress={makeCourse()}
         >
           <Text
             style={
@@ -47,7 +84,8 @@ export default function SetMakeCourse({ params, setSelectView }) {
           </Text>
         </TouchableOpacity>
       </View>
-      {params.map((item, index) => {
+      {/* <AutoScrollView> */}
+      {courseData.map((item, index) => {
         return (
           <PlaceList
             key={index}
@@ -57,6 +95,7 @@ export default function SetMakeCourse({ params, setSelectView }) {
           />
         );
       })}
+      {/* </AutoScrollView> */}
 
       <Entypo
         name="dots-three-vertical"
@@ -66,9 +105,7 @@ export default function SetMakeCourse({ params, setSelectView }) {
       />
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() =>
-          navigation.navigate("SelectPlaceScreen", { params: params })
-        }
+        onPress={storeCourse()}
         style={styles.SelectBtn}
       >
         <WithLocalSvg width={toSize(15)} height={toSize(15)} asset={ic_map} />

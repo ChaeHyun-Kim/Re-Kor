@@ -274,7 +274,7 @@ export default function SignUpScreen({ navigation }) {
             setChangeBackGround={setChangeBackGround}
           />
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.8}
             onPress={ClickCheckBox}
             style={styles.RowView}
@@ -296,7 +296,7 @@ export default function SignUpScreen({ navigation }) {
                 <Text style={FormStyles.FormPoint}>Privacy Policy</Text>.
               </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View
           style={[

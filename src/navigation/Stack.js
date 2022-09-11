@@ -15,6 +15,8 @@ import MakeCourse from "../screens/MakeCourse/MainScreen";
 import SelectPlaceScreen from "../screens/MakeCourse/SelectPlaceScreen";
 import SearchTravelScreen from "../screens/Explore/SearchTravelScreen/index";
 import MyPageScreen from "../screens/Explore/MyPageScreen/index";
+import TermsOfUse from "../screens/Login/TermsScreen/TermsOfUse/index";
+import PersonalInfoTerms from "../screens/Login/TermsScreen/PersonalInfoTerms/index";
 import SelectCategoryScreen from "../screens/Category/SelectCategoryScreen/index";
 import DetailedScreen from "../screens/Category/DetailedScreen/index";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -48,6 +50,8 @@ const StackNavigation = () => {
       <Stack.Screen name="MoveFolder" component={MoveFolder} />
       <Stack.Screen name="MoveCourseOrder" component={MoveCourseOrder} />
       <Stack.Screen name="WishList" component={WishList} />
+      <Stack.Screen name="TermsOfUse" component={TermsOfUse} />
+      <Stack.Screen name="PersonalInfoTerms" component={PersonalInfoTerms} />
 
       <Stack.Screen
         name="MakeCourse"
