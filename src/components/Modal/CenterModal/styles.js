@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderBottomStartRadius: 14,
     borderBottomEndRadius: 14,
+    paddingVertical: toSize(11),
   },
   button: {
     flex: 1,

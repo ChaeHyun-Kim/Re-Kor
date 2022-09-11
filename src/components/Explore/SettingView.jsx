@@ -10,10 +10,14 @@ import {
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function SettingView({ icon, content }) {
+export default function SettingView({ icon, content, handleFunction }) {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity activeOpacity={0.8} style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => handleFunction(true)}
+      style={styles.container}
+    >
       <AntDesign name={icon} size={toSize(20)} color="#2F3036" />
       <Text style={styles.ButtonText}>{content}</Text>
     </TouchableOpacity>

@@ -26,7 +26,6 @@ const WishListMainScreen = () => {
       .then((response) => {
         if (response != null) {
           getData(response);
-          console.log(response);
         }
       })
       .catch((error) => {
@@ -43,6 +42,7 @@ const WishListMainScreen = () => {
         {Data.map((item, index) => {
           return (
             <PlaceForm
+              data={item}
               place_name={item.title}
               region={item.address.addr1}
               category={item.rekorCategory}

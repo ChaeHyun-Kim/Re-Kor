@@ -30,6 +30,7 @@ import heart from "../../../icons/icon_Heart.svg";
 
 const ExploreMainScreen = () => {
   const [userName, getUserName] = useState("");
+  const [catNum, getCatNum] = useState("");
   const [placeArray, handlePlaceArray] = useState([]);
   const [ClickHeart, setHeartClick] = useState(false);
   const [placeNumber, setPlaceNumber] = useState(0);
@@ -60,6 +61,8 @@ const ExploreMainScreen = () => {
   /*유저 닉네임 */
   const getUserData = async () => {
     const userNickName = await AsyncStorage.getItem("userNickName");
+    const catNumber = await AsyncStorage.getItem("catNumber");
+    getCatNum(catNumber);
     getUserName(JSON.parse(userNickName));
   };
   getUserData();
@@ -121,7 +124,7 @@ const ExploreMainScreen = () => {
       <StatusBar style="auto" />
       <Header />
       <View style={styles.MainView}>
-        <UserInfo userNickName={userName} />
+        <UserInfo userNickName={userName} catNum={catNum} />
         <View style={styles.recommend_view}>
           <Text style={styles.recommend_title}>Today's recommended place</Text>
           <View style={styles.place_view}>

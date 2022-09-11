@@ -9,7 +9,7 @@ import {
   ImageBackground,
   Linking,
 } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
 
 import BackHeader from "../../../components/BackHeader";
@@ -28,6 +28,9 @@ import { useNavigation } from "@react-navigation/native";
 
 const DetailedScreen = ({ route }) => {
   const navigation = useNavigation();
+  const [Data, getData] = useState(null);
+  const [ClickHeart, setHeartClick] = useState(false);
+  const [HeartShow, setHeartShow] = useState(false);
   const { Content_ID } = route.params;
 
   useEffect(() => {
@@ -40,6 +43,7 @@ const DetailedScreen = ({ route }) => {
       .then((response) => {
         if (response != null) {
           getData(response[0]);
+          // setHeartClick(response[0].isInWishList);
 
           const fixedLocation = {
             lat: parseFloat(
@@ -60,10 +64,6 @@ const DetailedScreen = ({ route }) => {
         console.log(error);
       });
   };
-  const [Data, getData] = useState(null);
-  const place = require("../../../images/place1.png");
-  const [ClickHeart, setHeartClick] = useState(false);
-  const [HeartShow, setHeartShow] = useState(false);
 
   const heartClick = () => {
     setHeartClick(ClickHeart == false ? true : false);

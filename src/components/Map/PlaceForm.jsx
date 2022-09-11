@@ -12,7 +12,7 @@ import { AntDesign } from "@expo/vector-icons";
 import TagForm from "../PlaceForm/TagForm";
 import { useNavigation } from "@react-navigation/native";
 import CategoryColorForm from "../PlaceForm/CategoryColorForm";
-const place = require("../../../src/images/place1.png");
+const place = require("../../../src/images/noImage.png");
 import { Foundation } from "@expo/vector-icons";
 
 const PlaceForm = ({ data, type }) => {

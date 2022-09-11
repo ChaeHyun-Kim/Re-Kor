@@ -38,7 +38,7 @@ const PlaceForm = ({
           activeOpacity={0.8}
           onPress={() =>
             navigation.navigate("DetailedScreen", {
-              Content_ID: id,
+              Content_ID: data.spotId.id,
             })
           }
           style={styles.CategoryView}

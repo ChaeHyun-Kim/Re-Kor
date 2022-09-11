@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { WithLocalSvg } from "react-native-svg";
 import { toSize } from "../../globalStyle.js";
 
-import user_character from "../../icons/ic_typeImage1.svg";
+import cat_shoppingLover from "../../icons/cat_shoppingLover.svg";
+import cat_foodFighting from "../../icons/cat_foodFighting.svg";
+import cat_hanbokyi from "../../icons/cat_hanbokyi.svg";
+import cat_suffer from "../../icons/cat_suffer.svg";
+import cat_viewer from "../../icons/cat_viewer.svg";
 
-export default function UserInfo({ userNickName }) {
+export default function UserInfo({ userNickName, catNum }) {
   const HomeLine = require("../../icons/ic_homeLine.png");
   return (
     <View style={styles.user_information}>
@@ -18,7 +22,17 @@ export default function UserInfo({ userNickName }) {
         height={toSize(67)}
         width={toSize(67)}
         style={styles.character_View}
-        asset={user_character}
+        asset={
+          parseInt(catNum) === 0
+            ? cat_shoppingLover
+            : parseInt(catNum) === 1
+            ? cat_foodFighting
+            : parseInt(catNum) === 2
+            ? cat_hanbokyi
+            : parseInt(catNum) === 3
+            ? cat_suffer
+            : cat_viewer
+        }
       />
       <Image source={HomeLine} style={styles.lineView} />
     </View>

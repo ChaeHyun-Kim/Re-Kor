@@ -22,7 +22,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { loginAPI, formCheckAPI } from "../../../api/Login";
 import ToastMessage from "../../../components/Modal/Toast";
 import { refreshTokenAPI } from "../../../api/Login";
-import MessageModal from "../../../components/Modal/MessageModal";
+import CenterModal from "../../../components/Modal/CenterModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginMainScreen = () => {
   const navigation = useNavigation();
@@ -44,6 +45,10 @@ const LoginMainScreen = () => {
         if (response === 1) {
           formCheckAPI()
             .then((res) => {
+              AsyncStorage.setItem(
+                "catNumber",
+                String(Math.floor(Math.random() * 5))
+              );
               res === 1
                 ? navigation.navigate("Explore")
                 : navigation.navigate("SignUpScreen");
@@ -67,7 +72,16 @@ const LoginMainScreen = () => {
         content={"Validation verified"}
         fail
       />
-      {update && <MessageModal handleFunction={setUpdate} />}
+      <CenterModal
+        visible={update}
+        title={"Coming soon"}
+        rightPress={() => setUpdate(false)}
+        rightText={"Close"}
+      >
+        <Text color={"#000"} lineHeight={15}>
+          {"please wait for a moment"}
+        </Text>
+      </CenterModal>
 
       <View style={styles.fullscreen}>
         <StatusBar style="auto" />
@@ -147,7 +161,12 @@ const LoginMainScreen = () => {
             >
               Or
             </Text>
-            <LoginTypeSelect type={"kakao"} />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setUpdate(true)}
+            >
+              <LoginTypeSelect type={"kakao"} />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

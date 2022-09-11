@@ -15,13 +15,14 @@ import logo_rekor from "../../icons/rekor_logo.svg";
 export default function LoginTypeSelect({ type }) {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() =>
-        type === "kakao"
-          ? navigation.navigate("LoginKakaoScreen")
-          : navigation.navigate("SignUpScreen")
-      }
+    // <TouchableOpacity
+    //   activeOpacity={0.8}
+    //   onPress={() =>
+    //     type === "kakao"
+    //       ? navigation.navigate("LoginKakaoScreen")
+    //       : navigation.navigate("SignUpScreen")
+    //   }
+    <View
       style={[
         styles.ButtonView,
         type === "kakao" ? { backgroundColor: "#FFE812" } : null,
@@ -40,7 +41,7 @@ export default function LoginTypeSelect({ type }) {
       >
         Continue with {type}
       </Text>
-    </TouchableOpacity>
+    </View>
   );
 }
 

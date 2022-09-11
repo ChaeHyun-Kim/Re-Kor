@@ -43,6 +43,19 @@ export const addWishListAPI = async (id) => {
     },
   });
   const data = await response.json();
-  console.log(data);
+  return data.data;
+};
+
+/* 유저 태그 불러오기 */
+export const getUserTagList = async () => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/user/tag", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + JSON.parse(userToken),
+    },
+  });
+  const data = await response.json();
   return data.data;
 };
