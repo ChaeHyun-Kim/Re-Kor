@@ -11,8 +11,7 @@ import FilterCheckView from "../../../components/Map/FilterCheckView";
 import { wishListAPI } from "../../../api/WishList";
 import { recommendTourAPI } from "../../../api/Explore";
 
-const SelectPlaceScreen = ({ route }) => {
-  const { params } = route.params;
+const SelectPlaceScreen = () => {
   const [recommendData, getRecommendData] = useState([]);
   const [wishData, getWishData] = useState([]);
   const [click, setClick] = useState("recommended");
