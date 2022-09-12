@@ -1,4 +1,3 @@
-// 코스에 넣을지 선택하는 컴포넌트
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle.js";

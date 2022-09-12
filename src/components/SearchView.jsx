@@ -1,9 +1,8 @@
 import React from "react";
 import { StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
 import { toSize } from "../globalStyle";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign } from "@expo/vector-icons";
 
 const SearchView = ({
   search,

@@ -1,8 +1,7 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { toSize } from "../globalStyle";
 import Constants from "expo-constants";
 

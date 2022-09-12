@@ -7,10 +7,9 @@ import {
   TextInput,
 } from "react-native";
 import { toSize } from "../../globalStyle";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import SecondView from "./SecondView";
 import SimplePopupMenu from "react-native-simple-popup-menu";
-import { FontAwesome } from "@expo/vector-icons";
 
 const CourseListView = ({
   courselist, //전체 데이터

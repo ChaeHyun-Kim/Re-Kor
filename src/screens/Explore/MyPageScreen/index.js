@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import Header from "../../../components/MyHeader";
 import { WithLocalSvg } from "react-native-svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -60,7 +67,6 @@ const MyPageScreen = () => {
       .then((response) => {
         if (response != null) {
           getWishData(response);
-          console.log(response[0].spotId.id);
         }
       })
       .catch((error) => {
@@ -119,9 +125,9 @@ const MyPageScreen = () => {
                   return <TagForm tag={item.tagName} key={index} />;
                 })}
             </View>
+            <Text style={styles.WishTitle}>Wishlist</Text>
             {wishData && (
-              <>
-                <Text style={styles.WishTitle}>Wishlist</Text>
+              <ScrollView horizontal={true}>
                 <View style={styles.wishView}>
                   {wishData.map((item, index) => {
                     return (
@@ -146,7 +152,7 @@ const MyPageScreen = () => {
                     );
                   })}
                 </View>
-              </>
+              </ScrollView>
             )}
           </View>
         </View>
