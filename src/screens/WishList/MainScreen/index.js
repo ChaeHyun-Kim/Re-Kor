@@ -38,7 +38,7 @@ const WishListMainScreen = () => {
           console.log(error);
         });
     } else if (itemId === "map") {
-      handleNextScreen();
+      //handleNextScreen();
     }
   };
 
