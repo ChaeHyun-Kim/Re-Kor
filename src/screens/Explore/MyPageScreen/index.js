@@ -108,7 +108,9 @@ const MyPageScreen = () => {
                   ? cat_hanbokyi
                   : catNum === 3
                   ? cat_suffer
-                  : cat_viewer
+                  : catNum === 4
+                  ? cat_viewer
+                  : noImage
               }
             />
           </View>

@@ -8,6 +8,7 @@ import Constants from "expo-constants";
 
 import no_heart from "../icons/icon_NoHeart.svg";
 import heart from "../icons/icon_Heart.svg";
+import go_map from "../icons/go_map.svg";
 
 export default function Header({ heartClick, ClickHeart }) {
   const navigation = useNavigation();
@@ -30,17 +31,17 @@ export default function Header({ heartClick, ClickHeart }) {
               asset={!ClickHeart ? no_heart : heart}
             />
           </TouchableOpacity>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             activeOpacity={0.8}
             style={styles.left}
-            onPress={() => navigation.navigate("MakeCourse")}
+            //onPress={() => navigation.navigate("MakeCourse")}
           >
             <WithLocalSvg
               width={toSize(30)}
               height={toSize(30)}
               asset={go_map}
             />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       </View>
     </View>

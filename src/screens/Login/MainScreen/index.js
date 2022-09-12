@@ -19,18 +19,15 @@ import logo from "../../../images/logo_back.png";
 import { FormStyles } from "../../../styles/FormView";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { loginAPI, formCheckAPI } from "../../../api/Login";
+import { loginAPI, formCheckAPI, refreshTokenAPI } from "../../../api/Login";
 import ToastMessage from "../../../components/Modal/Toast";
-import { refreshTokenAPI } from "../../../api/Login";
 import CenterModal from "../../../components/Modal/CenterModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginMainScreen = () => {
   const navigation = useNavigation();
-  // const [phone, setPhone] = useState("");
-  // const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("12312312312");
-  const [password, setPassword] = useState("123");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [failLogin, handelFailLogin] = useState();
   const [update, setUpdate] = useState(false);
 

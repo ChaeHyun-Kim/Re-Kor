@@ -124,7 +124,7 @@ const ExploreMainScreen = () => {
       <StatusBar style="auto" />
       <Header />
       <View style={styles.MainView}>
-        <UserInfo userNickName={userName} catNum={catNum} />
+        <UserInfo userNickName={userName} catNum={parseInt(catNum)} />
         <View style={styles.recommend_view}>
           <Text style={styles.recommend_title}>Today's recommended place</Text>
           <View style={styles.place_view}>

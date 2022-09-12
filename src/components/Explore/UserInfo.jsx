@@ -12,6 +12,7 @@ import cat_viewer from "../../icons/cat_viewer.svg";
 
 export default function UserInfo({ userNickName, catNum }) {
   const HomeLine = require("../../icons/ic_homeLine.png");
+  const noImage = require("../../images/noImageTitle.png");
   return (
     <View style={styles.user_information}>
       <View style={styles.textView}>
@@ -23,15 +24,17 @@ export default function UserInfo({ userNickName, catNum }) {
         width={toSize(67)}
         style={styles.character_View}
         asset={
-          parseInt(catNum) === 0
+          catNum === 0
             ? cat_shoppingLover
-            : parseInt(catNum) === 1
+            : catNum === 1
             ? cat_foodFighting
-            : parseInt(catNum) === 2
+            : catNum === 2
             ? cat_hanbokyi
-            : parseInt(catNum) === 3
+            : catNum === 3
             ? cat_suffer
-            : cat_viewer
+            : catNum === 4
+            ? cat_viewer
+            : noImage
         }
       />
       <Image source={HomeLine} style={styles.lineView} />
