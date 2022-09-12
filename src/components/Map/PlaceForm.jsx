@@ -26,8 +26,8 @@ const PlaceForm = ({ data, type }) => {
         cat: data.rekorCategory,
         img: data.images[0] ? { uri: data.images[0] } : place,
         type: type,
-        mapx: data.address.mapx,
-        mapy: data.address.mapy,
+        mapx: parseFloat(data.address.mapx),
+        mapy: parseFloat(data.address.mapy),
       },
     ];
     navigation.navigate("MakeCourse", { params: params });
@@ -84,7 +84,7 @@ const PlaceForm = ({ data, type }) => {
         )}
 
         <View style={styles.tagView}>
-          {data.tags.map((item, index) => {
+          {data.tagList.map((item, index) => {
             if (index < 3) {
               return <TagForm key={index} tag={item.tagName} />;
             }

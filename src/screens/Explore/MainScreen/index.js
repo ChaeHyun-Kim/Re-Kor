@@ -83,7 +83,7 @@ const ExploreMainScreen = () => {
     addWishListAPI(placeArray[placeNumber].spotId.id)
       .then((response) => {
         if (response != null) {
-          setHeartClick(ClickHeart == false ? true : false);
+          setHeartClick(!ClickHeart);
         }
       })
       .catch((error) => {
@@ -220,7 +220,7 @@ const ExploreMainScreen = () => {
                     </View>
                     <View style={styles.tagView}>
                       {placeArray.length != 0 &&
-                        placeArray[placeNumber].tags.map((item, index) => {
+                        placeArray[placeNumber].tagList.map((item, index) => {
                           return <TagForm tag={item.tagName} key={index} />;
                         })}
                     </View>

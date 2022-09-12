@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { toSize } from "../../globalStyle";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
 import SecondSmallView from "./SecondSmallView";
-import { SimpleLineIcons } from "@expo/vector-icons";
 
-import { useNavigation } from "@react-navigation/native";
 const CourseView = ({
   partcoursedata, //한 인덱스 코스 데이터
   courseindex, //인덱스

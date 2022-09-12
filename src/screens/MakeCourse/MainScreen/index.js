@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, BackHandler, Text } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import {
@@ -32,7 +31,6 @@ export default function MakeCourseMainScreen({ route }) {
     navigation.goBack();
   };
 
-  // handle the native back button
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
@@ -46,11 +44,10 @@ export default function MakeCourseMainScreen({ route }) {
 
   useEffect(() => {
     if (params.length === 1) {
-      console.log("click");
       setLocation({ lat: params[0].mapy, lng: params[0].mapx });
     }
   }, [params]);
-  console.log("location", location);
+
 
   return (
     <View style={styles.fullscreen}>
@@ -58,15 +55,19 @@ export default function MakeCourseMainScreen({ route }) {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
-          latitude: location.lat,
-          longitude: location.lng,
+          latitude: 36.3157374968,
+          longitude: 127.6103127329,
           latitudeDelta: 0.0421,
           longitudeDelta: 0.0421,
         }}
       >
-        {/* {params.length === 1 && (
-          <MarkerCustom location={location} icon={"Heart"} num={1} />
-        )} */}
+        {params.length === 1 && (
+          <MarkerCustom
+            location={location}
+            icon={params[0].type === "wish" ? "Heart" : "wish"}
+            num={1}
+          />
+        )}
       </MapView>
 
       <View style={[styles.container, styles.rowView]}>

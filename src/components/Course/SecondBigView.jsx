@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
-import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-// import { Entypo } from "@expo/vector-icons";
 import { WithLocalSvg } from "react-native-svg";
 import full_course_icon from "../../icons/full_course_icon.svg";
 import PlaceList from "../Map/PlaceList";
 import SimplePopupMenu from "react-native-simple-popup-menu";
+
 const SecondBigView = ({ course_info }) => {
   const place = require("../../images/place1.png");
   return (

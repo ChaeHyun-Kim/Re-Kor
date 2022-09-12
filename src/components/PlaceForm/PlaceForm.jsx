@@ -1,28 +1,20 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import TagForm from "./TagForm";
 import { useNavigation } from "@react-navigation/native";
 import CategoryColorForm from "./CategoryColorForm";
-const noImage = require("../../../src/images/noImage.png");
 import SimplePopupMenu from "react-native-simple-popup-menu";
 
+const noImage = require("../../../src/images/noImage.png");
 const PlaceForm = ({
-  id,
   data,
   place_name,
   region,
   heartScore,
   starScore,
-  tags,
+  tagList,
   category,
   menu,
   items,
@@ -55,9 +47,11 @@ const PlaceForm = ({
                 </Text>
                 {menu && (
                   <SimplePopupMenu
+                    customStyles={{ Option: styles.popupText }}
                     items={items}
-                    onSelect={onClickMenu}
+                    onSelect={(items) => onClickMenu(items.id, data.spotId.id)}
                     onCancel={() => console.log("onCancel")}
+                    cancelLabel={"Cancel"}
                   >
                     <AntDesign
                       name="ellipsis1"
@@ -87,14 +81,14 @@ const PlaceForm = ({
             {category && <CategoryColorForm category={category} />}
 
             <View style={styles.tagView}>
-              {tags.map((item, index) => {
+              {tagList.map((item, index) => {
                 if (index < 3) {
                   return <TagForm key={index} tag={item.tagName} />;
                 }
               })}
             </View>
             <View style={styles.ScoreView}>
-              {tags.map((item, index) => {
+              {tagList.map((item, index) => {
                 if (index >= 3) {
                   return <TagForm key={index} tag={item.tagName} />;
                 }
@@ -169,5 +163,10 @@ const styles = StyleSheet.create({
   tagView: {
     flexDirection: "row",
     marginTop: toSize(4),
+    width: "100%",
+  },
+  popupText: {
+    fontWeight: "400",
+    size: toSize(17),
   },
 });

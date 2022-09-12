@@ -90,7 +90,7 @@ const SelectCategoryScreen = ({ route }) => {
                 region={item.address.addr1}
                 heartScore={item.likeCount}
                 starScore={item.rating}
-                tags={item.tags}
+                tagList={item.tagList}
                 images={item.images}
                 id={item.spotId.id}
                 key={index}

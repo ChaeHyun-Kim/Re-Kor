@@ -1,16 +1,18 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 
 import { WithLocalSvg } from "react-native-svg";
 import MapIcon from "../icons/map.svg";
 import MapNoIcon from "../icons/MapNoIcon.svg";
 
-import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
+import {
+  MaterialIcons,
+  AntDesign,
+  MaterialCommunityIcons,
+  Octicons,
+} from "@expo/vector-icons";
+
 import { toSize } from "../globalStyle";
 import { BottomStyles } from "../styles/Bottom";
 

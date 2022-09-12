@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
 import TitleInfo from "../../../components/common/TitleInfoScreen";
@@ -8,18 +9,59 @@ import PlaceForm from "../../../components/PlaceForm/PlaceForm";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { wishListAPI } from "../../../api/WishList";
 import React, { useEffect, useState } from "react";
+import { addWishListAPI } from "../../../api/Explore";
+
+const noImage = require("../../../images/noImage.png");
 
 const WishListMainScreen = () => {
-  const items = [
-    { id: "option1", label: "Release Wish" },
-    { id: "option2", label: "Create a course to that location" },
-  ];
+  const navigation = useNavigation();
   const [Data, getData] = useState([]);
-  const onClickMenu = () => {};
+  const [reset, setReset] = useState(false);
+
+  const items = [
+    { id: "delete", label: "Release Wish" },
+    {
+      id: "map",
+      label: "Create a course to that location",
+    },
+  ];
+
+  const onClickMenu = (itemId, placeId) => {
+    if (itemId === "delete") {
+      addWishListAPI(placeId)
+        .then((response) => {
+          if (response != null) {
+            setReset(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (itemId === "map") {
+      handleNextScreen();
+    }
+  };
+
+  const handleNextScreen = () => {
+    const params = [
+      {
+        id: Data[0].spotId.id,
+        placeName: Data[0].title,
+        addr: Data[0].address.addr1.split(" ")[1],
+        cat: Data[0].rekorCategory,
+        img: Data[0].images[0] ? { uri: Data[0].images[0] } : noImage,
+        type: "wish",
+        mapx: parseFloat(Data[0].address.mapx),
+        mapy: parseFloat(Data[0].address.mapy),
+      },
+    ];
+    navigation.navigate("MakeCourse", { params: params });
+  };
 
   useEffect(() => {
     handleWishList();
-  }, []);
+    setReset(false);
+  }, [reset]);
 
   const handleWishList = async () => {
     wishListAPI()
@@ -48,7 +90,7 @@ const WishListMainScreen = () => {
               category={item.rekorCategory}
               heartScore={item.likeCount}
               starScore={item.rating}
-              tags={item.tagList}
+              tagList={item.tagList}
               key={index}
               menu
               images={item.images}

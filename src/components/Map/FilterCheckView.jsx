@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { toSize } from "../../globalStyle.js";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 export default function FilterCheckView({ click, setClick }) {
   return (
@@ -17,7 +17,7 @@ export default function FilterCheckView({ click, setClick }) {
             : { backgroundColor: "#fff" },
         ]}
       >
-        <FontAwesome
+        <FontAwesome5
           name={"thumbs-up"}
           size={toSize(11)}
           color={click === "recommended" ? "#FFFFFF" : "#71727A"}

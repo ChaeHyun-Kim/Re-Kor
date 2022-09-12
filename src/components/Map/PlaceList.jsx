@@ -12,16 +12,8 @@ import { styles } from "../../styles/PlaceListStyle";
 
 const place = require("../../../src/images/place1.png");
 
-const PlaceList = ({
-  params,
-  num,
-  screenType,
-  km,
-  img,
-  type,
-}) => {
+const PlaceList = ({ params, num, screenType, km, img, type }) => {
   const navigation = useNavigation();
-  console.log(params);
   return (
     <>
       {km && (
@@ -153,7 +145,9 @@ const PlaceList = ({
             }
           />
           <View style={styles.PlaceView}>
-            <Text style={styles.Place_Text}>{params.placeName}</Text>
+            <Text style={styles.Place_Text} numberOfLines={1}>
+              {params.placeName}
+            </Text>
 
             <Text style={styles.Region_Text}>{params.addr}</Text>
             <CategoryColorForm category={params.cat}></CategoryColorForm>

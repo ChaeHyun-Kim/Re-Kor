@@ -16,4 +16,5 @@ export const toSize = (input) => {
 
 export const images = {
   MarkerHeart: require("./icons/ic_marker_heart.png"),
+  MarkerRecommend: require("./icons/ic_marker_recommend.png"),
 };

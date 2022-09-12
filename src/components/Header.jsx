@@ -4,8 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { WithLocalSvg } from "react-native-svg";
 import Constants from "expo-constants";
 
-import { Ionicons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
+import { Ionicons, Octicons } from "@expo/vector-icons";
 import { toSize } from "../globalStyle";
 
 import Logo from "../icons/rekor_logo.svg";

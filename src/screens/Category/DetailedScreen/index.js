@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { styles, textUnderlineStyle } from "./styles";
-import {
-  Text,
-  ScrollView,
-  View,
-  Image,
-  ImageBackground,
-  Linking,
-} from "react-native";
+import { Text, ScrollView, View, Image, Linking } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
 
@@ -23,15 +16,12 @@ import { toSize } from "../../../globalStyle";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 import Review from "../../../components/Category/Review";
 import { detailedInfoAPI } from "../../../api/Category";
-
-import { useNavigation } from "@react-navigation/native";
+import { addWishListAPI } from "../../../api/Explore";
 
 const DetailedScreen = ({ route }) => {
-  const navigation = useNavigation();
+  const { Content_ID } = route.params;
   const [Data, getData] = useState(null);
   const [ClickHeart, setHeartClick] = useState(false);
-  const [HeartShow, setHeartShow] = useState(false);
-  const { Content_ID } = route.params;
 
   useEffect(() => {
     handleList();
@@ -43,7 +33,7 @@ const DetailedScreen = ({ route }) => {
       .then((response) => {
         if (response != null) {
           getData(response[0]);
-          // setHeartClick(response[0].isInWishList);
+          setHeartClick(response[0].checkItem.wished);
 
           const fixedLocation = {
             lat: parseFloat(
@@ -66,17 +56,16 @@ const DetailedScreen = ({ route }) => {
   };
 
   const heartClick = () => {
-    setHeartClick(ClickHeart == false ? true : false);
+    addWishListAPI(Data.spotId.id)
+      .then((response) => {
+        if (response != null) {
+          setHeartClick(!ClickHeart);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
-  useEffect(() => {
-    if (ClickHeart) {
-      setHeartShow(true);
-      setTimeout(function () {
-        setHeartShow(false);
-      }, 1000);
-    }
-  }, [ClickHeart]);
 
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
   const [location, setLocation] = useState(fixedLocation);
@@ -111,8 +100,8 @@ const DetailedScreen = ({ route }) => {
             <View style={styles.CategoryView}>
               <CategoryColorForm category={Data.spotInfo.rekorCategory} />
               <View style={styles.tagView}>
-                {Data.spotInfo.tags &&
-                  Data.spotInfo.tags.map((item, index) => {
+                {Data.spotInfo.tagList &&
+                  Data.spotInfo.tagList.map((item, index) => {
                     return <TagForm tag={item.tagName} key={index} />;
                   })}
               </View>
