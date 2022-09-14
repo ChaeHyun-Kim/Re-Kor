@@ -13,7 +13,7 @@ import { WithLocalSvg } from "react-native-svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CourseListAPI, AddFolderAPI } from "../../../api/Courselist";
 const CourseListMainScreen = () => {
-  const emptyfolder = [{ folderName: "", courseList: [] }];
+  const emptyfolder = [{ folderName: "New Folder", courseList: [] }];
   const [courselist, setCourselist] = useState([]);
   const [confirmCheck, setConfirmCheck] = useState(false);
 

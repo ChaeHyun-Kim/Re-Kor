@@ -19,6 +19,7 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -29,7 +30,7 @@
           "apiKey": "AIzaSyAewVmLSZSKrljVbur2uZzQYB89hMeVb1U"
         }
       },
-      "package": "com.suji_chae.ReKor",
+      "package": "com.ReKor.ReKor",
       "permissions": []
     },
     "web": {

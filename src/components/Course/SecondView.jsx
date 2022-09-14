@@ -13,6 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import SecondSmallView from "./SecondSmallView";
 import SecondBigView from "./SecondBigView";
+import { RenameCourseAPI } from "../../api/Courselist";
 
 import { useNavigation } from "@react-navigation/native";
 const SecondView = ({
@@ -76,7 +77,7 @@ const SecondView = ({
             courselist[courseindex] = partcoursedata;
             console.log("코스 전체 데이터:", courselist);
             setCoursepart(courselist);
-            // setCourselist(data);
+            RenameCourseAPI(partcoursedata.courseId.id, coursename);
           }}
         />
 
@@ -92,9 +93,9 @@ const SecondView = ({
         </SimplePopupMenu>
       </View>
 
-      {(click && <SecondBigView course_info={partcoursedata}></SecondBigView>) || (
-        <SecondSmallView course_info={partcoursedata}></SecondSmallView>
-      )}
+      {(click && (
+        <SecondBigView course_info={partcoursedata}></SecondBigView>
+      )) || <SecondSmallView course_info={partcoursedata}></SecondSmallView>}
     </TouchableOpacity>
   );
 };

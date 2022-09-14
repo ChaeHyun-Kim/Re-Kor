@@ -18,7 +18,7 @@ const uri = "https://kwhcclab.com:20874";
 //   return data.data;
 // };
 
-/* 폴더 추가하기 */
+/* 코스 생성하기 */
 export const MakeCourseAPI = async (courseName, spotList) => {
   const userToken = await AsyncStorage.getItem("accessToken");
   const response = await fetch(uri + "/api/course/", {
