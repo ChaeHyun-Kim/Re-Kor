@@ -70,7 +70,7 @@ export default function Bottom({ num }) {
         <View style={BottomStyles.MapIconView}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("MakeCourse")}
+            onPress={() => navigation.navigate("MakeCourse", { params: [] })}
           >
             <View style={BottomStyles.MapBackGround}>
               <WithLocalSvg

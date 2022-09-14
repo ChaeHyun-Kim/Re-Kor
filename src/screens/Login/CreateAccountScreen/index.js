@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 import { FormStyles } from "../../../styles/FormView";
-import { phoneCheckAPI, signUpAPI } from "../../../api/Login";
+import { phoneCheckAPI } from "../../../api/Login";
 
 import ToastMessage from "../../../components/Modal/Toast";
 import SignupModal from "../../../components/Modal/SignupModal";

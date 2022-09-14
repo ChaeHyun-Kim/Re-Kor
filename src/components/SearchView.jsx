@@ -34,6 +34,7 @@ const SearchView = ({
         activeOpacity={1}
         style={styles.searchView}
         onPress={handelClick}
+        hitSlop={{ top: 32, bottom: 32 }}
       >
         {text ? <Text style={styles.TextInput}>{text}</Text> : null}
         {placeholder ? (

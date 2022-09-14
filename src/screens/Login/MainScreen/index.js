@@ -105,9 +105,9 @@ const LoginMainScreen = () => {
                 onChangeText={setPhone}
                 value={phone.toString()}
                 maxLength={11}
-                returnKeyType="done"
                 keyboardType="number-pad"
                 placeholder="Phone Number"
+                style={styles.textInput}
               />
             </View>
 
@@ -128,6 +128,8 @@ const LoginMainScreen = () => {
                 onChangeText={setPassword}
                 value={password.toString()}
                 placeholder="Password"
+                secureTextEntry={true}
+                style={styles.textInput}
               />
             </View>
 
@@ -151,7 +153,7 @@ const LoginMainScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <View style={styles.line} />
+            {/* <View style={styles.line} />
 
             <Text
               style={[
@@ -166,7 +168,7 @@ const LoginMainScreen = () => {
               onPress={() => setUpdate(true)}
             >
               <LoginTypeSelect type={"kakao"} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </View>
@@ -190,7 +192,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   logoView: {
-    width: responsiveScreenWidth(50),
     resizeMode: "contain",
   },
   loginView: {
@@ -224,5 +225,10 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: toSize(1),
     marginTop: toSize(25),
+  },
+  textInput: {
+    fontSize: toSize(14),
+    fontWeight: "400",
+    width: "100%",
   },
 });

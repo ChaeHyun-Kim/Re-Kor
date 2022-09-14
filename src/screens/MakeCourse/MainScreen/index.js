@@ -24,7 +24,7 @@ export default function MakeCourseMainScreen({ route }) {
   const [location, setLocation] = useState(fixedLocation);
   const [cancelVisible, setCancelVisible] = useState(false);
   const [SelectView, setSelectView] = useState(false);
-  console.log("지도 있는 화면");
+
   // 뒤로가기
   const handleGoBack = () => {
     setCancelVisible(false);
@@ -43,7 +43,9 @@ export default function MakeCourseMainScreen({ route }) {
   }, []);
 
   useEffect(() => {
-    if (params.length === 1) {
+    if (params.length === 0) {
+      setSelectView(false);
+    } else if (params.length === 1) {
       setLocation({ lat: params[0].mapy, lng: params[0].mapx });
     }
   }, [params]);
@@ -52,12 +54,11 @@ export default function MakeCourseMainScreen({ route }) {
     <View style={styles.fullscreen}>
       <MapView
         style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 36.3157374968,
-          longitude: 127.6103127329,
-          latitudeDelta: 0.0421,
-          longitudeDelta: 0.0421,
+        region={{
+          latitude: location.lat - 0.0006,
+          longitude: location.lng,
+          latitudeDelta: 0.003,
+          longitudeDelta: 0.003,
         }}
       >
         {params.length === 1 && (

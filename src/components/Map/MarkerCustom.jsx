@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Image, View, Text } from "react-native";
 import { Marker } from "react-native-maps";
 import { toSize, images } from "../../globalStyle.js";
 
 export default function MarkerCustom({ location, icon, num }) {
-  console.log(icon);
   return (
     <Marker
       coordinate={{

@@ -10,22 +10,22 @@ import { toSize } from "../../../globalStyle";
 import SearchView from "../../../components/SearchView";
 import RecentView from "../../../components/RecentView";
 import PlaceForm from "../../../components/PlaceForm/PlaceForm";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { searchPlaceAPI } from "../../../api/Explore";
 
 const SearchTravelScreen = () => {
-  const navigation = useNavigation();
   const [search, setChangeSearch] = useState("");
   const [showPlace, handelShowPlace] = useState(true);
-  const SearchArray = [
-    // { num: 1, content: "Gapyeong Rail Park" },
-    // { num: 2, content: "Kwangwoon University" },
-  ];
+  const [searchArray, setSearchArray] = useState([]);
   const [searchData, getSearchData] = useState([]);
 
-  const handelSearchPlace = async () => {
-    if (search.length <= 2) {
-      Alert.alert("2자 이상 입력해주세요.");
-    } else {
+  const handelSearchPlace = () => {
+    if (search !== "") {
+      const newData = {
+        content: search,
+      };
+      setSearchArray([newData, ...searchArray]);
+
       searchPlaceAPI(search)
         .then((response) => {
           if (response != null) {
@@ -36,6 +36,8 @@ const SearchTravelScreen = () => {
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      handelShowPlace(true);
     }
   };
   return (
@@ -54,7 +56,7 @@ const SearchTravelScreen = () => {
         {showPlace ? (
           <View style={styles.RecentSearchView}>
             <Text style={styles.recentMainText}>Recent Search</Text>
-            {SearchArray.map((array, key) => (
+            {searchArray.map((array, key) => (
               <RecentView content={array.content} key={key} />
             ))}
           </View>
@@ -66,12 +68,13 @@ const SearchTravelScreen = () => {
             {searchData.map((item, index) => {
               return (
                 <PlaceForm
+                  data={item}
                   place_name={item.title}
                   region={item.address.addr1}
                   category={item.rekorCategory}
                   heartScore={item.likeCount}
                   starScore={item.rating}
-                  tags={item.tags}
+                  tagList={item.tagList}
                   images={item.images}
                   key={index}
                   // onClickMenu={onClickMenu}
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    marginTop: toSize(44),
+    marginTop: toSize(50),
   },
   RecentSearchView: {
     marginTop: toSize(22),

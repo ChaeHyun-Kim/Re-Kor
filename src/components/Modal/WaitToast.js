@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, View, Text } from "react-native";
-import { styles } from "./styles";
-import { toSize } from "../../../globalStyle";
+import { toSize } from "../../globalStyle";
+import { styles } from "./Toast/styles";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const WaitToastMessage = ({
@@ -12,9 +12,8 @@ const WaitToastMessage = ({
   fail,
 }) => {
   const popAnim = useRef(new Animated.Value(-500)).current;
-
   useEffect(() => {
-    if (visible === true) {
+    if (visible === 1) {
       Animated.timing(popAnim, {
         toValue: toSize(165),
         duration: 300,
@@ -25,7 +24,7 @@ const WaitToastMessage = ({
   });
 
   const handlePopOutToast = () => {
-    handleFunction(false);
+    handleFunction(3);
     setTimeout(() => {
       Animated.timing(popAnim, {
         toValue: -500,
@@ -38,9 +37,9 @@ const WaitToastMessage = ({
   return (
     <Animated.View
       style={[
-        styles.WaittoastContainer,
+        styles.WaitToastContainer,
         { transform: [{ translateY: popAnim }] },
-        fail ? { backgroundColor: "#FFE2E5" } : { backgroundColor: "#FFE2E5" },
+        fail ? { backgroundColor: "#FFE2E5" } : { backgroundColor: "#ECFFF2" },
       ]}
     >
       <View style={styles.flexRow}>

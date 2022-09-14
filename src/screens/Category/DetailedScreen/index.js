@@ -35,6 +35,8 @@ const DetailedScreen = ({ route }) => {
           getData(response[0]);
           setHeartClick(response[0].checkItem.wished);
 
+          console.log(response[0]);
+
           const fixedLocation = {
             lat: parseFloat(
               response[0].spotInfo.address.mapx
