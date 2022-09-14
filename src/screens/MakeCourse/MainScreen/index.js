@@ -24,7 +24,7 @@ export default function MakeCourseMainScreen({ route }) {
   const [location, setLocation] = useState(fixedLocation);
   const [cancelVisible, setCancelVisible] = useState(false);
   const [SelectView, setSelectView] = useState(false);
-
+  console.log("지도 있는 화면");
   // 뒤로가기
   const handleGoBack = () => {
     setCancelVisible(false);
@@ -47,7 +47,6 @@ export default function MakeCourseMainScreen({ route }) {
       setLocation({ lat: params[0].mapy, lng: params[0].mapx });
     }
   }, [params]);
-
 
   return (
     <View style={styles.fullscreen}>
@@ -95,14 +94,14 @@ export default function MakeCourseMainScreen({ route }) {
       {/* 뒤로가기 경고 모달 */}
       <CenterModal
         visible={cancelVisible}
-        title={"뒤로가기 모달"}
+        title={"Do you want to leave the page?"}
         leftPress={() => setCancelVisible(false)}
         rightPress={handleGoBack}
-        leftText={"취소"}
-        rightText={"뒤로가기"}
+        leftText={"Cancel"}
+        rightText={"Action"}
       >
         <Text color={"#000"} lineHeight={15}>
-          {"뒤로가기 하시겠어요? 데이터가 다 사라집니다."}
+          {"If you leave this page, your changes may not be saved."}
         </Text>
       </CenterModal>
     </View>

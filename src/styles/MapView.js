@@ -5,11 +5,13 @@ export const MapStyles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
     width: "100%",
+    // height: "80%",
     paddingBottom: toSize(30),
     paddingHorizontal: toSize(24),
     alignItems: "center",
     borderTopStartRadius: 45,
     borderTopEndRadius: 45,
+    justifyContent: "flex-end",
   },
   line: {
     backgroundColor: "#DADADA",

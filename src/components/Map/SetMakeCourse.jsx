@@ -19,24 +19,43 @@ import { MakeCourseAPI } from "../../api/MakeCourse";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AutoScrollView from "react-native-auto-scroll-view";
 
+import WaitToastMessage from "../Modal/Toast/WaitToast";
+var newlist = [];
 export default function SetMakeCourse({ params, setSelectView }) {
   const navigation = useNavigation();
   const [complete, setComplete] = useState("edit");
-  const [search, setChangeSearch] = useState("");
+  const [coursename, setCoursename] = useState("");
   const [courseData, setCourseData] = useState([]);
-
-  // const makeCourse = () => {
-  //   setComplete(complete === "complete" ? "edit" : "complete");
-  //   AsyncStorage.setItem("@makeCourse", JSON.stringify(courseData), () => {
-  //     console.log("코스 만드는 중", courseData);
-  //   });
-  // };
+  const [confirmWait, setconfirmWait] = useState(false);
+  const makeCourse = () => {
+    if (coursename.length > 0) {
+      courseData.map((data) => {
+        var emptydata = { spotId: "", isWished: "", isRecommend: "" };
+        emptydata.spotId = data.id;
+        emptydata.isRecommend = data.type === "recommend" ? "true" : "false";
+        emptydata.isWished = data.type === "wish" ? "true" : "false";
+        newlist = newlist.concat(emptydata);
+      });
+      MakeCourseAPI(coursename, newlist)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      navigation.navigate("CourseList");
+    } else {
+      setconfirmWait(true);
+    }
+  };
 
   const storeCourse = () => {
     AsyncStorage.setItem("@makeCourse", JSON.stringify(courseData), () => {
-      console.log("코스저장", courseData);
+      // console.log("코스저장", courseData);
     });
-    navigation.navigate("SelectPlaceScreen", { params: params });
+    // navigation.navigate("SelectPlaceScreen", { params: params });
+
+    // navigation.navigate("SelectPlaceScreen");
   };
 
   useEffect(() => {
@@ -44,14 +63,11 @@ export default function SetMakeCourse({ params, setSelectView }) {
       const data = await AsyncStorage.getItem("@makeCourse");
       const courseList = JSON.parse(data);
       if (courseList !== null) {
-        console.log("makeCourse가 비지 않았다면  ");
         const finalcourseList = courseList.concat(params[0]);
         setCourseData(finalcourseList);
       } else {
-        console.log("makeCourse가 비었다면 ");
         setCourseData(params);
       }
-
       // await AsyncStorage.setItem("@makeCourse", JSON.stringify(params), () => {
       //   console.log("코스 만드는 중");
       // });
@@ -61,17 +77,25 @@ export default function SetMakeCourse({ params, setSelectView }) {
 
   return (
     <View style={MapStyles.container}>
+      {/* <WaitToastMessage
+        visible={confirmWait}
+        handleFunction={setconfirmWait}
+        title={"Wait!"}
+        content={"Please write down the name of the course"}
+      /> */}
       <View style={MapStyles.line} />
       <View style={MapStyles.textInputView}>
         <TextInput
           style={MapStyles.inputText}
-          onChangeText={(text) => setChangeSearch(text)}
-          value={search}
+          onChangeText={(text) => setCoursename(text)}
+          value={coursename}
           placeholder={"Set the name of the course"}
         />
         <TouchableOpacity
           TouchableOpacity={0.8}
-          // onPress={makeCourse()}
+          onPress={() => {
+            makeCourse();
+          }}
         >
           <Text
             style={
@@ -84,19 +108,18 @@ export default function SetMakeCourse({ params, setSelectView }) {
           </Text>
         </TouchableOpacity>
       </View>
-      {/* <AutoScrollView> */}
-      {courseData.map((item, index) => {
-        return (
-          <PlaceList
-            key={index}
-            params={item}
-            num={index + 1}
-            screenType={complete}
-          />
-        );
-      })}
-      {/* </AutoScrollView> */}
-
+      <AutoScrollView style={{ width: "100%" }}>
+        {courseData.map((item, index) => {
+          return (
+            <PlaceList
+              key={index}
+              params={item}
+              num={index + 1}
+              screenType={complete}
+            />
+          );
+        })}
+      </AutoScrollView>
       <Entypo
         name="dots-three-vertical"
         size={toSize(17)}

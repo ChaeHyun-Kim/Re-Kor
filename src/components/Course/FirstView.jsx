@@ -4,12 +4,14 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Alert,
   TextInput,
 } from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import SecondView from "./SecondView";
 import SimplePopupMenu from "react-native-simple-popup-menu";
+import { RenameFolderAPI } from "../../api/Courselist";
 
 const CourseListView = ({
   courselist, //전체 데이터
@@ -17,11 +19,10 @@ const CourseListView = ({
   folderindex, //인덱스
   setCourselist, //코스 리스트 관리하는 함수
 }) => {
-  const folder_name = partdata.folderName;
   const coursedata = partdata.courseList;
   const [click, setClick] = useState(false);
   const [rename, setRename] = useState(false);
-  const [foldername, setFoldername] = useState(false);
+  const [foldername, setFoldername] = useState(partdata.folderName);
   const [coursepart, setCoursepart] = useState(coursedata);
   const items = [{ id: "rename", label: "Rename a folder" }];
   const onMenuPress = (id) => {
@@ -37,10 +38,10 @@ const CourseListView = ({
     courselist[folderindex] = partdata;
     setCourselist(courselist);
   }, [coursepart]);
-
+  console.log("폴더 이름 유무:", foldername);
   return (
     <View style={{ padding: toSize(2), marginBottom: toSize(16) }}>
-      {partdata.folderName === "" || (
+      {(foldername != "" && partdata.folderName === "") || (
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => setClick(click === false ? true : false)}
@@ -52,19 +53,34 @@ const CourseListView = ({
 
           <View style={styles.textView}>
             <TextInput
-              value={folder_name}
+              value={foldername}
               editable={rename}
               style={styles.mainText}
-              placeholder={"Foler Name"}
-              Value={"New Folder"}
+              placeholder={"Folder Name"}
               onChangeText={(text) => {
                 setFoldername(text);
               }}
               onBlur={() => {
                 setRename(false);
-                partdata.folderName = foldername;
+                if (foldername === "") {
+                  partdata.folderName = "Folder";
+                  setFoldername("Folder");
+                  Alert.alert(
+                    "Folder Name Error",
+                    "Folder name is not entered.\nReplace with the default.",
+                    [
+                      {
+                        text: "OK",
+                        onPress: () => {
+                          console.log("폴더 이름 초기화");
+                        },
+                      },
+                    ]
+                  );
+                }
                 courselist[folderindex] = partdata;
                 setCourselist(courselist);
+                RenameFolderAPI(partdata.folderId.id, foldername);
               }}
             />
 
