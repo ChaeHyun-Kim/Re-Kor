@@ -69,6 +69,7 @@ const PlaceList = ({ params, num, screenType, km, img, type }) => {
                       text: "Action",
                       onPress: () => {
                         console.log("현재 관광지 지우기");
+                        console.log(num);
                       },
                     },
                     { text: "Cancel" },

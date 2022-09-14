@@ -24,6 +24,7 @@ export const FormStyles = StyleSheet.create({
     borderRadius: 12,
     height: toSize(48),
     paddingHorizontal: toSize(16),
+    width: "100%",
     fontSize: toSize(14),
     color: "#2F3036",
     fontWeight: "400",

@@ -19,24 +19,27 @@ import { MakeCourseAPI } from "../../api/MakeCourse";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AutoScrollView from "react-native-auto-scroll-view";
 
-import WaitToastMessage from "../Modal/Toast/WaitToast";
-var newlist = [];
+import ToastMessage from "../Modal/Toast";
+
 export default function SetMakeCourse({ params, setSelectView }) {
   const navigation = useNavigation();
   const [complete, setComplete] = useState("edit");
-  const [coursename, setCoursename] = useState("");
+  const [courseName, setCourseName] = useState("");
   const [courseData, setCourseData] = useState([]);
-  const [confirmWait, setconfirmWait] = useState(false);
+  const [confirmWait, setConfirmWait] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
   const makeCourse = () => {
-    if (coursename.length > 0) {
+    var newList = [];
+    if (courseName.length > 0) {
       courseData.map((data) => {
-        var emptydata = { spotId: "", isWished: "", isRecommend: "" };
-        emptydata.spotId = data.id;
-        emptydata.isRecommend = data.type === "recommend" ? "true" : "false";
-        emptydata.isWished = data.type === "wish" ? "true" : "false";
-        newlist = newlist.concat(emptydata);
+        var emptyData = { spotId: "", isWished: "", isRecommend: "" };
+        emptyData.spotId = data.id;
+        emptyData.isRecommend = data.type === "recommend" ? "true" : "false";
+        emptyData.isWished = data.type === "wish" ? "true" : "false";
+        newList = newList.concat(emptyData);
       });
-      MakeCourseAPI(coursename, newlist)
+      MakeCourseAPI(courseName, newList)
         .then((response) => {
           console.log(response);
         })
@@ -45,7 +48,8 @@ export default function SetMakeCourse({ params, setSelectView }) {
         });
       navigation.navigate("CourseList");
     } else {
-      setconfirmWait(true);
+      console.log("팝업창");
+      setConfirmWait(1);
     }
   };
 
@@ -60,81 +64,91 @@ export default function SetMakeCourse({ params, setSelectView }) {
 
   useEffect(() => {
     async function fetchData() {
-      const data = await AsyncStorage.getItem("@makeCourse");
-      const courseList = JSON.parse(data);
-      if (courseList !== null) {
-        const finalcourseList = courseList.concat(params[0]);
-        setCourseData(finalcourseList);
-      } else {
-        setCourseData(params);
+      if (!isLoading) {
+        setIsLoading(true);
+        const data = await AsyncStorage.getItem("@makeCourse");
+        if (data === null) {
+          setCourseData(params);
+          console.log("파라미터를 makeCourse에 저장해야함");
+        } else {
+          console.log(JSON.stringify(data));
+          console.log("이미 저장된 값이 있을 경우");
+        }
+
+        // const courseList = JSON.parse(data);
+        // if (courseList !== null) {
+        //   const finalcourseList = courseList.concat(params[0]);
+        //   setCourseData(finalcourseList);
+        // } else {
+        //   setCourseData(params);
+        // }
+        // await AsyncStorage.setItem("@makeCourse", JSON.stringify(params), () => {
+        //   console.log("코스 만드는 중");
+        // });
       }
-      // await AsyncStorage.setItem("@makeCourse", JSON.stringify(params), () => {
-      //   console.log("코스 만드는 중");
-      // });
     }
     fetchData();
-  }, []);
+  }, [params]);
 
   return (
-    <View style={MapStyles.container}>
-      {/* <WaitToastMessage
+    <>
+      <ToastMessage
         visible={confirmWait}
-        handleFunction={setconfirmWait}
+        handleFunction={setConfirmWait}
         title={"Wait!"}
         content={"Please write down the name of the course"}
-      /> */}
-      <View style={MapStyles.line} />
-      <View style={MapStyles.textInputView}>
-        <TextInput
-          style={MapStyles.inputText}
-          onChangeText={(text) => setCoursename(text)}
-          value={coursename}
-          placeholder={"Set the name of the course"}
+        fail
+        course
+      />
+      <View style={MapStyles.container}>
+        <View style={MapStyles.line} />
+        <View style={MapStyles.textInputView}>
+          <TextInput
+            style={MapStyles.inputText}
+            onChangeText={(text) => setCourseName(text)}
+            value={courseName}
+            placeholder={"Set the name of the course"}
+          />
+          <TouchableOpacity TouchableOpacity={0.8} onPress={() => makeCourse()}>
+            <Text
+              style={
+                complete === "complete"
+                  ? MapStyles.editText
+                  : MapStyles.completeText
+              }
+            >
+              {complete === "complete" ? "Edit" : "Complete"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <AutoScrollView style={{ width: "100%" }}>
+          {courseData.map((item, index) => {
+            return (
+              <PlaceList
+                key={index}
+                params={item}
+                num={index + 1}
+                screenType={complete}
+              />
+            );
+          })}
+        </AutoScrollView>
+        <Entypo
+          name="dots-three-vertical"
+          size={toSize(17)}
+          style={{ marginVertical: toSize(11) }}
+          color="#D9D9D9"
         />
         <TouchableOpacity
-          TouchableOpacity={0.8}
-          onPress={() => {
-            makeCourse();
-          }}
+          activeOpacity={1}
+          onPress={() => storeCourse()}
+          style={styles.SelectBtn}
         >
-          <Text
-            style={
-              complete === "complete"
-                ? MapStyles.editText
-                : MapStyles.completeText
-            }
-          >
-            {complete === "complete" ? "Edit" : "Complete"}
-          </Text>
+          <WithLocalSvg width={toSize(15)} height={toSize(15)} asset={ic_map} />
+          <Text style={styles.btnText}>Select the next place</Text>
         </TouchableOpacity>
       </View>
-      <AutoScrollView style={{ width: "100%" }}>
-        {courseData.map((item, index) => {
-          return (
-            <PlaceList
-              key={index}
-              params={item}
-              num={index + 1}
-              screenType={complete}
-            />
-          );
-        })}
-      </AutoScrollView>
-      <Entypo
-        name="dots-three-vertical"
-        size={toSize(17)}
-        style={{ marginVertical: toSize(11) }}
-        color="#D9D9D9"
-      />
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={storeCourse()}
-        style={styles.SelectBtn}
-      >
-        <WithLocalSvg width={toSize(15)} height={toSize(15)} asset={ic_map} />
-        <Text style={styles.btnText}>Select the next place</Text>
-      </TouchableOpacity>
-    </View>
+    </>
   );
 }
 

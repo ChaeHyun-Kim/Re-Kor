@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { toSize } from "../../globalStyle.js";
@@ -13,17 +14,19 @@ export default function FirstPlaceView() {
     navigation.navigate("SelectPlaceScreen");
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await AsyncStorage.getItem("@makeCourse");
-      const courseList = JSON.parse(data);
-      console.log("저장된 코스 없니 ");
-      if (courseList !== null) {
-        setShowFirstView(false);
-      }
-    }
-    fetchData();
-  }, []);
+  console.log("showFirstView", showFirstView);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const data = await AsyncStorage.getItem("@makeCourse");
+  //     const courseList = JSON.parse(data);
+  //     if (courseList !== null) {
+  //       setShowFirstView(false);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.line} />

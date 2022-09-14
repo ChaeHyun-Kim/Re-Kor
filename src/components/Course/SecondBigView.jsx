@@ -43,7 +43,7 @@ const SecondBigView = ({ course_info }) => {
             place_name={item.place_name}
             region={item.addr1}
             category={item.rekorCategory}
-            tag={item.tags.tagName}
+            tag={item.tagList.tagName}
             num={index + 1}
             selecttype={""}
             screentype={"course_list"}

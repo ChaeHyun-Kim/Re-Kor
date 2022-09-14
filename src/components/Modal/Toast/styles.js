@@ -3,7 +3,6 @@ import { toSize } from "../../../globalStyle";
 
 export const styles = StyleSheet.create({
   toastContainer: {
-    backgroundColor: "#ECFFF2",
     position: "absolute",
     left: toSize(48),
     right: toSize(48),
@@ -13,7 +12,7 @@ export const styles = StyleSheet.create({
     zIndex: 100,
     justifyContent: "center",
   },
-  WaittoastContainer: {
+  WaitToastContainer: {
     backgroundColor: "#FFE2E5",
     position: "absolute",
     left: toSize(48),

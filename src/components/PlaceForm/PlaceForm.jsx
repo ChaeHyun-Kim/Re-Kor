@@ -22,6 +22,7 @@ const PlaceForm = ({
   onClickMenu,
 }) => {
   const navigation = useNavigation();
+  console.log(data);
 
   return (
     <>
@@ -114,11 +115,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 2,
     },
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.3,
     shadowRadius: 2,
-    elevation: 3,
+    elevation: 1,
   },
   rowView: {
     flexDirection: "row",

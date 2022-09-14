@@ -7,9 +7,9 @@ const RecentView = ({ content }) => {
   return (
     <View style={styles.rowView}>
       <Text style={styles.MainText}>{content}</Text>
-      <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
+      {/* <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
         <AntDesign name="closecircle" size={toSize(11)} color="#8F9098" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
