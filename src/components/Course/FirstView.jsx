@@ -38,7 +38,6 @@ const CourseListView = ({
     courselist[folderindex] = partdata;
     setCourselist(courselist);
   }, [coursepart]);
-  console.log("폴더 이름 유무:", foldername);
   return (
     <View style={{ padding: toSize(2), marginBottom: toSize(16) }}>
       {(foldername != "" && partdata.folderName === "") || (
