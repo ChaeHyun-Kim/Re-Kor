@@ -3,39 +3,61 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+const noImage = require("../../../src/images/noImage.png");
 import SimplePopupMenu from "react-native-simple-popup-menu";
 const SecondSmallView = ({ course_info }) => {
   const place = require("../../images/place1.png");
-
+  console.log("코스정보!!!!!!!!!!!!");
   return (
     <View style={styles.rowView_space}>
       <View style={styles.rowView}>
-        <Image
+      <Image
           style={styles.picture}
-          source={{ uri: course_info[0].images[0] }}
+          source={
+            course_info.spotList[0] &&
+            ((course_info.spotList[0].images[0] && {
+              uri: course_info.spotList[0].images[0],
+            }) ||
+              noImage ||
+              {})
+          }
         />
         <Image
           style={styles.picture}
-          source={{ uri: course_info[1].images[0] }}
+          source={
+            course_info.spotList[1] &&
+            ((course_info.spotList[1].images[0] && {
+              uri: course_info.spotList[1].images[0],
+            }) ||
+              noImage ||
+              {})
+          }
         />
         <Image
           style={styles.picture}
-          source={{ uri: course_info[2].images[0] }}
+          source={
+            course_info.spotList[2] &&
+            ((course_info.spotList[2].images[0] && {
+              uri: course_info.spotList[2].images[0],
+            }) ||
+              noImage ||
+              {})
+          }
         />
       </View>
       <View>
         <View style={styles.rowView}>
           <Feather name="map-pin" size={toSize(17)} color="black" />
           <View style={styles.rowView_place}>
-            <Text style={styles.boldText}>{course_info.length} </Text>
+            <Text style={styles.boldText}>{course_info.spotList.length} </Text>
             <Text style={styles.normalText}>places</Text>
           </View>
         </View>
-        <View style={styles.border}></View>
+        {/* <View style={styles.border}></View>
         <View style={styles.rowView}>
           <Text style={styles.boldText}>Total </Text>
           <Text style={styles.normalText}>임의의km</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );
