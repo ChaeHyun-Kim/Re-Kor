@@ -54,7 +54,7 @@ export const RenameFolderAPI = async (folderId, newName) => {
   return data.status;
 };
 
-/* 폴더 이름 변경하기 */
+/* 폴더 코스 변경하기 */
 export const RenameCourseAPI = async (courseId, newName) => {
   const userToken = await AsyncStorage.getItem("accessToken");
   const response = await fetch(uri + "/api/course/name", {
@@ -66,6 +66,46 @@ export const RenameCourseAPI = async (courseId, newName) => {
     body: JSON.stringify({
       id: courseId,
       name: newName,
+    }),
+  });
+  const data = await response.json();
+  console.log(data.status);
+  return data.status;
+};
+
+/* 다른 폴더로 코스 이동하기 */
+export const MoveFolderAPI = async (courseId, startFolder, destFolder) => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/course/move", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + userToken.slice(1, -1),
+    },
+    body: JSON.stringify({
+      courseId: courseId,
+      start: startFolder,
+      dest: destFolder,
+    }),
+  });
+  const data = await response.json();
+  console.log(data.status);
+  return data.status;
+};
+
+/* 코스 순서 변경하기 */
+export const CourseOrderAPI = async (folderId, startcourse, destCourse) => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/course", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + userToken.slice(1, -1),
+    },
+    body: JSON.stringify({
+      folderId: folderId,
+      start: startcourse,
+      dest: destCourse,
     }),
   });
   const data = await response.json();
