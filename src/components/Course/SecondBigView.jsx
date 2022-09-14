@@ -20,15 +20,17 @@ const SecondBigView = ({ course_info }) => {
           <View style={styles.rowView}>
             <Feather name="map-pin" size={toSize(17)} color="black" />
             <View style={styles.rowView_place}>
-              <Text style={styles.boldText}>3 </Text>
+              <Text style={styles.boldText}>
+                {course_info.spotList.length}{" "}
+              </Text>
               <Text style={styles.normalText}>places</Text>
             </View>
           </View>
-          <View style={styles.border}></View>
+          {/* <View style={styles.border}></View>
           <View style={styles.rowView}>
             <Text style={styles.boldText2}>Total </Text>
             <Text style={styles.normalText}>10km</Text>
-          </View>
+          </View> */}
         </View>
         <WithLocalSvg
           asset={full_course_icon}
@@ -36,21 +38,23 @@ const SecondBigView = ({ course_info }) => {
           height={toSize(30)}
         />
       </View>
-      {course_info.map((item, index) => {
+      {/* {course_info.map((item, index) => {
         return (
           <PlaceList
             key={index}
-            place_name={item.place_name}
-            region={item.addr1}
+            place_name={item.title}
+            region={item.address.addr1.split(" ")[1]}
             category={item.rekorCategory}
-            tag={item.tags.tagName}
+            tag={item.tagList.tagName}
             num={index + 1}
-            selecttype={""}
+            selecttype={
+              item.isRecommend ? "recommend" : item.isWished ? "wish" : ""
+            }
             screentype={"course_list"}
-            km={"임의의"}
+            km={5}
           ></PlaceList>
         );
-      })}
+      })} */}
     </View>
   );
 };

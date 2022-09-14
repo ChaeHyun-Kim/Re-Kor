@@ -6,103 +6,17 @@ import { toSize } from "../../../globalStyle";
 import CourseBackHeader from "../../../components/CourseBackHeader";
 import AutoScrollView from "react-native-auto-scroll-view";
 import { useNavigation } from "@react-navigation/native";
+import { MoveFolderAPI } from "../../../api/Courselist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MoveFolder = ({ route }) => {
+  const Courseid = route.params.Courseid;
+  const Folderid = route.params.Folderid;
   const courseindex = route.params.Courseindex;
   const folderindex = route.params.Folderindex;
-  //  courselist async로 get함
-  const courselist = [
-    {
-      folder: "Recent travel courses",
-      course: [
-        {
-          course_name: "이것이 맨 뒤로 갈 것이야!",
-          course_info: [
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-POP",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "",
-            },
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-DRAMA",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "Heart",
-              km: 5,
-            },
-          ],
-        },
-        {
-          course_name: "얘가 첫번째로 올 것이야!",
-          course_info: [
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-POP",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "good",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      folder: "My Trip in Korea~",
-      course: [
-        {
-          course_name: "얘 뒤에 붙어!",
-          course_info: [
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-POP",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "Heart",
-            },
-            {
-              place_name: "Gapyeong Rail Park1",
-              region: "Gapyeong123",
-              heartscore: 1,
-              starscore: 4.5,
-              category: "K-DRAMA",
-              tag: [
-                { tag_name: "#Fun3", tag_category: "A" },
-                { tag_name: "#Fun32", tag_category: "C" },
-              ],
-              selecttype: "good",
-              km: 50,
-            },
-          ],
-        },
-      ],
-    },
-  ];
-
+  const courselist = route.params.courselist;
   const [onlyone, setOnlyone] = useState(Array(courselist.length).fill(false));
+
   const handleClick = (index) => {
     const newArr = Array(courselist.length).fill(false);
     newArr[index] = true;
@@ -112,11 +26,13 @@ const MoveFolder = ({ route }) => {
   };
   const [selectindex, setSelectindex] = useState(-1);
   const handleSelect = () => {
-    const moveCourse = courselist[folderindex].course[courseindex];
-    courselist[folderindex].course.splice(courseindex, 1);
-    courselist[selectindex].course.push(moveCourse);
-    // 코스 리스트를 setItem
-    console.log("여기봐!!", courselist);
+    var destid = onlyone.indexOf(true);
+    destid = courselist[destid].folderId.id;
+    console.log("코스", Courseid, " 출발 ", Folderid, " 도착 ", destid);
+    MoveFolderAPI(Courseid, Folderid, destid);
+    // const moveCourse = courselist[folderindex].course[courseindex];
+    // courselist[folderindex].course.splice(courseindex, 1);
+    // courselist[selectindex].course.push(moveCourse);
     navigation.navigate("CourseList");
   };
 
@@ -131,9 +47,10 @@ const MoveFolder = ({ route }) => {
         {courselist.map((item, index) => {
           return (
             <FolderView
-              courselist={courselist}
-              folder_name={item.folder}
               index={index}
+              item={item}
+              courselist={courselist}
+              folder_name={item.folderName}
               isSelected={onlyone[index]}
               handleClick={handleClick}
             />
@@ -177,6 +94,7 @@ const styles = StyleSheet.create({
   MainView: {
     flex: 1,
     backgroundColor: "#fff",
+    marginBottom: toSize(80),
     paddingHorizontal: toSize(22),
     paddingTop: toSize(22),
   },

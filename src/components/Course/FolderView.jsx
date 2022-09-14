@@ -6,6 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 const FolderView = ({
   courselist,
   folder_name,
+  item,
   index,
   isSelected,
   handleClick,
@@ -13,7 +14,6 @@ const FolderView = ({
   const checkfunc = () => {
     handleClick(index);
   };
-
   return (
     <View style={{ padding: toSize(2), marginBottom: toSize(16) }}>
       <TouchableOpacity
@@ -31,7 +31,7 @@ const FolderView = ({
         <View style={styles.textView}>
           <Text style={styles.mainText}>{folder_name}</Text>
 
-          <Text style={styles.numText}>{courselist.length}</Text>
+          {/* <Text style={styles.numText}>{item.length}</Text> */}
         </View>
       </TouchableOpacity>
     </View>

@@ -6,12 +6,10 @@ import { Feather } from "@expo/vector-icons";
 const noImage = require("../../../src/images/noImage.png");
 import SimplePopupMenu from "react-native-simple-popup-menu";
 const SecondSmallView = ({ course_info }) => {
-  const place = require("../../images/place1.png");
-  console.log("코스정보!!!!!!!!!!!!");
   return (
     <View style={styles.rowView_space}>
       <View style={styles.rowView}>
-      <Image
+        <Image
           style={styles.picture}
           source={
             course_info.spotList[0] &&

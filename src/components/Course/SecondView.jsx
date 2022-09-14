@@ -26,13 +26,13 @@ const SecondView = ({
   setCourselist,
 }) => {
   const navigation = useNavigation();
-  const course_name = partcoursedata.title;
+  const course_name = partcoursedata.courseName;
   const [click, setClick] = useState(false);
   const place = require("../../images/place1.png");
   const items = [
     { id: "move", label: "Move to a different folder" },
     { id: "rename", label: "Rename a course" },
-    { id: "order", label: "change the order" },
+    // { id: "order", label: "change the order" },
   ];
   const [rename, setRename] = useState(false);
   const [coursename, setCoursename] = useState(course_name);
@@ -41,8 +41,11 @@ const SecondView = ({
       setRename(true);
     } else if (id === "move") {
       navigation.navigate("MoveFolder", {
-        Folderindex: folderindex,
-        Courseindex: courseindex,
+        Folderid: courselist[folderindex].folderId.id,
+        Courseid: partcoursedata.courseId.id,
+        courseindex: folderindex,
+        folderindex: courseindex,
+        courselist: courselist,
       });
     } else if (id === "order") {
       navigation.navigate("MoveCourseOrder", {
@@ -75,7 +78,6 @@ const SecondView = ({
             setRename(false);
             partcoursedata.courseName = coursename;
             courselist[courseindex] = partcoursedata;
-            console.log("코스 전체 데이터:", courselist);
             setCoursepart(courselist);
             RenameCourseAPI(partcoursedata.courseId.id, coursename);
           }}
