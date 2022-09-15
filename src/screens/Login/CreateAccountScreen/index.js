@@ -124,6 +124,7 @@ export default function CreateAccountScreen() {
                 onChangeText={setPassword}
                 value={password.toString()}
                 placeholder="Password"
+                secureTextEntry={true}
               />
             </View>
 
@@ -143,6 +144,7 @@ export default function CreateAccountScreen() {
                 onChangeText={setCheckPW}
                 value={checkPW.toString()}
                 placeholder="Confirm password"
+                secureTextEntry={true}
               />
             </View>
             {checkPW != "" && (

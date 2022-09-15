@@ -140,7 +140,7 @@ export default function Categories() {
               style={styles.CategoryView}
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
-                  Category: "K-LEISURE",
+                  Category: "K-ENTERTAINMENT",
                   cat: 7,
                 })
               }

@@ -131,7 +131,7 @@ const SignupModal = ({ phone, password }) => {
               >
                 <AntDesign
                   name="right"
-                  size={12}
+                  size={14}
                   color={secondTerm ? "#FFCC00" : "#D4D6DD"}
                 />
               </TouchableOpacity>
@@ -161,7 +161,7 @@ const SignupModal = ({ phone, password }) => {
               >
                 <AntDesign
                   name="right"
-                  size={12}
+                  size={14}
                   color={thirdTerm ? "#FFCC00" : "#D4D6DD"}
                 />
               </TouchableOpacity>

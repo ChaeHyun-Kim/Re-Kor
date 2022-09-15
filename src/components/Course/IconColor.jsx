@@ -14,7 +14,7 @@ export function IconColor(category) {
       return "#FDD692";
     case "K-FESTIVAL":
       return "#F7AA97";
-    case "K-LEISURE":
+    case "K-ENTERTAINMENT":
       return "#52616A";
   }
 }

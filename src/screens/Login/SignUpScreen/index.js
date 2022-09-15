@@ -38,28 +38,29 @@ export default function SignUpScreen({ navigation }) {
   const [gender, setChangeGender] = useState(0);
   const [country, setCountry] = useState(null);
   const [language, setLanguage] = useState("");
-  const [checkBox, setChangeCheckBox] = useState(false);
+  // const [checkBox, setChangeCheckBox] = useState(false);
   const [background, setChangeBackGround] = useState(false);
-  const [confirmCheck, setConfirmCheck] = useState("000000");
+  const [confirmCheck, setConfirmCheck] = useState("00000");
   const [confirmNickName, setConfirmNickName] = useState(0);
+  const [confirmBirth, setConfirmBirth] = useState(0);
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-
   const handleConfirm = (date) => {
     hideDatePicker();
     let year = String(date.getFullYear());
     let month = String(date.getMonth()).padStart(2, "0");
     let day = String(date.getDate()).padStart(2, "0");
+    setConfirmBirth(1);
     setChangeBirth(day + " " + monthNames[date.getMonth()] + " " + year);
     set_putBirth(year + "-" + month + "-" + day);
     changeArray(1);
   };
 
-  const ClickCheckBox = () => {
-    checkBox == false ? setChangeCheckBox(true) : setChangeCheckBox(false);
-  };
+  // const ClickCheckBox = () => {
+  //   checkBox == false ? setChangeCheckBox(true) : setChangeCheckBox(false);
+  // };
 
   const handleCheckNickName = async () => {
     NicknameCheckAPI(nickname)
@@ -79,21 +80,26 @@ export default function SignUpScreen({ navigation }) {
   const changeArray = (index) => {
     const array = [];
     for (let i = 0; i < 6; i++) {
-      if (index === i) array.push("1");
-      else array.push(confirmCheck[i]);
+      if (index === i) {
+        array.push("1"), console.log("어레이", array);
+      } else {
+        array.push(confirmCheck[i]);
+      }
     }
     setConfirmCheck(array.toString().replace(/,/g, ""));
+    console.log(confirmCheck);
   };
 
   useEffect(() => {
+    if (setConfirmNickName != 0) changeArray(0);
+    if (confirmBirth != 0) changeArray(1);
     if (gender != 0) changeArray(2);
     if (country != null) changeArray(3);
     if (language != "") changeArray(4);
-    if (checkBox == true) changeArray(5);
-  }, [gender, country, language, checkBox]);
+  }, [gender, country, language, nickname, confirmBirth]);
 
   const handleSubmit = async () => {
-    if (confirmCheck == 111111) {
+    if (confirmCheck == 11111) {
       const userData = {
         name: nickname,
         birth: DB_putBirth,
@@ -273,52 +279,29 @@ export default function SignUpScreen({ navigation }) {
             setLanguage={setLanguage}
             setChangeBackGround={setChangeBackGround}
           />
-
-          {/* <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={ClickCheckBox}
-            style={styles.RowView}
-          >
-            <MaterialCommunityIcons
-              name={
-                checkBox == false
-                  ? "checkbox-blank-outline"
-                  : "checkbox-intermediate"
-              }
-              size={toSize(24)}
-              color={checkBox == false ? "#C5C6CC" : "#FFCC00"}
-            />
-            <View style={styles.BottomTextView}>
-              <Text style={FormStyles.InfoText}>
-                I've read and agree with the{" "}
-                <Text style={FormStyles.FormPoint}>Terms and</Text> {"\n"}
-                <Text style={FormStyles.FormPoint}>Conditions</Text> and the{" "}
-                <Text style={FormStyles.FormPoint}>Privacy Policy</Text>.
-              </Text>
-            </View>
-          </TouchableOpacity> */}
         </View>
-        <View
+
+        <TouchableOpacity
           style={[
             styles.BottomView,
-            confirmCheck != "111111"
+            confirmCheck != "11111"
               ? { borderColor: "#FFCC00", borderWidth: 2 }
               : { backgroundColor: "#FFCC00" },
           ]}
+          activeOpacity={0.8}
+          onPress={handleSubmit}
         >
-          <TouchableOpacity activeOpacity={0.8} onPress={handleSubmit}>
-            <Text
-              style={[
-                styles.BottomButtonText,
-                confirmCheck != "111111"
-                  ? { color: "#FFCC00" }
-                  : { color: "#fff" },
-              ]}
-            >
-              Submit
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <Text
+            style={[
+              styles.BottomButtonText,
+              confirmCheck != "11111"
+                ? { color: "#FFCC00" }
+                : { color: "#fff" },
+            ]}
+          >
+            Submit
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
