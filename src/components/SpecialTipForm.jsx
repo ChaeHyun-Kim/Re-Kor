@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     paddingVertical: toSize(4),
+    width: "50%",
   },
   TipText: {
     fontSize: toSize(13),

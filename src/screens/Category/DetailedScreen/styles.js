@@ -1,7 +1,5 @@
 import { StyleSheet } from "react-native";
-import {
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
+import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { toSize } from "../../../globalStyle";
 
 export const styles = StyleSheet.create({
@@ -83,6 +81,7 @@ export const styles = StyleSheet.create({
   infoView: {
     width: "100%",
     marginTop: toSize(17),
+    flex: 1,
   },
   TitleText: {
     fontSize: toSize(18),
@@ -130,7 +129,7 @@ export const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#929292",
     textAlignVertical: "top",
-    width: "75%",
+    width: "70%",
   },
 
   shadow: {

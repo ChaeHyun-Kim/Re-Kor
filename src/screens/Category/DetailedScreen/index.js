@@ -165,11 +165,18 @@ const DetailedScreen = ({ route }) => {
 
             <View style={styles.infoView}>
               <Text style={styles.TitleText}>Intro</Text>
-              <Text style={styles.IntroText}>
-                {Data.commonInfo.overview
-                  .replace("<br>", "\n")
-                  .replace("&nbsp;", " ")}
-              </Text>
+              {Data.commonInfo.overview != null && (
+                <Text style={styles.IntroText}>
+                  {Data.commonInfo.overview
+                    .replace("<br><br>", "\n")
+                    .replace("<br /><br />", "\n")
+                    .replace("<br/><br/>", "\n")
+                    .replace("<br>", "\n")
+                    .replace("<br/>", "\n")
+                    .replace("<br />", "\n")
+                    .replace("&nbsp;", " ")}
+                </Text>
+              )}
             </View>
 
             <View style={styles.separator} />
@@ -243,15 +250,17 @@ const DetailedScreen = ({ route }) => {
                   <Text style={styles.TipTitleText}>A special Tip!</Text>
                   <View style={textUnderlineStyle().container} />
                 </View>
-                {Data.detailList.map((item, index) => {
-                  return (
-                    <SpecialTipForm
-                      key={index}
-                      infoName={item.infoname}
-                      infoText={item.infotext}
-                    />
-                  );
-                })}
+                <View style={{ flex: 1 }}>
+                  {Data.detailList.map((item, index) => {
+                    return (
+                      <SpecialTipForm
+                        key={index}
+                        infoName={item.infoname}
+                        infoText={item.infotext}
+                      />
+                    );
+                  })}
+                </View>
               </View>
             )}
 
