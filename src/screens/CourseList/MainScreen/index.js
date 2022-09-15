@@ -7,11 +7,11 @@ import Bottom from "../../../components/Bottom";
 import ListView from "../../../components/Course/FirstView";
 import { toSize } from "../../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
-import folder from "../../../icons/folder.svg";
 import AutoScrollView from "react-native-auto-scroll-view";
 import { WithLocalSvg } from "react-native-svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CourseListAPI, AddFolderAPI } from "../../../api/Courselist";
+import TitleInfo from "../../../components/common/TitleInfoScreen";
 const CourseListMainScreen = () => {
   const emptyfolder = [{ folderName: "New Folder", courseList: [] }];
   const [courselist, setCourselist] = useState([]);
@@ -55,6 +55,10 @@ const CourseListMainScreen = () => {
           );
         }}
       >
+        <TitleInfo
+          title={"Courselist"}
+          content={"Check out the course that was made"}
+        />
         {courselist.map((item, index) => {
           return (
             <ListView
@@ -71,21 +75,31 @@ const CourseListMainScreen = () => {
 
       <TouchableOpacity
         activeOpacity={0.8}
+        style={{
+          fontSize: toSize(60),
+          position: "absolute",
+          bottom: toSize(110),
+          right: toSize(23),
+          zIndex: 100,
+        }}
         onPress={() => {
+          console.log("터치");
           setCourselist(courselist.concat(emptyfolder));
           AddFolder();
           handleList();
         }}
       >
-        <WithLocalSvg
+        <View
           style={{
-            fontSize: toSize(60),
-            position: "absolute",
-            bottom: toSize(28),
-            right: toSize(23),
+            padding: toSize(18),
+            borderRadius: 50,
+            borderWidth: 1,
+            borderColor: "#D4D6DD",
+            backgroundColor: "#FFF",
           }}
-          asset={folder}
-        />
+        >
+          <AntDesign name="addfolder" size={28} color="#5F5F5F" />
+        </View>
       </TouchableOpacity>
       <Bottom num={3} />
     </View>

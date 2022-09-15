@@ -25,6 +25,7 @@ const CourseListView = ({
   const [foldername, setFoldername] = useState(partdata.folderName);
   const [coursepart, setCoursepart] = useState(coursedata);
   const items = [{ id: "rename", label: "Rename a folder" }];
+  console.log("폴더명:", foldername);
   const onMenuPress = (id) => {
     if (id === "rename") {
       setRename(true);
@@ -97,6 +98,19 @@ const CourseListView = ({
           </SimplePopupMenu>
         </TouchableOpacity>
       )}
+      {/* {foldername === "" &&
+        coursedata.map((item, index) => (
+          <SecondView
+            key={index}
+            partdata={partdata}
+            folderindex={folderindex}
+            courselist={courselist}
+            partcoursedata={item}
+            courseindex={index}
+            setCoursepart={setCoursepart}
+            setCourselist={setCourselist}
+          />
+        ))} */}
       {click === true &&
         coursedata.map((item, index) => (
           <SecondView

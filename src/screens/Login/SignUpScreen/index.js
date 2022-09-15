@@ -87,11 +87,9 @@ export default function SignUpScreen({ navigation }) {
       }
     }
     setConfirmCheck(array.toString().replace(/,/g, ""));
-    console.log(confirmCheck);
   };
-
   useEffect(() => {
-    if (setConfirmNickName != 0) changeArray(0);
+    if (confirmNickName != 0) changeArray(0);
     if (confirmBirth != 0) changeArray(1);
     if (gender != 0) changeArray(2);
     if (country != null) changeArray(3);

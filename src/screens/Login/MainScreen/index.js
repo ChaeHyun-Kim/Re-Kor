@@ -133,11 +133,25 @@ const LoginMainScreen = () => {
             {/* <Text style={styles.forgotPW}>Forgot password?</Text> */}
 
             <TouchableOpacity
-              style={styles.LoginView}
+              style={[
+                styles.LoginView,
+                String(phone).length === 11 && password != null
+                  ? { backgroundColor: "#FFCC00" }
+                  : { borderColor: "#FFCC00", borderWidth: 2 },
+              ]}
               activeOpacity={0.8}
               onPress={handleLogin}
             >
-              <Text style={styles.BottomButtonText}>Login</Text>
+              <Text
+                style={[
+                  styles.BottomButtonText,
+                  String(phone).length === 11 && password != null
+                    ? { color: "#FFFFFF" }
+                    : { color: "#FFCC00" },
+                ]}
+              >
+                Login
+              </Text>
             </TouchableOpacity>
 
             <View style={[FormStyles.Row, { justifyContent: "center" }]}>
@@ -209,8 +223,8 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "#FFCC00",
-    borderWidth: 2,
+    // borderColor: "#FFCC00",
+    // borderWidth: 2,
   },
   BottomButtonText: {
     fontSize: toSize(16),

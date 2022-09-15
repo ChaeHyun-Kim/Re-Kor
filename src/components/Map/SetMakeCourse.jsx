@@ -40,8 +40,9 @@ export default function SetMakeCourse({ params, setSelectView }) {
         newList = newList.concat(emptyData);
       });
       MakeCourseAPI(courseName, newList)
-        .then((response) => {
-          console.log(response);
+        .then(async (response) => {
+          console.log("코스 만들기", response);
+          await AsyncStorage.removeItem("@makeCourse");
         })
         .catch((error) => {
           console.log(error);
@@ -57,7 +58,7 @@ export default function SetMakeCourse({ params, setSelectView }) {
     AsyncStorage.setItem("@makeCourse", JSON.stringify(courseData), () => {
       // console.log("코스저장", courseData);
     });
-    // navigation.navigate("SelectPlaceScreen", { params: params });
+    navigation.navigate("SelectPlaceScreen", { params: params });
 
     // navigation.navigate("SelectPlaceScreen");
   };
@@ -70,21 +71,30 @@ export default function SetMakeCourse({ params, setSelectView }) {
         if (data === null) {
           setCourseData(params);
           console.log("파라미터를 makeCourse에 저장해야함");
+          await AsyncStorage.setItem("@makeCourse", params);
         } else {
           console.log(JSON.stringify(data));
+          const newdata = data.concat(params);
+          console.log(newdata);
+          // setCourseData(newdata);
+          await AsyncStorage.setItem("@makeCourse", newdata);
           console.log("이미 저장된 값이 있을 경우");
         }
 
-        // const courseList = JSON.parse(data);
-        // if (courseList !== null) {
-        //   const finalcourseList = courseList.concat(params[0]);
-        //   setCourseData(finalcourseList);
-        // } else {
-        //   setCourseData(params);
-        // }
-        // await AsyncStorage.setItem("@makeCourse", JSON.stringify(params), () => {
-        //   console.log("코스 만드는 중");
-        // });
+        const courseList = JSON.parse(data);
+        if (courseList !== null) {
+          const finalcourseList = courseList.concat(params[0]);
+          setCourseData(finalcourseList);
+        } else {
+          setCourseData(params);
+        }
+        await AsyncStorage.setItem(
+          "@makeCourse",
+          JSON.stringify(params),
+          () => {
+            console.log("코스 만드는 중");
+          }
+        );
       }
     }
     fetchData();

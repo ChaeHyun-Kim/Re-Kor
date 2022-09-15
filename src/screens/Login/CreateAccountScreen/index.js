@@ -5,7 +5,7 @@ import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "./styles";
 import { FormStyles } from "../../../styles/FormView";
 import { phoneCheckAPI } from "../../../api/Login";
-
+import { toSize } from "../../../globalStyle";
 import ToastMessage from "../../../components/Modal/Toast";
 import SignupModal from "../../../components/Modal/SignupModal";
 import Header from "../../../components/MyHeader";
@@ -87,6 +87,7 @@ export default function CreateAccountScreen() {
               <TextInput
                 onChangeText={setChangePhone}
                 value={phone.toString()}
+                style={{ width: toSize(200) }}
                 maxLength={11}
                 returnKeyType="done"
                 keyboardType="number-pad"
@@ -113,22 +114,23 @@ export default function CreateAccountScreen() {
           <View style={FormStyles.FormOneView}>
             <Text style={FormStyles.FormTitleText}>Password</Text>
 
-            <View
+            <TextInput
               style={[
                 FormStyles.FormInput,
                 FormStyles.RowView,
                 { borderColor: "#8F9098" },
               ]}
-            >
-              <TextInput
-                onChangeText={setPassword}
-                value={password.toString()}
-                placeholder="Password"
-                secureTextEntry={true}
-              />
-            </View>
+              onChangeText={setPassword}
+              value={password.toString()}
+              placeholder="Password"
+              secureTextEntry={true}
+            />
 
-            <View
+            <TextInput
+              onChangeText={setCheckPW}
+              value={checkPW.toString()}
+              placeholder="Confirm password"
+              secureTextEntry={true}
               style={[
                 FormStyles.FormInput,
                 FormStyles.RowView,
@@ -139,14 +141,7 @@ export default function CreateAccountScreen() {
                   ? { borderColor: "#FF0000" }
                   : { borderColor: "#23A047" },
               ]}
-            >
-              <TextInput
-                onChangeText={setCheckPW}
-                value={checkPW.toString()}
-                placeholder="Confirm password"
-                secureTextEntry={true}
-              />
-            </View>
+            />
             {checkPW != "" && (
               <View style={FormStyles.hideView}>
                 <Text
