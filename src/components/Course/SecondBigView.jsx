@@ -8,7 +8,7 @@ import PlaceList from "../Map/PlaceList";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 
 const SecondBigView = ({ course_info }) => {
-  const place = require("../../images/place1.png");
+  const data = course_info.spotList;
   return (
     <View
       style={{
@@ -32,29 +32,39 @@ const SecondBigView = ({ course_info }) => {
             <Text style={styles.normalText}>10km</Text>
           </View> */}
         </View>
-        <WithLocalSvg
+        {/* <WithLocalSvg
           asset={full_course_icon}
           width={toSize(30)}
           height={toSize(30)}
-        />
+        /> */}
       </View>
-      {/* {course_info.map((item, index) => {
+      {data.map((item, index) => {
+        // const type = item.isRecommend ? "recommend" : item.isWished ? "wish" : ""
+        // const addr_v = item.address.addr1.split(" ")[1],
         return (
           <PlaceList
             key={index}
-            place_name={item.title}
-            region={item.address.addr1.split(" ")[1]}
-            category={item.rekorCategory}
-            tag={item.tagList.tagName}
+            // place_name={item.title}
+            // region={item.address.addr1.split(" ")[1]}
+            // category={item.rekorCategory}
+            // tag={item.tagList.tagName}
             num={index + 1}
-            selecttype={
-              item.isRecommend ? "recommend" : item.isWished ? "wish" : ""
-            }
             screentype={"course_list"}
-            km={5}
+            params={{
+              addr: item.address.addr1.split(" ")[1],
+              cat: item.rekorCategory,
+              placeName: item.title,
+              img: item.images[0] == "" ? undefined : { uri: item.images[0] },
+              type: item.isRecommend
+                ? "recommend"
+                : item.isWished
+                ? "wish"
+                : "",
+            }}
+            // km={5}
           ></PlaceList>
         );
-      })} */}
+      })}
     </View>
   );
 };

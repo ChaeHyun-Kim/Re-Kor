@@ -14,9 +14,11 @@ import FirstPlaceView from "../../../components/Map/FirstPlaceView";
 import SelectMakeCourse from "../../../components/Map/SelectMakeCourse";
 import SetMakeCourse from "../../../components/Map/SetMakeCourse";
 import CenterModal from "../../../components/Modal/CenterModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MakeCourseMainScreen({ route }) {
   const { params } = route.params;
+  console.log("초기화되어야 함", params);
   const navigation = useNavigation();
 
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
@@ -26,8 +28,9 @@ export default function MakeCourseMainScreen({ route }) {
   const [SelectView, setSelectView] = useState(false);
 
   // 뒤로가기
-  const handleGoBack = () => {
+  const handleGoBack = async () => {
     setCancelVisible(false);
+    await AsyncStorage.removeItem("@makeCourse");
     navigation.goBack();
   };
 
@@ -76,9 +79,10 @@ export default function MakeCourseMainScreen({ route }) {
 
       <View style={styles.bottomView}>
         {params.length === 0 && <FirstPlaceView />}
-        {params.length === 1 && !SelectView && (
+        {params.length >= 1 && !SelectView && (
           <SelectMakeCourse
-            params={params[0]}
+            params={params[params.length - 1]}
+            num={params.length}
             handleInputCheck={setSelectView}
           />
         )}

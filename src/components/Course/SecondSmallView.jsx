@@ -17,7 +17,7 @@ const SecondSmallView = ({ course_info }) => {
               uri: course_info.spotList[0].images[0],
             }) ||
               noImage ||
-              {})
+              noImage)
           }
         />
         <Image
@@ -28,7 +28,7 @@ const SecondSmallView = ({ course_info }) => {
               uri: course_info.spotList[1].images[0],
             }) ||
               noImage ||
-              {})
+              noImage)
           }
         />
         <Image
@@ -39,7 +39,7 @@ const SecondSmallView = ({ course_info }) => {
               uri: course_info.spotList[2].images[0],
             }) ||
               noImage ||
-              {})
+              noImage)
           }
         />
       </View>

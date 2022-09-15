@@ -21,7 +21,6 @@ const CourseListMainScreen = () => {
     CourseListAPI()
       .then((response) => {
         if (response != null) {
-          console.log(response);
           setCourselist(response);
         }
       })
@@ -43,17 +42,21 @@ const CourseListMainScreen = () => {
     handleList();
   }, []);
 
+  useEffect(() => {
+    console.log("데이터", courselist);
+  }, [courselist]);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header Title={"CourseList"} />
       <AutoScrollView
         style={styles.MainView}
-        onScrollEndDrag={() => {
-          console.log(
-            "현재 페이지와 마지막 페이지 값이 같다면 데이터 불러오기 중단하라 !"
-          );
-        }}
+        // onScrollEndDrag={() => {
+        //   console.log(
+        //     "현재 페이지와 마지막 페이지 값이 같다면 데이터 불러오기 중단하라 !"
+        //   );
+        // }}
       >
         <TitleInfo
           title={"Courselist"}
@@ -73,7 +76,7 @@ const CourseListMainScreen = () => {
         <View style={{ height: toSize(50) }}></View>
       </AutoScrollView>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         activeOpacity={0.8}
         style={{
           fontSize: toSize(60),
@@ -100,7 +103,7 @@ const CourseListMainScreen = () => {
         >
           <AntDesign name="addfolder" size={28} color="#5F5F5F" />
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Bottom num={3} />
     </View>
   );

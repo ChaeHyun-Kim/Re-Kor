@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle.js";
 import PlaceList from "./PlaceList.jsx";
 import { useNavigation } from "@react-navigation/native";
-export default function SelectMakeCourse({ params, handleInputCheck }) {
+export default function SelectMakeCourse({ params, handleInputCheck, num }) {
   const navigation = useNavigation();
   const handelSelectButton = () => {
     handleInputCheck(true);
@@ -13,7 +13,7 @@ export default function SelectMakeCourse({ params, handleInputCheck }) {
     <View style={styles.container}>
       <View style={styles.line} />
       <Text style={styles.titleText}>Do you want to select this location?</Text>
-      <PlaceList params={params} num={1} />
+      <PlaceList params={params} num={num} />
       <View style={styles.buttonView}>
         <TouchableOpacity
           activeOpacity={1}
