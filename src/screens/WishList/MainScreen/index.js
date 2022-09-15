@@ -38,7 +38,7 @@ const WishListMainScreen = () => {
           console.log(error);
         });
     } else if (itemId === "map") {
-      //handleNextScreen();
+      handleNextScreen();
     }
   };
 
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     width: responsiveScreenWidth(90),
     justifyContent: "space-between",
     marginVertical: toSize(9),
+    paddingBottom: toSize(30),
   },
   main_text: {
     fontSize: toSize(24),

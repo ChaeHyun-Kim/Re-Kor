@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, Text, ScrollView, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import ic_loading from "../../../icons/ic_loading.svg";
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from "react-native-responsive-dimensions";
 import { toSize } from "../../../globalStyle";
+import { WithLocalSvg } from "react-native-svg";
 import SearchView from "../../../components/SearchView";
 import RecentView from "../../../components/RecentView";
 import PlaceForm from "../../../components/PlaceForm/PlaceForm";
@@ -55,10 +57,12 @@ const SearchTravelScreen = () => {
         </View>
         {showPlace ? (
           <View style={styles.RecentSearchView}>
-            <Text style={styles.recentMainText}>Recent Search</Text>
+            {/* <Text style={styles.recentMainText}>Recent Search</Text>
             {searchArray.map((array, key) => (
               <RecentView content={array.content} key={key} />
-            ))}
+            ))} */}
+            <Text style={styles.recentMainText}>Please search</Text>
+            <WithLocalSvg asset={ic_loading} />
           </View>
         ) : (
           <ScrollView
@@ -101,7 +105,9 @@ const styles = StyleSheet.create({
     marginTop: toSize(50),
   },
   RecentSearchView: {
-    marginTop: toSize(22),
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: toSize(200),
   },
   recentMainText: {
     fontWeight: "600",

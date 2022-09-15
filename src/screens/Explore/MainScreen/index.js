@@ -8,6 +8,7 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  FlatList,
   Image,
 } from "react-native";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
@@ -138,6 +139,7 @@ const ExploreMainScreen = () => {
                 color={placeNumber != 0 ? "#D3D3D3" : "#fff"}
               />
             </TouchableOpacity>
+
             <TouchableWithoutFeedback onPress={HandleDoubleTap}>
               <ImageBackground
                 style={styles.picture}
@@ -218,12 +220,17 @@ const ExploreMainScreen = () => {
                           : 0}
                       </Text>
                     </View>
-                    <View style={styles.tagView}>
-                      {placeArray.length != 0 &&
-                        placeArray[placeNumber].tagList.map((item, index) => {
-                          return <TagForm tag={item.tagName} key={index} />;
-                        })}
-                    </View>
+                    {placeArray.length != 0 && (
+                      <FlatList
+                        style={styles.tagView}
+                        numColumns={3}
+                        data={placeArray[placeNumber].tagList}
+                        keyExtractor={(item) => item.tagName.toString()}
+                        renderItem={({ item, index }) => (
+                          <TagForm tag={item.tagName} key={index} />
+                        )}
+                      />
+                    )}
                   </View>
                 </View>
               </ImageBackground>
@@ -329,6 +336,7 @@ const styles = StyleSheet.create({
   },
   place_information: {
     justifyContent: "flex-end",
+    width: "100%",
   },
   row: {
     flexDirection: "row",
@@ -336,6 +344,8 @@ const styles = StyleSheet.create({
   },
   tagView: {
     flexDirection: "row",
+    width: "100%",
+    height: toSize(40),
     marginTop: toSize(7),
   },
   line: {

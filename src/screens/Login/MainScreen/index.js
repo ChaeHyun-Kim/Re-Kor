@@ -21,7 +21,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { loginAPI, formCheckAPI, refreshTokenAPI } from "../../../api/Login";
 import ToastMessage from "../../../components/Modal/Toast";
-import CenterModal from "../../../components/Modal/CenterModal";
+import MessageModal from "../../../components/Modal/MessageModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginMainScreen = () => {
@@ -69,16 +69,6 @@ const LoginMainScreen = () => {
         content={"Validation verified"}
         fail
       />
-      <CenterModal
-        visible={update}
-        title={"Coming soon"}
-        rightPress={() => setUpdate(false)}
-        rightText={"Close"}
-      >
-        <Text color={"#000"} lineHeight={15}>
-          {"please wait for a moment"}
-        </Text>
-      </CenterModal>
 
       <View style={styles.fullscreen}>
         <StatusBar style="auto" />
@@ -135,7 +125,7 @@ const LoginMainScreen = () => {
             <TouchableOpacity
               style={[
                 styles.LoginView,
-                String(phone).length === 11 && password != null
+                String(phone).length === 11 && password != ""
                   ? { backgroundColor: "#FFCC00" }
                   : { borderColor: "#FFCC00", borderWidth: 2 },
               ]}
@@ -145,7 +135,7 @@ const LoginMainScreen = () => {
               <Text
                 style={[
                   styles.BottomButtonText,
-                  String(phone).length === 11 && password != null
+                  String(phone).length === 11 && password != ""
                     ? { color: "#FFFFFF" }
                     : { color: "#FFCC00" },
                 ]}

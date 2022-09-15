@@ -98,19 +98,6 @@ export default function Categories() {
               style={styles.CategoryView}
               onPress={() =>
                 navigation.navigate("SelectCategoryScreen", {
-                  Category: "K-POP",
-                  cat: 4,
-                })
-              }
-            >
-              <WithLocalSvg asset={pop} />
-              <Text style={styles.Category_text}>K-POP</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.CategoryView}
-              onPress={() =>
-                navigation.navigate("SelectCategoryScreen", {
                   Category: "K-DRAMA",
                   cat: 5,
                 })
@@ -118,22 +105,6 @@ export default function Categories() {
             >
               <WithLocalSvg asset={drama} />
               <Text style={styles.Category_text}>K-DRAMA</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.HorizontalView}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.CategoryView}
-              onPress={() =>
-                navigation.navigate("SelectCategoryScreen", {
-                  Category: "K-FESTIVAL",
-                  cat: 6,
-                })
-              }
-            >
-              <WithLocalSvg asset={festival} />
-              <Text style={styles.Category_text}>K-FESTIVAL</Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -189,17 +160,21 @@ const styles = StyleSheet.create({
     marginBottom: toSize(18),
   },
   CategoryView: {
-    width: "45%",
-    height: toSize(110),
+    width: toSize(140),
+    height: toSize(120),
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ffffff",
+    borderColor: "#F8F8F8",
+    borderWidth: 1,
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 5,
+      width: 2,
+      height: 4,
     },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
     elevation: 3,
   },
 

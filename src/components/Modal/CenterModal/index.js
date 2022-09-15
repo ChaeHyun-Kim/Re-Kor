@@ -19,7 +19,7 @@ const CenterModal = ({
           <Text style={styles.titleText}>{title}</Text>
           {children}
         </View>
-        <View style={styles.lineRow} />
+        {leftPress && <View style={styles.lineRow} />}
         <View style={styles.buttonContainer}>
           {leftPress && (
             <TouchableOpacity style={styles.button} onPress={leftPress}>

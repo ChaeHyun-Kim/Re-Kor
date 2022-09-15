@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { styles, textUnderlineStyle } from "./styles";
-import { Text, ScrollView, View, Image, Linking } from "react-native";
+import { Text, ScrollView, View, Image, Linking, FlatList } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
 
@@ -17,11 +18,15 @@ import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 import Review from "../../../components/Category/Review";
 import { detailedInfoAPI } from "../../../api/Category";
 import { addWishListAPI } from "../../../api/Explore";
+const noImage = require("../../../images/noImage.png");
 
 const DetailedScreen = ({ route }) => {
+  const navigation = useNavigation();
   const { Content_ID } = route.params;
   const [Data, getData] = useState(null);
   const [ClickHeart, setHeartClick] = useState(false);
+  const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
+  const [location, setLocation] = useState(fixedLocation);
 
   useEffect(() => {
     handleList();
@@ -34,8 +39,6 @@ const DetailedScreen = ({ route }) => {
         if (response != null) {
           getData(response[0]);
           setHeartClick(response[0].checkItem.wished);
-
-          console.log(response[0]);
 
           const fixedLocation = {
             lat: parseFloat(
@@ -69,13 +72,33 @@ const DetailedScreen = ({ route }) => {
       });
   };
 
-  const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
-  const [location, setLocation] = useState(fixedLocation);
+  const handleNextScreen = () => {
+    const params = [
+      {
+        id: Data.spotId.id,
+        placeName: Data.spotInfo.title,
+        addr: Data.spotInfo.address.addr1.split(" ")[1],
+        cat: Data.spotInfo.rekorCategory,
+        img: Data.imageList[0]
+          ? { url: Data.imageList[0].originimgurl }
+          : noImage,
+        type: "wish",
+        mapx: parseFloat(location.lng),
+        mapy: parseFloat(location.lat),
+      },
+    ];
+    console.log(params);
+    navigation.navigate("MakeCourse", { params: params });
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <BackHeader heartClick={heartClick} ClickHeart={ClickHeart} />
+      <BackHeader
+        heartClick={heartClick}
+        ClickHeart={ClickHeart}
+        handleNextScreen={handleNextScreen}
+      />
       {Data != null && (
         <View style={styles.MainView}>
           <View style={styles.placeInfoView}>
@@ -102,10 +125,16 @@ const DetailedScreen = ({ route }) => {
             <View style={styles.CategoryView}>
               <CategoryColorForm category={Data.spotInfo.rekorCategory} />
               <View style={styles.tagView}>
-                {Data.spotInfo.tagList &&
-                  Data.spotInfo.tagList.map((item, index) => {
-                    return <TagForm tag={item.tagName} key={index} />;
-                  })}
+                {Data.spotInfo.tagList && (
+                  <FlatList
+                    numColumns={4}
+                    data={Data.spotInfo.tagList}
+                    keyExtractor={(item) => item.tagName.toString()}
+                    renderItem={({ item, index }) => (
+                      <TagForm tag={item.tagName} key={index} />
+                    )}
+                  />
+                )}
               </View>
             </View>
           </View>

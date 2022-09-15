@@ -1,35 +1,55 @@
 import { StyleSheet } from "react-native";
 import { toSize } from "../../../globalStyle";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
 
 export const styles = StyleSheet.create({
   toastBack: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    position: "absolute",
-    height: responsiveScreenHeight(100),
-    width: responsiveScreenWidth(100),
-    zIndex: 50,
+    backgroundColor: "#fff",
+    width: toSize(328),
+    borderRadius: 20,
+  },
+  contentContainer: {
+    paddingVertical: toSize(25),
+    paddingHorizontal: toSize(22),
     justifyContent: "center",
     alignItems: "center",
   },
-  toastContainer: {
-    backgroundColor: "#FFFFFF",
-    width: toSize(328),
-    height: toSize(100),
-    paddingVertical: toSize(20),
-    paddingHorizontal: toSize(16),
-    borderRadius: 15,
-    zIndex: 100,
+  textView: {
+    width: toSize(180),
+    justifyContent: "center",
   },
   TitleText: {
+    textAlign: "center",
     fontWeight: "700",
-    fontSize: toSize(17),
+    fontSize: toSize(30),
   },
-  subText: {
-    fontWeight: "400",
-    fontSize: toSize(13),
+  imageView: {
+    position: "relative",
+    justifyContent: "center",
+    width: toSize(284),
+  },
+  logo: {
+    position: "absolute",
+    left: toSize(70),
+    top: 20,
+    width: toSize(150),
+    resizeMode: "contain",
+    zIndex: -10,
+  },
+  character: {
+    marginTop: toSize(100),
+    width: toSize(284),
+    resizeMode: "contain",
   },
 });
+
+export const textUnderlineStyle = () =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: "#FFCC00",
+      width: toSize(180),
+      height: toSize(20),
+      position: "absolute",
+      bottom: 5,
+      zIndex: -10,
+    },
+  });

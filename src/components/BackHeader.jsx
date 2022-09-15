@@ -10,7 +10,7 @@ import no_heart from "../icons/icon_NoHeart.svg";
 import heart from "../icons/icon_Heart.svg";
 import go_map from "../icons/go_map.svg";
 
-export default function Header({ heartClick, ClickHeart }) {
+export default function Header({ heartClick, ClickHeart, handleNextScreen }) {
   const navigation = useNavigation();
   return (
     <View style={styles.fullscreen}>
@@ -34,7 +34,7 @@ export default function Header({ heartClick, ClickHeart }) {
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.left}
-            //onPress={() => navigation.navigate("MakeCourse")}
+            onPress={handleNextScreen}
           >
             <WithLocalSvg
               width={toSize(30)}

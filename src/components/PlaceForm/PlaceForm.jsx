@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import TagForm from "./TagForm";
@@ -22,7 +29,6 @@ const PlaceForm = ({
   onClickMenu,
 }) => {
   const navigation = useNavigation();
-  console.log(data);
 
   return (
     <>
@@ -90,7 +96,7 @@ const PlaceForm = ({
             </View>
             <View style={styles.ScoreView}>
               {tagList.map((item, index) => {
-                if (index >= 3) {
+                if (index >= 3 && index < 6 && item.tagName.length < 5) {
                   return <TagForm key={index} tag={item.tagName} />;
                 }
               })}
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
   },
   picture: {
     width: toSize(105),
-    height: toSize(124),
+    height: "100%",
     borderRadius: 17,
   },
   PlaceView: {

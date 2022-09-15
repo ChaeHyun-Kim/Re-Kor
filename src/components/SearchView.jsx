@@ -45,9 +45,12 @@ const SearchView = ({
             placeholder={placeholder}
           />
         ) : null}
-        <TouchableOpacity activeOpacity={0.8} onPress={onclick}>
-          <FontAwesome name="search" size={toSize(16)} color="#2F3036" />
-        </TouchableOpacity>
+
+        {search !== "" && (
+          <TouchableOpacity activeOpacity={0.8} onPress={onclick}>
+            <FontAwesome name="search" size={toSize(16)} color="#2F3036" />
+          </TouchableOpacity>
+        )}
       </TouchableOpacity>
     </>
   );

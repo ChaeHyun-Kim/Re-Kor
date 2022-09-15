@@ -41,15 +41,18 @@ const styles = StyleSheet.create({
     width: toSize(172),
     height: toSize(190),
     marginTop: toSize(235),
+    resizeMode: "contain",
   },
   picture1: {
     width: "100%",
     height: toSize(190),
     marginTop: toSize(235),
+    resizeMode: "contain",
   },
   character: {
     width: toSize(358),
     height: toSize(192),
     marginTop: toSize(58),
+    resizeMode: "contain",
   },
 });

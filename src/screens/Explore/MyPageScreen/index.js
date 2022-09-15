@@ -28,7 +28,7 @@ import cat_hanbokyi from "../../../icons/cat_hanbokyi.svg";
 import cat_suffer from "../../../icons/cat_suffer.svg";
 import cat_viewer from "../../../icons/cat_viewer.svg";
 import TagForm from "../../../components/PlaceForm/TagForm";
-import CenterModal from "../../../components/Modal/CenterModal";
+import MessageModal from "../../../components/Modal/MessageModal";
 
 const MyPageScreen = () => {
   const navigation = useNavigation();
@@ -81,16 +81,7 @@ const MyPageScreen = () => {
 
   return (
     <View style={styles.fullscreen}>
-      <CenterModal
-        visible={update}
-        title={"Coming soon"}
-        rightPress={() => setUpdate(false)}
-        rightText={"Close"}
-      >
-        <Text color={"#000"} lineHeight={15}>
-          {"please wait for a moment"}
-        </Text>
-      </CenterModal>
+      <MessageModal visible={update} handleFunction={setUpdate} />
       <StatusBar style="auto" />
       <Header Title={"My Page"} />
       <View style={styles.container}>
@@ -118,7 +109,7 @@ const MyPageScreen = () => {
           <Image source={HomeLine} style={styles.lineBackView} />
           <View style={styles.userView}>
             <View style={styles.iconView}>
-              <AntDesign name="setting" size={toSize(20)} color="black" />
+              <AntDesign name="setting" size={toSize(20)} color="white" />
             </View>
             <Text style={styles.Nickname}>{userName}</Text>
             <View style={styles.tagView}>

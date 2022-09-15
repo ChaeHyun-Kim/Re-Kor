@@ -1,22 +1,31 @@
 import React, { useEffect, useRef } from "react";
-import { View, Text } from "react-native";
-import { styles } from "./styles";
-import { toSize } from "../../../globalStyle";
+import Modal from "react-native-modal";
+import { View, Text, Image } from "react-native";
+import { styles, textUnderlineStyle } from "./styles";
+import logo_character from "../../../images/logo_character.png";
+import logo from "../../../images/logo_back.png";
 
-const MessageModal = ({ handleFunction }) => {
+const MessageModal = ({ visible, handleFunction }) => {
+  useEffect(() => {
+    if (visible) {
+      setTimeout(() => handleFunction(!visible), 2000);
+    }
+  }, [visible]);
   return (
-    <View style={styles.toastBack}>
-      <View style={styles.toastContainer}>
-        <Text style={styles.TitleText}>Coming soon</Text>
-        <Text style={styles.subText}> please wait for a moment</Text>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={rightPress}>
-            <Text style={styles.leftView}>{rightText}</Text>
-          </TouchableOpacity>
+    <Modal isVisible={visible}>
+      <View style={styles.toastBack}>
+        <View style={styles.contentContainer}>
+          <View style={styles.textView}>
+            <Text style={styles.TitleText}>Coming soon</Text>
+            <View style={textUnderlineStyle().container} />
+          </View>
+          <View style={styles.imageView}>
+            <Image style={styles.logo} source={logo} />
+            <Image style={styles.character} source={logo_character} />
+          </View>
         </View>
       </View>
-    </View>
+    </Modal>
   );
 };
 
