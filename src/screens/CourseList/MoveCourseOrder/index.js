@@ -13,9 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const MoveCourseOrder = ({ route }) => {
   const Folderdata = route.params.Folderdata;
   const Coursedata = Folderdata.course;
-  console.log(Folderdata);
   const handleSelect = () => {
-    console.log("여기봐!!", courselist);
     navigation.navigate("CourseList");
   };
 

@@ -28,11 +28,7 @@ const MoveFolder = ({ route }) => {
   const handleSelect = () => {
     var destid = onlyone.indexOf(true);
     destid = courselist[destid].folderId.id;
-    console.log("코스", Courseid, " 출발 ", Folderid, " 도착 ", destid);
     MoveFolderAPI(Courseid, Folderid, destid);
-    // const moveCourse = courselist[folderindex].course[courseindex];
-    // courselist[folderindex].course.splice(courseindex, 1);
-    // courselist[selectindex].course.push(moveCourse);
     navigation.navigate("CourseList");
   };
 
