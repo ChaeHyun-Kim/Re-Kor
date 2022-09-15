@@ -34,7 +34,7 @@ export default function SelectTagScreen() {
     getTagAPI()
       .then((response) => {
         if (response != null) {
-          getData(response);
+          getData(response.slice(0, 21));
         }
       })
       .catch((error) => {
@@ -75,6 +75,7 @@ export default function SelectTagScreen() {
 
         <View style={styles.LikedView}>
           <Text style={styles.LikedMainText}>What did you like about it?</Text>
+
           <TagView
             data={data}
             clickTagData={clickTagData}

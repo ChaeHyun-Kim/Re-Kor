@@ -9,42 +9,42 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CategoryColorForm from "../PlaceForm/CategoryColorForm";
 import { styles } from "../../styles/PlaceListStyle";
-
-const place = require("../../../src/images/place1.png");
+const noImage = require("../../../src/images/noImage.png");
 
 const PlaceList = ({ params, num, screenType, km, img, type }) => {
+  // console.log("여기 파라미터", params);
   const navigation = useNavigation();
   return (
     <>
-      {km && (
+      {/* {km && (
+      <View
+        style={{
+          flexDirection: "row",
+          width: "100%",
+          paddingLeft: toSize(10),
+          marginVertical: toSize(5),
+          alignItems: "center",
+        }}
+      >
         <View
           style={{
-            flexDirection: "row",
-            width: "100%",
-            paddingLeft: toSize(10),
-            marginVertical: toSize(5),
-            alignItems: "center",
+            height: toSize(30),
+            width: toSize(2),
+            backgroundColor: "#E9E9E9",
+            marginHorizontal: toSize(5),
+          }}
+        />
+        <Text
+          style={{
+            fontSize: toSize(12),
+            fontWeight: "700",
+            color: "#71727A",
           }}
         >
-          <View
-            style={{
-              height: toSize(30),
-              width: toSize(2),
-              backgroundColor: "#E9E9E9",
-              marginHorizontal: toSize(5),
-            }}
-          />
-          <Text
-            style={{
-              fontSize: toSize(12),
-              fontWeight: "700",
-              color: "#71727A",
-            }}
-          >
-            {km}km
-          </Text>
-        </View>
-      )}
+          {km}km
+        </Text>
+      </View>
+     )}  */}
 
       <TouchableOpacity
         activeOpacity={screenType === "complete" ? 0.8 : 1}
@@ -142,7 +142,7 @@ const PlaceList = ({ params, num, screenType, km, img, type }) => {
                   },
             ]}
             source={
-              params.img?.uri === undefined ? place : { uri: params.img.uri }
+              params.img?.uri !== undefined ? { uri: params.img.uri } : noImage
             }
           />
           <View style={styles.PlaceView}>

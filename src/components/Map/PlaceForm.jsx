@@ -15,21 +15,24 @@ import CategoryColorForm from "../PlaceForm/CategoryColorForm";
 const place = require("../../../src/images/noImage.png");
 import { Foundation } from "@expo/vector-icons";
 
-const PlaceForm = ({ data, type }) => {
+const PlaceForm = ({ data, type, params }) => {
   const navigation = useNavigation();
   const handleNextScreen = () => {
-    const params = [
-      {
-        id: data.spotId.id,
-        placeName: data.title,
-        addr: data.address.addr1.split(" ")[1],
-        cat: data.rekorCategory,
-        img: data.images[0] ? { uri: data.images[0] } : place,
-        type: type,
-        mapx: parseFloat(data.address.mapx),
-        mapy: parseFloat(data.address.mapy),
-      },
-    ];
+    const newParams = {
+      id: data.spotId.id,
+      placeName: data.title,
+      addr: data.address.addr1.split(" ")[1],
+      cat: data.rekorCategory,
+      img: data.images[0] ? { uri: data.images[0] } : place,
+      type: type,
+      mapx: parseFloat(data.address.mapx),
+      mapy: parseFloat(data.address.mapy),
+    };
+    console.log("기존", params);
+    console.log("newParams", newParams);
+    params.push(newParams);
+    console.log("params", params);
+
     navigation.navigate("MakeCourse", { params: params });
   };
 

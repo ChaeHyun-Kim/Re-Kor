@@ -11,7 +11,7 @@ export default function FirstPlaceView() {
   const navigation = useNavigation();
   const [showFirstView, setShowFirstView] = useState(true);
   const handleFirstPlaceClick = () => {
-    navigation.navigate("SelectPlaceScreen");
+    navigation.navigate("SelectPlaceScreen", { params: [] });
   };
 
   console.log("showFirstView", showFirstView);

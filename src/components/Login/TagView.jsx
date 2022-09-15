@@ -66,12 +66,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Tag: {
-    paddingHorizontal: toSize(8),
-    paddingVertical: toSize(6),
+    paddingHorizontal: toSize(10),
+    paddingVertical: toSize(8),
     borderRadius: toSize(12),
     textAlign: "center",
     fontWeight: "600",
-    fontSize: toSize(12),
+    fontSize: toSize(13),
     marginHorizontal: toSize(8),
   },
 });

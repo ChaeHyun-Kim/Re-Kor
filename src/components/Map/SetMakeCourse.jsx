@@ -32,7 +32,10 @@ export default function SetMakeCourse({ params, setSelectView }) {
   const makeCourse = () => {
     var newList = [];
     if (courseName.length > 0) {
+      // console.log("코스데이터", courseData);
+      console.log("코스데이터", params);
       courseData.map((data) => {
+        console.log("데이터", data);
         var emptyData = { spotId: "", isWished: "", isRecommend: "" };
         emptyData.spotId = data.id;
         emptyData.isRecommend = data.type === "recommend" ? "true" : "false";
@@ -40,9 +43,9 @@ export default function SetMakeCourse({ params, setSelectView }) {
         newList = newList.concat(emptyData);
       });
       MakeCourseAPI(courseName, newList)
-        .then(async (response) => {
+        .then((response) => {
           console.log("코스 만들기", response);
-          await AsyncStorage.removeItem("@makeCourse");
+          // await AsyncStorage.removeItem("@makeCourse");
         })
         .catch((error) => {
           console.log(error);
@@ -55,46 +58,15 @@ export default function SetMakeCourse({ params, setSelectView }) {
   };
 
   const storeCourse = () => {
-    AsyncStorage.setItem("@makeCourse", JSON.stringify(courseData), () => {
-      // console.log("코스저장", courseData);
-    });
+    setSelectView(false)
     navigation.navigate("SelectPlaceScreen", { params: params });
-
-    // navigation.navigate("SelectPlaceScreen");
   };
 
   useEffect(() => {
     async function fetchData() {
       if (!isLoading) {
         setIsLoading(true);
-        const data = await AsyncStorage.getItem("@makeCourse");
-        if (data === null) {
-          setCourseData(params);
-          console.log("파라미터를 makeCourse에 저장해야함");
-          await AsyncStorage.setItem("@makeCourse", params);
-        } else {
-          console.log(JSON.stringify(data));
-          const newdata = data.concat(params);
-          console.log(newdata);
-          // setCourseData(newdata);
-          await AsyncStorage.setItem("@makeCourse", newdata);
-          console.log("이미 저장된 값이 있을 경우");
-        }
-
-        const courseList = JSON.parse(data);
-        if (courseList !== null) {
-          const finalcourseList = courseList.concat(params[0]);
-          setCourseData(finalcourseList);
-        } else {
-          setCourseData(params);
-        }
-        await AsyncStorage.setItem(
-          "@makeCourse",
-          JSON.stringify(params),
-          () => {
-            console.log("코스 만드는 중");
-          }
-        );
+        setCourseData(params);
       }
     }
     fetchData();
@@ -102,14 +74,14 @@ export default function SetMakeCourse({ params, setSelectView }) {
 
   return (
     <>
-      <ToastMessage
+      {/* <ToastMessage
         visible={confirmWait}
         handleFunction={setConfirmWait}
         title={"Wait!"}
         content={"Please write down the name of the course"}
         fail
         course
-      />
+      /> */}
       <View style={MapStyles.container}>
         <View style={MapStyles.line} />
         <View style={MapStyles.textInputView}>
@@ -132,7 +104,7 @@ export default function SetMakeCourse({ params, setSelectView }) {
           </TouchableOpacity>
         </View>
         <AutoScrollView style={{ width: "100%" }}>
-          {courseData.map((item, index) => {
+          {params.map((item, index) => {
             return (
               <PlaceList
                 key={index}

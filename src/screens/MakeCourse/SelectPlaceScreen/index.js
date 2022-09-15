@@ -11,7 +11,9 @@ import FilterCheckView from "../../../components/Map/FilterCheckView";
 import { wishListAPI } from "../../../api/WishList";
 import { recommendTourAPI } from "../../../api/Explore";
 
-const SelectPlaceScreen = () => {
+const SelectPlaceScreen = ({ route }) => {
+  const { params } = route.params;
+  console.log("params", params);
   const [recommendData, getRecommendData] = useState([]);
   const [wishData, getWishData] = useState([]);
   const [click, setClick] = useState("recommended");
@@ -64,6 +66,7 @@ const SelectPlaceScreen = () => {
                   data={item}
                   key={item.spotId.id}
                   type={"recommend"}
+                  params={params}
                 />
               );
             })}
@@ -72,7 +75,12 @@ const SelectPlaceScreen = () => {
             click === "wish" &&
             wishData.map((item) => {
               return (
-                <PlaceForm data={item} key={item.spotId.id} type={"wish"} />
+                <PlaceForm
+                  data={item}
+                  key={item.spotId.id}
+                  type={"wish"}
+                  params={params}
+                />
               );
             })}
         </ScrollView>
