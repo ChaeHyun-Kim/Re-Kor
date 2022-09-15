@@ -18,7 +18,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MakeCourseMainScreen({ route }) {
   const { params } = route.params;
-  console.log("초기화되어야 함", params);
   const navigation = useNavigation();
 
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
@@ -73,9 +72,9 @@ export default function MakeCourseMainScreen({ route }) {
         )}
       </MapView>
 
-      <View style={[styles.container, styles.rowView]}>
+      {/* <View style={[styles.container, styles.rowView]}>
         <SearchView text={"Search"} />
-      </View>
+      </View> */}
 
       <View style={styles.bottomView}>
         {params.length === 0 && <FirstPlaceView />}

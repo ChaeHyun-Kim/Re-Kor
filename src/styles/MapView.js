@@ -5,7 +5,7 @@ export const MapStyles = StyleSheet.create({
   container: {
     backgroundColor: "#FFF",
     width: "100%",
-    // height: "80%",
+    maxHeight: "100%",
     paddingBottom: toSize(30),
     paddingHorizontal: toSize(24),
     alignItems: "center",
@@ -33,6 +33,10 @@ export const MapStyles = StyleSheet.create({
   inputText: {
     fontSize: toSize(14),
     fontWeight: "400",
+  },
+  TextValue: {
+    fontSize: toSize(18),
+    fontWeight: "700",
   },
   completeText: {
     color: "#FFCC00",

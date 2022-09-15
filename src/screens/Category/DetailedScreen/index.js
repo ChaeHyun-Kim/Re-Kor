@@ -79,15 +79,14 @@ const DetailedScreen = ({ route }) => {
         placeName: Data.spotInfo.title,
         addr: Data.spotInfo.address.addr1.split(" ")[1],
         cat: Data.spotInfo.rekorCategory,
-        img: Data.imageList[0]
-          ? { url: Data.imageList[0].originimgurl }
+        img: Data.spotInfo.images[0]
+          ? { url: Data.spotInfo.images[0] }
           : noImage,
-        type: "wish",
+        type: "",
         mapx: parseFloat(location.lng),
         mapy: parseFloat(location.lat),
       },
     ];
-    console.log(params);
     navigation.navigate("MakeCourse", { params: params });
   };
 

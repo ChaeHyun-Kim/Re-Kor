@@ -13,7 +13,6 @@ import { recommendTourAPI } from "../../../api/Explore";
 
 const SelectPlaceScreen = ({ route }) => {
   const { params } = route.params;
-  console.log("params", params);
   const [recommendData, getRecommendData] = useState([]);
   const [wishData, getWishData] = useState([]);
   const [click, setClick] = useState("recommended");

@@ -30,7 +30,7 @@ const SecondView = ({
   const [click, setClick] = useState(false);
   const place = require("../../images/place1.png");
   const items = [
-    { id: "move", label: "Move to a different folder" },
+    // { id: "move", label: "Move to a different folder" },
     { id: "rename", label: "Rename a course" },
     // { id: "order", label: "change the order" },
   ];
@@ -39,21 +39,22 @@ const SecondView = ({
   const onMenuPress = (id) => {
     if (id === "rename") {
       setRename(true);
-    } else if (id === "move") {
-      navigation.navigate("MoveFolder", {
-        Folderid: courselist[folderindex].folderId.id,
-        Courseid: partcoursedata.courseId.id,
-        courseindex: folderindex,
-        folderindex: courseindex,
-        courselist: courselist,
-      });
-    } else if (id === "order") {
-      navigation.navigate("MoveCourseOrder", {
-        Folderdata: partdata,
-        Folderindex: folderindex,
-        Courseindex: courseindex,
-      });
     }
+    // else if (id === "move") {
+    //   navigation.navigate("MoveFolder", {
+    //     Folderid: courselist[folderindex].folderId.id,
+    //     Courseid: partcoursedata.courseId.id,
+    //     courseindex: folderindex,
+    //     folderindex: courseindex,
+    //     courselist: courselist,
+    //   });
+    // } else if (id === "order") {
+    //   navigation.navigate("MoveCourseOrder", {
+    //     Folderdata: partdata,
+    //     Folderindex: folderindex,
+    //     Courseindex: courseindex,
+    //   });
+    // }
   };
 
   return (

@@ -50,7 +50,7 @@ const PlaceList = ({ params, num, screenType, km, img, type }) => {
         activeOpacity={screenType === "complete" ? 0.8 : 1}
         style={styles.CategoryView}
       >
-        {screenType === "edit" && (
+        {/* {screenType === "edit" && (
           <View
             style={{
               alignItems: "center",
@@ -86,7 +86,7 @@ const PlaceList = ({ params, num, screenType, km, img, type }) => {
               />
             </TouchableOpacity>
           </View>
-        )}
+        )} */}
 
         {num && (
           <View
@@ -174,13 +174,16 @@ const PlaceList = ({ params, num, screenType, km, img, type }) => {
         </View>
 
         {screenType === "edit" && (
-          <SimpleLineIcons
-            style={{ paddingLeft: toSize(12) }}
-            name="menu"
-            size={14}
-            color="#D4D6DD"
-          />
+          // <SimpleLineIcons
+          //   style={{ paddingLeft: toSize(12) }}
+          //   name="menu"
+          //   size={14}
+          //   color="#D4D6DD"
+          // />
+          <View style={{ width: "3%" }}></View>
         )}
+
+        <View style={{ width: "3%" }}></View>
       </TouchableOpacity>
     </>
   );

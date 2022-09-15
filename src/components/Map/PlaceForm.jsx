@@ -28,10 +28,7 @@ const PlaceForm = ({ data, type, params }) => {
       mapx: parseFloat(data.address.mapx),
       mapy: parseFloat(data.address.mapy),
     };
-    console.log("기존", params);
-    console.log("newParams", newParams);
     params.push(newParams);
-    console.log("params", params);
 
     navigation.navigate("MakeCourse", { params: params });
   };

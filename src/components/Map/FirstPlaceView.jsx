@@ -14,7 +14,6 @@ export default function FirstPlaceView() {
     navigation.navigate("SelectPlaceScreen", { params: [] });
   };
 
-  console.log("showFirstView", showFirstView);
 
   // useEffect(() => {
   //   async function fetchData() {

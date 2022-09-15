@@ -50,7 +50,6 @@ export const RenameFolderAPI = async (folderId, newName) => {
     }),
   });
   const data = await response.json();
-  console.log("폴더 이름 변경", data.status);
   return data.status;
 };
 
@@ -69,7 +68,6 @@ export const RenameCourseAPI = async (courseId, newName) => {
     }),
   });
   const data = await response.json();
-  console.log(data.status);
   return data.status;
 };
 
@@ -89,7 +87,6 @@ export const MoveFolderAPI = async (courseId, startFolder, destFolder) => {
     }),
   });
   const data = await response.json();
-  console.log(data.status);
   return data.status;
 };
 
@@ -109,6 +106,5 @@ export const CourseOrderAPI = async (folderId, startcourse, destCourse) => {
     }),
   });
   const data = await response.json();
-  console.log(data.status);
   return data.status;
 };
