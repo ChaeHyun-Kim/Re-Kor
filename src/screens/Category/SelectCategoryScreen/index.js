@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { WithLocalSvg } from "react-native-svg";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 
-import { SimpleLineIcons } from "@expo/vector-icons";
+import { SimpleLineIcons, Feather } from "@expo/vector-icons";
 import { toSize } from "../../../globalStyle";
 import ic_loading from "../../../icons/ic_loading.svg";
 import filter_arrow from "../../../icons/filter_arrow.svg";
@@ -52,7 +52,7 @@ const SelectCategoryScreen = ({ route }) => {
       <View style={styles.MainView}>
         {!loading && (
           <View style={styles.loadingView}>
-            <WithLocalSvg asset={ic_loading} />
+            <Feather name="loader" size={toSize(30)} color="#5F5F5F" />
           </View>
         )}
 

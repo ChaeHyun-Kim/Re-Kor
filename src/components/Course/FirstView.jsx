@@ -8,7 +8,6 @@ import {
   TextInput,
 } from "react-native";
 import { toSize } from "../../globalStyle";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import SecondView from "./SecondView";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import { RenameFolderAPI } from "../../api/Courselist";
@@ -32,9 +31,6 @@ const CourseListView = ({
     }
   };
   useEffect(() => {
-    // AsyncStorage.setItem("@courselist", JSON.stringify(courselist), () => {
-    //   console.log("코스 리스트 저장 완료", courselist);
-    // });
     partdata.courseList = coursepart;
     courselist[folderindex] = partdata;
     setCourselist(courselist);
@@ -113,7 +109,6 @@ const CourseListView = ({
           setCourselist={setCourselist}
         />
       ))}
-      {/* } */}
     </View>
   );
 };

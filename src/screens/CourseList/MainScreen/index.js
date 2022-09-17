@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import Header from "../../../components/Header";
-import BackHeader from "../../../components/BackHeader";
 import Bottom from "../../../components/Bottom";
 import ListView from "../../../components/Course/FirstView";
 import { toSize } from "../../../globalStyle";
-import { AntDesign } from "@expo/vector-icons";
-import AutoScrollView from "react-native-auto-scroll-view";
-import { WithLocalSvg } from "react-native-svg";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CourseListAPI, AddFolderAPI } from "../../../api/Courselist";
 import TitleInfo from "../../../components/common/TitleInfoScreen";
 const CourseListMainScreen = () => {
-  const emptyfolder = [{ folderName: "New Folder", courseList: [] }];
-  const [courselist, setCourselist] = useState([]);
-  const [confirmCheck, setConfirmCheck] = useState(false);
+  const [courseList, setCourseList] = useState([]);
 
   const handleList = async () => {
     CourseListAPI()
       .then((response) => {
         if (response != null) {
-          setCourselist(response);
+          setCourseList(response);
         }
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   const AddFolder = async () => {
     AddFolderAPI()
       .then((response) => {
@@ -42,39 +36,29 @@ const CourseListMainScreen = () => {
     handleList();
   }, []);
 
-  useEffect(() => {
-    console.log("데이터", courselist);
-  }, [courselist]);
-
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Header Title={"CourseList"} />
-      <AutoScrollView
-        style={styles.MainView}
-        // onScrollEndDrag={() => {
-        //   console.log(
-        //     "현재 페이지와 마지막 페이지 값이 같다면 데이터 불러오기 중단하라 !"
-        //   );
-        // }}
-      >
+      <ScrollView style={styles.MainView}>
         <TitleInfo
-          title={"Courselist"}
+          title={"CourseList"}
           content={"Check out the course that was made"}
         />
-        {courselist.map((item, index) => {
+
+        {courseList.map((item, index) => {
           return (
             <ListView
               key={index}
-              courselist={courselist}
+              courselist={courseList}
               partdata={item}
               folderindex={index}
-              setCourselist={setCourselist}
+              setCourselist={setCourseList}
             />
           );
         })}
-        <View style={{ height: toSize(50) }}></View>
-      </AutoScrollView>
+        <View style={{ height: toSize(50) }} />
+      </ScrollView>
 
       {/* <TouchableOpacity
         activeOpacity={0.8}
@@ -116,7 +100,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   MainView: {
-    flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: toSize(22),
     paddingTop: toSize(22),
