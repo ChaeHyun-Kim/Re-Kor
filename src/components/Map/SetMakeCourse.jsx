@@ -24,7 +24,11 @@ import AutoScrollView from "react-native-auto-scroll-view";
 
 import ToastMessage from "../Modal/Toast";
 
-export default function SetMakeCourse({ params, setSelectView }) {
+export default function SetMakeCourse({
+  params,
+  setSelectView,
+  setParamsData,
+}) {
   const navigation = useNavigation();
   const [complete, setComplete] = useState("edit");
   // const [final, setComplete] = useState("edit");
@@ -52,7 +56,6 @@ export default function SetMakeCourse({ params, setSelectView }) {
             console.log(error);
           });
         setComplete("complete");
-        // navigation.navigate("CourseList");
       } else {
         setConfirmWait(1);
         Alert.alert("Wait!", "Please write down the name of the course", [
@@ -80,6 +83,16 @@ export default function SetMakeCourse({ params, setSelectView }) {
     }
     fetchData();
   }, [params]);
+
+  const deleteFunction = (num) => {
+    let newArray = [];
+    params.map((item, index) => {
+      if (num - 1 != index) {
+        newArray.push(item);
+      }
+    });
+    setParamsData(newArray);
+  };
 
   return (
     <>
@@ -130,16 +143,18 @@ export default function SetMakeCourse({ params, setSelectView }) {
                 : { width: "100%", maxHeight: toSize(400) }
             }
           >
-            {params.map((item, index) => {
-              return (
-                <PlaceList
-                  key={index}
-                  params={item}
-                  num={index + 1}
-                  screenType={complete}
-                />
-              );
-            })}
+            {params &&
+              params.map((item, index) => {
+                return (
+                  <PlaceList
+                    key={index}
+                    params={item}
+                    num={index + 1}
+                    screenType={complete}
+                    deleteFunction={deleteFunction}
+                  />
+                );
+              })}
           </ScrollView>
         </TouchableWithoutFeedback>
         {complete === "edit" && (

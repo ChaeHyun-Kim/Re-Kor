@@ -14,10 +14,11 @@ import FirstPlaceView from "../../../components/Map/FirstPlaceView";
 import SelectMakeCourse from "../../../components/Map/SelectMakeCourse";
 import SetMakeCourse from "../../../components/Map/SetMakeCourse";
 import CenterModal from "../../../components/Modal/CenterModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MakeCourseMainScreen({ route }) {
   const { params } = route.params;
+  const [paramsData, setParamsData] = useState(params);
+
   const navigation = useNavigation();
 
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
@@ -26,31 +27,52 @@ export default function MakeCourseMainScreen({ route }) {
   const [cancelVisible, setCancelVisible] = useState(false);
   const [SelectView, setSelectView] = useState(false);
 
-  // 뒤로가기
-  const handleGoBack = async () => {
-    setCancelVisible(false);
-    await AsyncStorage.removeItem("@makeCourse");
-    navigation.goBack();
-  };
-
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      () => {
-        setCancelVisible(true);
-        return true;
-      }
-    );
-    return () => backHandler.remove();
-  }, []);
-
-  useEffect(() => {
-    if (params.length === 0) {
-      setSelectView(false);
-    } else if (params.length === 1) {
-      setLocation({ lat: params[0].mapy, lng: params[0].mapx });
-    }
+    setParamsData(params);
+    setIsPressed(false);
   }, [params]);
+
+  // // 뒤로가기
+  // const handleGoBack = async () => {
+  //   setCancelVisible(false);
+  //   navigation.goBack();
+  // };
+
+  // useEffect(() => {
+  //   const backHandler = BackHandler.addEventListener(
+  //     "hardwareBackPress",
+  //     () => {
+  //       setCancelVisible(true);
+  //       return true;
+  //     }
+  //   );
+  //   return () => backHandler.remove();
+  // }, []);
+
+  const [isPressed, setIsPressed] = useState(false);
+  const [event, setEvent] = useState();
+
+  // 네비게이션 이동 감지
+  useEffect(
+    () =>
+      navigation.addListener("beforeRemove", (e) => {
+        if (isPressed) {
+          return;
+        }
+        e.preventDefault();
+        setEvent(e);
+        setCancelVisible(true);
+      }),
+    [isPressed, navigation]
+  );
+
+  useEffect(() => {
+    if (paramsData.length === 0) {
+      setSelectView(false);
+    } else if (paramsData.length === 1) {
+      setLocation({ lat: paramsData[0].mapy, lng: paramsData[0].mapx });
+    }
+  }, [paramsData]);
 
   return (
     <View style={styles.fullscreen}>
@@ -63,10 +85,10 @@ export default function MakeCourseMainScreen({ route }) {
           longitudeDelta: 0.003,
         }}
       >
-        {params.length === 1 && (
+        {paramsData.length === 1 && (
           <MarkerCustom
             location={location}
-            icon={params[0].type === "wish" ? "Heart" : "wish"}
+            icon={paramsData[0].type === "wish" ? "Heart" : "wish"}
             num={1}
           />
         )}
@@ -77,22 +99,28 @@ export default function MakeCourseMainScreen({ route }) {
       </View> */}
 
       <View style={styles.bottomView}>
-        {params.length === 0 && <FirstPlaceView />}
-        {params.length >= 1 && !SelectView && (
+        {paramsData.length === 0 && <FirstPlaceView />}
+        {paramsData.length >= 1 && !SelectView && (
           <SelectMakeCourse
-            params={params[params.length - 1]}
-            num={params.length}
+            params={paramsData[paramsData.length - 1]}
+            num={paramsData.length}
             handleInputCheck={setSelectView}
           />
         )}
         {SelectView && (
           <SetMakeCourse
-            params={params}
+            params={paramsData}
             SelectView={SelectView}
             setSelectView={setSelectView}
+            setParamsData={setParamsData}
           />
         )}
-        <Bottom num={5} border={false} />
+        <Bottom
+          num={5}
+          border={false}
+          nextPage={setCancelVisible}
+          visible={setIsPressed}
+        />
       </View>
 
       {/* 뒤로가기 경고 모달 */}
@@ -100,11 +128,15 @@ export default function MakeCourseMainScreen({ route }) {
         visible={cancelVisible}
         title={"Do you want to leave the page?"}
         leftPress={() => setCancelVisible(false)}
-        rightPress={handleGoBack}
+        rightPress={() => {
+          setIsPressed(true);
+          setCancelVisible(false);
+          navigation.goBack();
+        }}
         leftText={"Cancel"}
         rightText={"Action"}
       >
-        <Text color={"#000"} lineHeight={15}>
+        <Text style={styles.backText}>
           {"If you leave this page, your changes may not be saved."}
         </Text>
       </CenterModal>
@@ -144,5 +176,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
+  },
+  backText: {
+    fontWeight: "400",
+    fontSize: toSize(13),
+    color: "#000",
   },
 });

@@ -16,7 +16,7 @@ import {
 import { toSize } from "../globalStyle";
 import { BottomStyles } from "../styles/Bottom";
 
-export default function Bottom({ num }) {
+export default function Bottom({ num, nextPage, visible }) {
   const navigation = useNavigation();
   return (
     <View style={BottomStyles.fullscreen}>
@@ -24,7 +24,11 @@ export default function Bottom({ num }) {
         <View style={BottomStyles.LeftView}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Explore")}
+            onPress={() => {
+              num === 5
+                ? nextPage(true) && visible(true)
+                : navigation.navigate("Explore");
+            }}
           >
             <View style={BottomStyles.IconView}>
               <MaterialIcons

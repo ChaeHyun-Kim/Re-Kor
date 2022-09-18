@@ -85,7 +85,7 @@ const PlaceForm = ({ data, type, params }) => {
 
         <View style={styles.tagView}>
           {data.tagList.map((item, index) => {
-            if (index < 3) {
+            if (index < 3 && item.engTagName.length < 10) {
               return <TagForm key={index} tag={item.engTagName} />;
             }
           })}
@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     fontSize: toSize(14),
     fontWeight: "700",
     color: "#1F2024",
+    paddingRight: toSize(8),
   },
   Region_Text: {
     fontSize: toSize(12),

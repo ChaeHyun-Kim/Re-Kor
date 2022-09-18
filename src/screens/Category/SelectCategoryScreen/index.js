@@ -45,6 +45,18 @@ const SelectCategoryScreen = ({ route }) => {
     handleMenu(id);
   };
 
+  const isCloseToBottom = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize,
+  }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -59,6 +71,11 @@ const SelectCategoryScreen = ({ route }) => {
         <ScrollView
           contentContainerStyle={styles.listView}
           nestedScrollEnabled={true}
+          onScroll={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              console.log("bottom");
+            }
+          }}
         >
           {loading && (
             <View style={styles.FilterView}>

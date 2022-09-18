@@ -110,7 +110,10 @@ const DetailedScreen = ({ route }) => {
     navigation.navigate("ReviewCreateScreen", { params: params });
   };
 
-  const addr_default = Data.spotInfo.address.addr1.split(", ");
+  const addr_default = (addr) => {
+    const array = addr.split(", ");
+    return array[array.length - 2];
+  };
 
   return (
     <View style={styles.container}>
@@ -120,14 +123,14 @@ const DetailedScreen = ({ route }) => {
         ClickHeart={ClickHeart}
         handleNextScreen={handleNextScreen}
       />
-      {Data != null && (
+      {Data != null && Data.spotInfo != null && (
         <View style={styles.MainView}>
           <View style={styles.placeInfoView}>
             <Text style={styles.Place_text}>{Data.spotInfo.title}</Text>
             <Text style={styles.Region_Text}>
               {Data.spotInfo.address.addr2 !== ""
                 ? Data.spotInfo.address.addr2
-                : addr_default[addr_default.length - 2]}
+                : addr_default(Data.spotInfo.address.addr1)}
             </Text>
 
             <View style={styles.ScoreView}>
