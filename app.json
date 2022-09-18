@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/images/rekor_splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -29,6 +29,17 @@
         "googleMaps": {
           "apiKey": "AIzaSyA47b1GdLI5Pgf_OadVIGBBIbIKC_Y0Fe4"
         }
+      },
+      "icon": "./assets/images/icon.png",
+      "splash": {
+        "image": "./assets/images/rekor_splash.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#000",
+        "mdpi": "./assets/images/mdpi_splash.png",
+        "hdpi": "./assets/images/hpdi_splash.png",
+        "xhdpi": "./assets/images/xhdpi_splash.png",
+        "xxhdpi": "./assets/images/xxhdpi_splash.png",
+        "xxxhdpi": "./assets/images/xxxhdpi_splash.png"
       },
       "package": "com.suji_chae.ReKor",
       "permissions": []
