@@ -4,7 +4,7 @@ import { WithLocalSvg } from "react-native-svg";
 import { FormStyles } from "../../styles/FormView";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
-
+import TagForm from "../PlaceForm/TagForm";
 import ic_user from "../../icons/ic_user.svg";
 
 export default function Review({ data }) {
@@ -15,14 +15,21 @@ export default function Review({ data }) {
     const day = date.getDate();
     return year + "." + month + "." + day;
   };
-  
+
   return (
     <View style={[FormStyles.FormOneView, { marginVertical: toSize(20) }]}>
       <View style={FormStyles.Row}>
         <WithLocalSvg asset={ic_user} height={toSize(45)} width={toSize(45)} />
         <View style={styles.userView}>
           <Text style={styles.userNickName}>{data.userName}</Text>
-          <Text style={styles.tag}></Text>
+          <View style={styles.userTagView}>
+            {data.userTagList &&
+              data.userTagList.map((item, index) => {
+                if (index < 2) {
+                  return <TagForm key={index} tag={item.engTagName} user />;
+                }
+              })}
+          </View>
         </View>
       </View>
       <View
@@ -46,12 +53,33 @@ export default function Review({ data }) {
         <Text style={styles.timeText}>{dateChange(data.time)}</Text>
       </View>
       <Text style={styles.reviewText}>{data.text}</Text>
+
+      <View style={styles.TagView}>
+        {data.tagList &&
+          data.tagList.map((item, index) => {
+            if (index < 2) {
+              return <TagForm key={index} tag={item.engTagName} />;
+            }
+          })}
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
   userView: {
     marginLeft: toSize(11),
+  },
+  userTagView: {
+    marginTop: toSize(3),
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  TagView: {
+    marginTop: toSize(10),
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   userNickName: {
     fontWeight: "700",

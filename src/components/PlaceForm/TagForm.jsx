@@ -1,10 +1,22 @@
 import { StyleSheet, Text, View } from "react-native";
 import { toSize } from "../../globalStyle";
-const TagForm = ({ tag }) => {
+const TagForm = ({ tag, user }) => {
   return (
     <View style={styles.TagView}>
-      <View style={styles.commonView}>
-        <Text style={styles.commonText}>#{tag}</Text>
+      <View
+        style={[
+          styles.commonView,
+          user ? { borderRadius: 20 } : { borderRadius: 4 },
+        ]}
+      >
+        <Text
+          style={[
+            styles.commonText,
+            user ? { fontSize: toSize(10) } : { fontSize: toSize(12) },
+          ]}
+        >
+          #{tag}
+        </Text>
       </View>
     </View>
   );
@@ -18,7 +30,6 @@ const styles = StyleSheet.create({
   },
   commonView: {
     borderWidth: 1,
-    borderRadius: 4,
     backgroundColor: "#FFFFFF",
     borderColor: "#D4D6DD",
     justifyContent: "center",
@@ -29,6 +40,5 @@ const styles = StyleSheet.create({
   commonText: {
     fontWeight: "400",
     color: "#71727A",
-    fontSize: toSize(12),
   },
 });

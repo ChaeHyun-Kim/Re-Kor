@@ -36,6 +36,7 @@ const ExploreMainScreen = () => {
   const [ClickHeart, setHeartClick] = useState(false);
   const [placeNumber, setPlaceNumber] = useState(0);
   const [HeartShow, setHeartShow] = useState(false);
+  const [heartAdd, setHeartAdd] = useState(0);
 
   const arrayNum = placeArray.length;
   const HomeBack = require("../../../icons/ic_homeBack.png");
@@ -95,9 +96,12 @@ const ExploreMainScreen = () => {
   useEffect(() => {
     if (ClickHeart) {
       setHeartShow(true);
+      setHeartAdd(1);
       setTimeout(function () {
         setHeartShow(false);
       }, 1000);
+    } else {
+      setHeartAdd(0);
     }
   }, [ClickHeart]);
 
@@ -180,7 +184,7 @@ const ExploreMainScreen = () => {
                   <View style={styles.place_information}>
                     <Text style={styles.region_text}>
                       {placeArray.length != 0
-                        ? placeArray[placeNumber].address.addr1.split(" ")[1]
+                        ? placeArray[placeNumber].address.addr2
                         : ""}
                     </Text>
 
@@ -206,7 +210,7 @@ const ExploreMainScreen = () => {
                       />
                       <Text style={styles.sub_text}>
                         {placeArray.length != 0
-                          ? placeArray[placeNumber].likeCount
+                          ? placeArray[placeNumber].likeCount + heartAdd
                           : 0}
                       </Text>
                       <AntDesign
@@ -345,8 +349,8 @@ const styles = StyleSheet.create({
   tagView: {
     flexDirection: "row",
     width: "100%",
-    height: toSize(40),
     marginTop: toSize(7),
+    maxHeight: toSize(40),
   },
   line: {
     width: toSize(1),

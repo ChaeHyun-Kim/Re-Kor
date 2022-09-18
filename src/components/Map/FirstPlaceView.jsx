@@ -7,24 +7,12 @@ import { WithLocalSvg } from "react-native-svg";
 
 import ic_map from "../../icons/ic_map.svg";
 
-export default function FirstPlaceView() {
+export default function FirstPlaceView({ setIsPressed }) {
   const navigation = useNavigation();
   const [showFirstView, setShowFirstView] = useState(true);
   const handleFirstPlaceClick = () => {
     navigation.navigate("SelectPlaceScreen", { params: [] });
   };
-
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const data = await AsyncStorage.getItem("@makeCourse");
-  //     const courseList = JSON.parse(data);
-  //     if (courseList !== null) {
-  //       setShowFirstView(false);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
 
   return (
     <View style={styles.container}>

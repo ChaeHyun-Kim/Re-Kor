@@ -46,6 +46,17 @@ export const styles = StyleSheet.create({
     height: toSize(1),
     marginVertical: toSize(21),
   },
+  textInput: {
+    fontWeight: "400",
+    fontSize: toSize(14),
+    borderWidth: 1,
+    borderRadius: 12,
+    borderColor: "#C5C6CC",
+    height: toSize(94),
+    padding: toSize(15),
+    textAlignVertical: "top",
+    marginTop: toSize(10),
+  },
 
   FormView: { marginTop: toSize(34) },
   FormOneView: {

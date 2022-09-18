@@ -13,8 +13,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: toSize(16),
   },
   titleText: {
-    fontSize: 17,
+    fontSize: toSize(17),
     fontWeight: "700",
+    marginBottom: toSize(6),
   },
   buttonContainer: {
     backgroundColor: "#fff",
@@ -22,7 +23,8 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderBottomStartRadius: 14,
     borderBottomEndRadius: 14,
-    paddingVertical: toSize(11),
+    borderColor: "#B0B0B6",
+    borderTopWidth: 1,
   },
   button: {
     flex: 1,
@@ -30,21 +32,18 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   leftView: {
-    color: "#0A7AFF",
+    color: "#676767",
     fontSize: 16,
+    paddingVertical: toSize(11),
   },
   rightView: {
     fontSize: 16,
     color: "#0A7AFF",
+    paddingVertical: toSize(11),
   },
   line: {
     backgroundColor: "#B0B0B6",
     width: 0.5,
-    height: toSize(44),
-  },
-  lineRow: {
-    backgroundColor: "#B0B0B6",
-    height: 0.5,
-    width: "100%",
+    height: "100%",
   },
 });

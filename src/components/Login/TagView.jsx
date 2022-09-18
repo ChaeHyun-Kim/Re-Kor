@@ -22,6 +22,7 @@ export default function TagView({ data, clickTagData, changeTagData }) {
     });
     changeTagData(array);
   };
+
   return (
     <View style={styles.LikedCheck}>
       <View style={styles.TagView}>

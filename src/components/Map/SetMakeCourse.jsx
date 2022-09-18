@@ -19,12 +19,12 @@ import { WithLocalSvg } from "react-native-svg";
 import ic_map from "../../icons/ic_map.svg";
 import { useNavigation } from "@react-navigation/native";
 import { MakeCourseAPI } from "../../api/MakeCourse";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import AutoScrollView from "react-native-auto-scroll-view";
 
-import ToastMessage from "../Modal/Toast";
-
-export default function SetMakeCourse({ params, setSelectView }) {
+export default function SetMakeCourse({
+  params,
+  setSelectView,
+  setParamsData,
+}) {
   const navigation = useNavigation();
   const [complete, setComplete] = useState("edit");
   // const [final, setComplete] = useState("edit");
@@ -32,6 +32,8 @@ export default function SetMakeCourse({ params, setSelectView }) {
   const [courseData, setCourseData] = useState([]);
   const [confirmWait, setConfirmWait] = useState();
   const [isLoading, setIsLoading] = useState(false);
+
+  const [clickTab, setClickTab] = useState(true);
 
   const makeCourse = () => {
     var newList = [];
@@ -46,13 +48,12 @@ export default function SetMakeCourse({ params, setSelectView }) {
         });
         MakeCourseAPI(courseName, newList)
           .then((response) => {
-            console.log("코스 만들기", response);
+            console.log(response);
           })
           .catch((error) => {
             console.log(error);
           });
         setComplete("complete");
-        // navigation.navigate("CourseList");
       } else {
         setConfirmWait(1);
         Alert.alert("Wait!", "Please write down the name of the course", [
@@ -64,6 +65,10 @@ export default function SetMakeCourse({ params, setSelectView }) {
     } else {
       setComplete("edit");
     }
+  };
+
+  const editCourse = () => {
+    setComplete("edit");
   };
 
   const storeCourse = () => {
@@ -81,94 +86,109 @@ export default function SetMakeCourse({ params, setSelectView }) {
     fetchData();
   }, [params]);
 
+  const deleteFunction = (num) => {
+    let newArray = [];
+    params.map((item, index) => {
+      if (num - 1 != index) {
+        newArray.push(item);
+      }
+    });
+    setParamsData(newArray);
+  };
+
   return (
     <>
-      {/* <ToastMessage
-        visible={confirmWait}
-        handleFunction={setConfirmWait}
-        title={"Wait!"}
-        content={"Please write down the name of the course"}
-        fail
-        course
-      /> */}
       <View style={MapStyles.container}>
-        <View style={MapStyles.line} />
-        <View style={MapStyles.textInputView}>
-          <TextInput
-            style={
-              complete === "complete"
-                ? MapStyles.TextValue
-                : MapStyles.inputText
-            }
-            onChangeText={(text) => setCourseName(text)}
-            value={courseName}
-            placeholder={"Set the name of the course"}
-          />
-          {complete === "edit" && (
-            <TouchableOpacity
-              TouchableOpacity={0.8}
-              onPress={() => makeCourse()}
-            >
-              <Text
+        <TouchableOpacity
+          TouchableOpacity={0.8}
+          onPress={() => setClickTab(!clickTab)}
+        >
+          <View style={MapStyles.line} />
+        </TouchableOpacity>
+
+        {clickTab && (
+          <>
+            <View style={MapStyles.textInputView}>
+              <TextInput
                 style={
                   complete === "complete"
-                    ? MapStyles.editText
-                    : MapStyles.completeText
+                    ? MapStyles.TextValue
+                    : MapStyles.inputText
+                }
+                onChangeText={(text) => setCourseName(text)}
+                value={courseName}
+                placeholder={"Set the name of the course"}
+              />
+
+              {complete === "edit" && (
+                <TouchableOpacity
+                  TouchableOpacity={0.8}
+                  onPress={() => makeCourse()}
+                >
+                  <Text style={MapStyles.completeText}>complete</Text>
+                </TouchableOpacity>
+              )}
+
+              {complete === "complete" && (
+                <TouchableOpacity
+                  TouchableOpacity={0.8}
+                  onPress={() => editCourse()}
+                >
+                  <Text style={MapStyles.editText}>edit</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+            <TouchableWithoutFeedback>
+              <ScrollView
+                style={
+                  complete === "complete"
+                    ? { width: "100%", maxHeight: toSize(500) }
+                    : { width: "100%", maxHeight: toSize(400) }
                 }
               >
-                {/* {complete === "complete" ? "Edit" : "Complete"} */}
-                {complete === "complete" ? "" : "Complete"}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        <TouchableWithoutFeedback>
-          <ScrollView
-            style={
-              complete === "complete"
-                ? { width: "100%", maxHeight: toSize(500) }
-                : { width: "100%", maxHeight: toSize(400) }
-            }
-          >
-            {params.map((item, index) => {
-              return (
-                <PlaceList
-                  key={index}
-                  params={item}
-                  num={index + 1}
-                  screenType={complete}
+                {params &&
+                  params.map((item, index) => {
+                    return (
+                      <PlaceList
+                        key={index}
+                        params={item}
+                        num={index + 1}
+                        screenType={complete}
+                        deleteFunction={deleteFunction}
+                      />
+                    );
+                  })}
+              </ScrollView>
+            </TouchableWithoutFeedback>
+            {complete === "edit" && (
+              <View
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Entypo
+                  name="dots-three-vertical"
+                  size={toSize(17)}
+                  style={{ marginVertical: toSize(11) }}
+                  color="#D9D9D9"
                 />
-              );
-            })}
-          </ScrollView>
-        </TouchableWithoutFeedback>
-        {complete === "edit" && (
-          <View
-            style={{
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Entypo
-              name="dots-three-vertical"
-              size={toSize(17)}
-              style={{ marginVertical: toSize(11) }}
-              color="#D9D9D9"
-            />
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() => storeCourse()}
-              style={styles.SelectBtn}
-            >
-              <WithLocalSvg
-                width={toSize(15)}
-                height={toSize(15)}
-                asset={ic_map}
-              />
-              <Text style={styles.btnText}>Select the next place</Text>
-            </TouchableOpacity>
-          </View>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => storeCourse()}
+                  style={styles.SelectBtn}
+                >
+                  <WithLocalSvg
+                    width={toSize(15)}
+                    height={toSize(15)}
+                    asset={ic_map}
+                  />
+                  <Text style={styles.btnText}>Select the next place</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </>
         )}
       </View>
     </>

@@ -10,6 +10,7 @@ import {
   Linking,
   FlatList,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
@@ -22,7 +23,7 @@ import { AntDesign, Octicons, Feather } from "@expo/vector-icons";
 import { toSize } from "../../../globalStyle";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 import Review from "../../../components/Category/Review";
-import { detailedInfoAPI } from "../../../api/Category";
+import { detailedInfoAPI, similarInfoAPI } from "../../../api/Category";
 import { addWishListAPI } from "../../../api/Explore";
 const noImage = require("../../../images/noImage.png");
 
@@ -30,14 +31,17 @@ const DetailedScreen = ({ route }) => {
   const navigation = useNavigation();
   const { Content_ID } = route.params;
   const [Data, getData] = useState(null);
+  const [similarData, getSimilarData] = useState(null);
   const [ClickHeart, setHeartClick] = useState(false);
+  const [heartAdd, setHeartAdd] = useState(0);
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
   const [location, setLocation] = useState(fixedLocation);
 
   useEffect(() => {
     handleList();
+    similarList();
     setLocation(fixedLocation);
-  }, []);
+  }, [route.params.Content_ID]);
 
   const handleList = async () => {
     detailedInfoAPI(Content_ID)
@@ -66,7 +70,21 @@ const DetailedScreen = ({ route }) => {
       });
   };
 
+  const similarList = async () => {
+    similarInfoAPI(Content_ID)
+      .then((response) => {
+        if (response != null) {
+          getSimilarData(response);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const heartClick = () => {
+    if (ClickHeart) setHeartAdd(heartAdd - 1);
+    else setHeartAdd(heartAdd + 1);
     addWishListAPI(Data.spotId.id)
       .then((response) => {
         if (response != null) {
@@ -83,7 +101,10 @@ const DetailedScreen = ({ route }) => {
       {
         id: Data.spotId.id,
         placeName: Data.spotInfo.title,
-        addr: Data.spotInfo.address.addr1.split(" ")[1],
+        addr:
+          Data.spotInfo.address.addr2 !== ""
+            ? Data.spotInfo.address.addr2
+            : addr_default[addr_default.length - 2],
         cat: Data.spotInfo.rekorCategory,
         img: Data.spotInfo.images[0]
           ? { url: Data.spotInfo.images[0] }
@@ -96,6 +117,19 @@ const DetailedScreen = ({ route }) => {
     navigation.navigate("MakeCourse", { params: params });
   };
 
+  const gotoReviewScreen = () => {
+    const params = {
+      id: Data.spotId.id,
+      title: Data.spotInfo.title,
+    };
+    navigation.navigate("ReviewCreateScreen", { params: params });
+  };
+
+  const addr_default = (addr) => {
+    const array = addr.split(", ");
+    return array[array.length - 2];
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -104,12 +138,14 @@ const DetailedScreen = ({ route }) => {
         ClickHeart={ClickHeart}
         handleNextScreen={handleNextScreen}
       />
-      {Data != null && (
+      {Data != null && Data.spotInfo != null && (
         <View style={styles.MainView}>
           <View style={styles.placeInfoView}>
             <Text style={styles.Place_text}>{Data.spotInfo.title}</Text>
             <Text style={styles.Region_Text}>
-              {Data.spotInfo.address.addr1.split(" ")[1]}
+              {Data.spotInfo.address.addr2 !== ""
+                ? Data.spotInfo.address.addr2
+                : addr_default(Data.spotInfo.address.addr1)}
             </Text>
 
             <View style={styles.ScoreView}>
@@ -118,7 +154,9 @@ const DetailedScreen = ({ route }) => {
                 style={{ fontSize: toSize(16) }}
                 color="#FF7272"
               />
-              <Text style={styles.Score_Text}>{Data.spotInfo.likeCount}</Text>
+              <Text style={styles.Score_Text}>
+                {Data.spotInfo.likeCount + heartAdd}
+              </Text>
               <AntDesign
                 name="star"
                 style={{ fontSize: toSize(16) }}
@@ -255,35 +293,38 @@ const DetailedScreen = ({ route }) => {
             <View style={styles.separator} />
 
             {Data.detailList != null && (
-              <View style={styles.infoView}>
-                <View>
-                  <Text style={styles.TipTitleText}>A special Tip!</Text>
-                  <View style={textUnderlineStyle().container} />
+              <>
+                <View style={styles.infoView}>
+                  <View>
+                    <Text style={styles.TipTitleText}>A special Tip!</Text>
+                    <View style={textUnderlineStyle().container} />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    {Data.detailList.map((item, index) => {
+                      return (
+                        <SpecialTipForm
+                          key={index}
+                          infoName={item.infoname}
+                          infoText={item.infotext}
+                        />
+                      );
+                    })}
+                  </View>
                 </View>
-                <View style={{ flex: 1 }}>
-                  {Data.detailList.map((item, index) => {
-                    return (
-                      <SpecialTipForm
-                        key={index}
-                        infoName={item.infoname}
-                        infoText={item.infotext}
-                      />
-                    );
-                  })}
-                </View>
-              </View>
+                <View style={styles.separator} />
+              </>
             )}
-
-            <View style={styles.separator} />
 
             <View style={styles.FinalInfoView}>
               <Text style={styles.TitleText}>Review</Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => navigation.navigate("ReviewCreateScreen")}
-              >
-                <Octicons name="pencil" size={toSize(20)} color="black" />
-              </TouchableOpacity>
+              {!Data.checkItem.reviewed && (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={gotoReviewScreen}
+                >
+                  <Octicons name="pencil" size={toSize(20)} color="black" />
+                </TouchableOpacity>
+              )}
             </View>
 
             {Data.reviewList.length > 0 &&
@@ -291,7 +332,7 @@ const DetailedScreen = ({ route }) => {
                 return <Review data={item} key={index} />;
               })}
 
-            {/* {Data.reviewList && (
+            {similarData && (
               <View style={styles.recommendInfoView}>
                 <Text style={styles.TitleText}>Recommend a similar place</Text>
                 <View style={styles.recommendView}>
@@ -299,37 +340,33 @@ const DetailedScreen = ({ route }) => {
                     style={styles.recommendScrollView}
                     horizontal={true}
                   >
-                    <ImageBackground
-                      source={place}
-                      style={styles.recommendImage}
-                      resizeMode="cover"
-                      imageStyle={{ borderRadius: toSize(10) }}
-                    >
-                      <Text style={styles.recommend_Place}>Gapyeong pine</Text>
-                      <Text style={styles.recommend_Region}>Gapyeong</Text>
-                    </ImageBackground>
-                    <ImageBackground
-                      source={place}
-                      style={styles.recommendImage}
-                      resizeMode="cover"
-                      imageStyle={{ borderRadius: toSize(10) }}
-                    >
-                      <Text style={styles.recommend_Place}>Gapyeong pine</Text>
-                      <Text style={styles.recommend_Region}>Gapyeong</Text>
-                    </ImageBackground>
-                    <ImageBackground
-                      source={place}
-                      style={styles.recommendImage}
-                      resizeMode="cover"
-                      imageStyle={{ borderRadius: toSize(10) }}
-                    >
-                      <Text style={styles.recommend_Place}>Gapyeong pine</Text>
-                      <Text style={styles.recommend_Region}>Gapyeong</Text>
-                    </ImageBackground>
+                    {similarData.map((item, index) => {
+                      return (
+                        <ImageBackground
+                          key={index}
+                          source={{ uri: item.images[0] }}
+                          style={styles.recommendImage}
+                          resizeMode="cover"
+                          imageStyle={{ borderRadius: toSize(10) }}
+                        >
+                          <Text
+                            style={styles.recommend_Place}
+                            numberOfLines={1}
+                          >
+                            {item.title}
+                          </Text>
+                          <Text style={styles.recommend_Region}>
+                            {item.address.addr2 !== ""
+                              ? item.address.addr2
+                              : addr_default(item.address.addr1)}
+                          </Text>
+                        </ImageBackground>
+                      );
+                    })}
                   </ScrollView>
                 </View>
               </View>
-            )} */}
+            )}
           </ScrollView>
         </View>
       )}

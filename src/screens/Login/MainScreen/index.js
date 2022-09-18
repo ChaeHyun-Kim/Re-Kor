@@ -25,8 +25,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginMainScreen = () => {
   const navigation = useNavigation();
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("12312312312");
+  const [password, setPassword] = useState("123");
   const [failLogin, handelFailLogin] = useState();
 
   useEffect(() => {
@@ -36,6 +36,8 @@ const LoginMainScreen = () => {
 
   const handleLogin = async () => {
     if (phone != 0 && password != "") {
+      setPhone("");
+      setPassword("");
       loginAPI(phone, password).then((response) => {
         if (response === 1) {
           formCheckAPI()

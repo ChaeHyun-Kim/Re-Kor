@@ -20,6 +20,7 @@ const WishPlaceForm = ({
   menu,
   items,
   images,
+  addr,
   onClickMenu,
 }) => {
   const navigation = useNavigation();
@@ -62,7 +63,9 @@ const WishPlaceForm = ({
                   </SimplePopupMenu>
                 )}
               </View>
-              <Text style={styles.Region_Text}>{region}</Text>
+              <Text style={styles.Region_Text}>
+                {region === "" ? addr[addr.length - 2] : region}
+              </Text>
 
               <View style={styles.ScoreView}>
                 <AntDesign
@@ -148,7 +151,7 @@ const styles = StyleSheet.create({
     fontSize: toSize(12),
     color: "#71727A",
     fontWeight: "400",
-    marginVertical: toSize(1),
+    marginBottom: toSize(1),
   },
   ScoreView: {
     flexDirection: "row",

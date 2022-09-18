@@ -19,21 +19,15 @@ const CenterModal = ({
           <Text style={styles.titleText}>{title}</Text>
           {children}
         </View>
-        {leftPress && <View style={styles.lineRow} />}
+
         <View style={styles.buttonContainer}>
-          {leftPress && (
-            <TouchableOpacity style={styles.button} onPress={leftPress}>
-              <Text style={rightPress && styles.leftView}>{leftText}</Text>
-            </TouchableOpacity>
-          )}
-
-          {leftPress && rightPress && <View style={styles.line} />}
-
-          {rightPress && (
-            <TouchableOpacity style={styles.button} onPress={rightPress}>
-              <Text style={rightPress && styles.leftView}>{rightText}</Text>
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity style={styles.button} onPress={leftPress}>
+            <Text style={styles.leftView}>{leftText}</Text>
+          </TouchableOpacity>
+          <View style={styles.line} />
+          <TouchableOpacity style={styles.button} onPress={rightPress}>
+            <Text style={styles.rightView}>{rightText}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

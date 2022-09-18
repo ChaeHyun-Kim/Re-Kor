@@ -11,46 +11,14 @@ import CategoryColorForm from "../PlaceForm/CategoryColorForm";
 import { styles } from "../../styles/PlaceListStyle";
 const noImage = require("../../../src/images/noImage.png");
 
-const PlaceList = ({ params, num, screenType, km, img, type }) => {
-  // console.log("여기 파라미터", params);
-  const navigation = useNavigation();
+const PlaceList = ({ params, num, screenType, deleteFunction }) => {
   return (
     <>
-      {/* {km && (
-      <View
-        style={{
-          flexDirection: "row",
-          width: "100%",
-          paddingLeft: toSize(10),
-          marginVertical: toSize(5),
-          alignItems: "center",
-        }}
-      >
-        <View
-          style={{
-            height: toSize(30),
-            width: toSize(2),
-            backgroundColor: "#E9E9E9",
-            marginHorizontal: toSize(5),
-          }}
-        />
-        <Text
-          style={{
-            fontSize: toSize(12),
-            fontWeight: "700",
-            color: "#71727A",
-          }}
-        >
-          {km}km
-        </Text>
-      </View>
-     )}  */}
-
       <TouchableOpacity
         activeOpacity={screenType === "complete" ? 0.8 : 1}
         style={styles.CategoryView}
       >
-        {/* {screenType === "edit" && (
+        {screenType === "edit" && (
           <View
             style={{
               alignItems: "center",
@@ -68,8 +36,7 @@ const PlaceList = ({ params, num, screenType, km, img, type }) => {
                     {
                       text: "Action",
                       onPress: () => {
-                        console.log("현재 관광지 지우기");
-                        console.log(num);
+                        deleteFunction(num);
                       },
                     },
                     { text: "Cancel" },
@@ -86,7 +53,7 @@ const PlaceList = ({ params, num, screenType, km, img, type }) => {
               />
             </TouchableOpacity>
           </View>
-        )} */}
+        )}
 
         {num && (
           <View
@@ -151,7 +118,7 @@ const PlaceList = ({ params, num, screenType, km, img, type }) => {
             </Text>
 
             <Text style={styles.Region_Text}>{params.addr}</Text>
-            <CategoryColorForm category={params.cat}></CategoryColorForm>
+            <CategoryColorForm category={params.cat} />
           </View>
           {screenType === "info" && (
             <TouchableOpacity

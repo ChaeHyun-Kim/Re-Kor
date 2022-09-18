@@ -87,6 +87,7 @@ const WishListMainScreen = () => {
               data={item}
               place_name={item.title}
               region={item.address.addr2}
+              addr={item.address.addr1.split(", ")}
               category={item.rekorCategory}
               heartScore={item.likeCount}
               starScore={item.rating}
