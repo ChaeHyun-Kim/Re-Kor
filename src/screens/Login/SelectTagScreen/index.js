@@ -83,25 +83,25 @@ export default function SelectTagScreen() {
           />
         </View>
 
-        <View
+        <TouchableOpacity
           style={[
             styles.BottomView,
             confirmCheck
               ? { backgroundColor: "#FFCC00" }
               : { borderColor: "#FFCC00", borderWidth: 2 },
           ]}
+          activeOpacity={0.8}
+          onPress={nextPage}
         >
-          <TouchableOpacity activeOpacity={0.8} onPress={nextPage}>
-            <Text
-              style={[
-                styles.BottomButtonText,
-                confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
-              ]}
-            >
-              Submit
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <Text
+            style={[
+              styles.BottomButtonText,
+              confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
+            ]}
+          >
+            Submit
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -81,7 +81,7 @@ export default function SignUpScreen({ navigation }) {
     const array = [];
     for (let i = 0; i < 6; i++) {
       if (index === i) {
-        array.push("1"), console.log("어레이", array);
+        array.push("1");
       } else {
         array.push(confirmCheck[i]);
       }
