@@ -19,7 +19,6 @@ export default function MakeCourseMainScreen({ route }) {
   const { params } = route.params;
   const [paramsData, setParamsData] = useState(params);
 
-
   const navigation = useNavigation();
 
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
@@ -47,9 +46,8 @@ export default function MakeCourseMainScreen({ route }) {
       }),
     [isPressed, navigation]
   );
-
   useEffect(() => {
-    if (params.length === 0) {
+    if (paramsData.length === 0) {
       setSelectView(false);
     } else {
       setLocation({
@@ -57,7 +55,7 @@ export default function MakeCourseMainScreen({ route }) {
         lng: params[params.length - 1].mapx,
       });
     }
-  }, [params]);
+  }, [paramsData]);
 
   return (
     <View style={styles.fullscreen}>

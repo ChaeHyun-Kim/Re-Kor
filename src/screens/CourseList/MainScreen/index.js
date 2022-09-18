@@ -25,7 +25,6 @@ const CourseListMainScreen = () => {
       .then((response) => {
         if (response != null) {
           setCourseList(response);
-          console.log("response", response);
         }
       })
       .catch((error) => {

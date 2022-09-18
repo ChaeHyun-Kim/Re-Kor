@@ -15,7 +15,9 @@ import {
 } from "react-native-responsive-dimensions";
 import { toSize } from "../../../globalStyle";
 import LoginTypeSelect from "../../../components/Login/LoginTypeSelect";
-import logo from "../../../images/logo_back.png";
+import { WithLocalSvg } from "react-native-svg";
+import logo from "../../../icons/logo.svg";
+// import logo from "../../../images/logo_back.png";
 import { FormStyles } from "../../../styles/FormView";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -25,8 +27,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginMainScreen = () => {
   const navigation = useNavigation();
-  const [phone, setPhone] = useState("12312312312");
-  const [password, setPassword] = useState("123");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [failLogin, handelFailLogin] = useState();
 
   useEffect(() => {
@@ -73,7 +75,8 @@ const LoginMainScreen = () => {
       <View style={styles.fullscreen}>
         <StatusBar style="auto" />
         <View style={styles.container}>
-          <Image style={styles.logoView} source={logo} />
+          <WithLocalSvg width={toSize(184)} height={toSize(210)} asset={logo} />
+          {/* <Image style={styles.logoView} source={logo} /> */}
           <View style={styles.loginView}>
             <View
               style={[

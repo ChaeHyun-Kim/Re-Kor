@@ -60,7 +60,7 @@ export default function FilterCheckView({ click, setClick }) {
 }
 const styles = StyleSheet.create({
   FilterView: {
-    marginTop: toSize(5),
+    marginVertical: toSize(5),
     height: toSize(40),
     width: responsiveScreenWidth(100) - toSize(48),
     borderColor: "#FFCC00",

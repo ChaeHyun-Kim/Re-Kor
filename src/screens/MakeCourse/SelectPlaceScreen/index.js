@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
   listView: {
     backgroundColor: "#fff",
     paddingHorizontal: toSize(24),
-    marginTop: toSize(19),
+    marginTop: toSize(9),
     width: "100%",
+    paddingBottom: toSize(30),
   },
 });
