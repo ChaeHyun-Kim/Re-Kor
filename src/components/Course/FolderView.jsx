@@ -15,26 +15,36 @@ const FolderView = ({
     handleClick(index);
   };
   return (
-    <View style={{ padding: toSize(2), marginBottom: toSize(16) }}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => checkfunc()}
-        style={[
-          styles.ListView,
-          isSelected
-            ? { backgroundColor: "#EAEAEA" }
-            : { backgroundColor: "#FFFFFF" },
-        ]}
-      >
-        <FontAwesome name="folder" size={20} color="#71727A" />
+    <>
+      {folder_name != "" && (
+        <>
+          <View
+            style={{
+              padding: toSize(2),
+              marginBottom: toSize(16),
+            }}
+          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => checkfunc()}
+            style={[
+              styles.ListView,
+              isSelected
+                ? { backgroundColor: "#EAEAEA" }
+                : { backgroundColor: "#FFFFFF" },
+            ]}
+          >
+            <FontAwesome name="folder" size={20} color="#71727A" />
 
-        <View style={styles.textView}>
-          <Text style={styles.mainText}>{folder_name}</Text>
+            <View style={styles.textView}>
+              <Text style={styles.mainText}>{folder_name}</Text>
 
-          {/* <Text style={styles.numText}>{item.length}</Text> */}
-        </View>
-      </TouchableOpacity>
-    </View>
+              {/* <Text style={styles.numText}>{item.length}</Text> */}
+            </View>
+          </TouchableOpacity>
+        </>
+      )}
+    </>
   );
 };
 export default FolderView;
@@ -44,6 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: toSize(25),
     height: toSize(52),
     paddingHorizontal: toSize(16),
+    marginHorizontal: toSize(3),
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",

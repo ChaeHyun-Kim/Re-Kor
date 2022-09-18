@@ -12,13 +12,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const MoveFolder = ({ route }) => {
   const Courseid = route.params.Courseid;
   const Folderid = route.params.Folderid;
-  const courseindex = route.params.Courseindex;
-  const folderindex = route.params.Folderindex;
-  const courselist = route.params.courselist;
-  const [onlyone, setOnlyone] = useState(Array(courselist.length).fill(false));
+  // const courseindex = route.params.Courseindex;
+  // const folderindex = route.params.Folderindex;
+  const courseList = route.params.courseList;
+  const [onlyone, setOnlyone] = useState(Array(courseList.length).fill(false));
 
   const handleClick = (index) => {
-    const newArr = Array(courselist.length).fill(false);
+    const newArr = Array(courseList.length).fill(false);
     newArr[index] = true;
     setSelectindex(index);
     setOnlyone(newArr);
@@ -27,9 +27,16 @@ const MoveFolder = ({ route }) => {
   const [selectindex, setSelectindex] = useState(-1);
   const handleSelect = () => {
     var destid = onlyone.indexOf(true);
-    destid = courselist[destid].folderId.id;
-    MoveFolderAPI(Courseid, Folderid, destid);
-    navigation.navigate("CourseList");
+    destid = courseList[destid].folderId.id;
+    MoveFolderAPI(Courseid, Folderid, destid)
+      .then((response) => {
+        console.log("폴더이동", response);
+
+        navigation.navigate("CourseList");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const navigation = useNavigation();
@@ -40,12 +47,12 @@ const MoveFolder = ({ route }) => {
       <StatusBar style="auto" />
       <CourseBackHeader title="Move to a different folder" />
       <AutoScrollView style={styles.MainView}>
-        {courselist.map((item, index) => {
+        {courseList.map((item, index) => {
           return (
             <FolderView
               index={index}
               item={item}
-              courselist={courselist}
+              courselist={courseList}
               folder_name={item.folderName}
               isSelected={onlyone[index]}
               handleClick={handleClick}

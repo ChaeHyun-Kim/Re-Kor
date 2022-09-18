@@ -13,28 +13,24 @@ import { Feather } from "@expo/vector-icons";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import SecondSmallView from "./SecondSmallView";
 import SecondBigView from "./SecondBigView";
-import {
-  RenameCourseAPI,
-  RemoveCourseAPI,
-  RemoveFolderAPI,
-} from "../../api/Courselist";
+import { RenameCourseAPI } from "../../api/Courselist";
 
 import { useNavigation } from "@react-navigation/native";
 const SecondView = ({
   partdata,
-  courselist, //전체 코스리스트
+  courseList, //전체 코스리스트
   partcoursedata, //한 인덱스 코스 데이터
   folderindex,
   courseindex, //인덱스
   setCoursepart, //코스 정보 관리
-  setCourselist,
+  setCourseList,
 }) => {
   const navigation = useNavigation();
   const course_name = partcoursedata.courseName;
   const [click, setClick] = useState(false);
   const place = require("../../images/place1.png");
   const items = [
-    // { id: "move", label: "Move to a different folder" },
+    { id: "move", label: "Move to a different folder" },
     { id: "rename", label: "Rename a course" },
     // { id: "order", label: "change the order" },
   ];
@@ -43,27 +39,21 @@ const SecondView = ({
   const onMenuPress = (id) => {
     if (id === "rename") {
       setRename(true);
+    } else if (id === "move") {
+      navigation.navigate("MoveFolder", {
+        Folderid: courseList[folderindex].folderId.id,
+        Courseid: partcoursedata.courseId.id,
+        // courseindex: folderindex,
+        // folderindex: courseindex,
+        courseList: courseList,
+      });
     }
-    // else if (id === "move") {
-    //   navigation.navigate("MoveFolder", {
-    //     Folderid: courselist[folderindex].folderId.id,
-    //     Courseid: partcoursedata.courseId.id,
-    //     courseindex: folderindex,
-    //     folderindex: courseindex,
-    //     courselist: courselist,
-    //   });
     // } else if (id === "order") {
     //   navigation.navigate("MoveCourseOrder", {
     //     Folderdata: partdata,
     //     Folderindex: folderindex,
     //     Courseindex: courseindex,
     //   });
-    // }
-
-    // else if (id === "delete") {
-    //   console.log("폴", courselist[folderindex].folderId.id);
-    //   console.log("콧", partcoursedata.courseId.id);
-    //   RemoveFolderAPI(courselist[folderindex].folderId.id);
     // }
   };
 
@@ -88,8 +78,8 @@ const SecondView = ({
           onBlur={() => {
             setRename(false);
             partcoursedata.courseName = coursename;
-            courselist[courseindex] = partcoursedata;
-            setCoursepart(courselist);
+            courseList[courseindex] = partcoursedata;
+            setCoursepart(courseList);
             RenameCourseAPI(partcoursedata.courseId.id, coursename);
           }}
         />

@@ -1,26 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import Header from "../../../components/Header";
+import { FontAwesome, AntDesign } from "@expo/vector-icons";
 import Bottom from "../../../components/Bottom";
 import ListView from "../../../components/Course/FirstView";
 import { toSize } from "../../../globalStyle";
 import { CourseListAPI, AddFolderAPI } from "../../../api/Courselist";
 import TitleInfo from "../../../components/common/TitleInfoScreen";
+import { useIsFocused } from "@react-navigation/native";
+import {
+  RenameFolderAPI,
+  RemoveCourseAPI,
+  RemoveFolderAPI,
+} from "../../../api/Courselist";
 const CourseListMainScreen = () => {
+  const emptyfolder = [{ folderName: "New Folder", courseList: [] }];
   const [courseList, setCourseList] = useState([]);
+  const isFocused = useIsFocused();
+  // const [remove, setRemove] = useState([]);
 
   const handleList = async () => {
     CourseListAPI()
       .then((response) => {
         if (response != null) {
           setCourseList(response);
+          console.log("response", response);
         }
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  // useEffect(() => {
+  //   if (remove.length === 1) {
+  //     RemoveFolderAPI(remove[0]);
+  //   } else {
+  //     RemoveCourseAPI(remove[0], remove[1]);
+  //   }
+  // }, [remove]);
 
   const AddFolder = async () => {
     AddFolderAPI()
@@ -33,8 +51,9 @@ const CourseListMainScreen = () => {
   };
 
   useEffect(() => {
+    console.log("새로고침");
     handleList();
-  }, []);
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
@@ -50,17 +69,18 @@ const CourseListMainScreen = () => {
           return (
             <ListView
               key={index}
-              courselist={courseList}
+              courseList={courseList}
               partdata={item}
               folderindex={index}
-              setCourselist={setCourseList}
+              setCourseList={setCourseList}
+              // setRemove={setRemove}
             />
           );
         })}
         <View style={{ height: toSize(50) }} />
       </ScrollView>
 
-      {/* <TouchableOpacity
+      <TouchableOpacity
         activeOpacity={0.8}
         style={{
           fontSize: toSize(60),
@@ -70,8 +90,7 @@ const CourseListMainScreen = () => {
           zIndex: 100,
         }}
         onPress={() => {
-          console.log("터치");
-          setCourselist(courselist.concat(emptyfolder));
+          setCourseList(courseList.concat(emptyfolder));
           AddFolder();
           handleList();
         }}
@@ -87,7 +106,7 @@ const CourseListMainScreen = () => {
         >
           <AntDesign name="addfolder" size={28} color="#5F5F5F" />
         </View>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <Bottom num={3} />
     </View>
   );

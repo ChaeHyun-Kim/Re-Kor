@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import { WithLocalSvg } from "react-native-svg";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 
 import { SimpleLineIcons, Feather } from "@expo/vector-icons";
 import { toSize } from "../../../globalStyle";
-import ic_loading from "../../../icons/ic_loading.svg";
 import filter_arrow from "../../../icons/filter_arrow.svg";
 import Category_Header from "../../../components/Category_Header";
 import SimplePopupMenu from "react-native-simple-popup-menu";
@@ -18,6 +23,9 @@ const SelectCategoryScreen = ({ route }) => {
   const [data, getData] = useState([]);
   const [menu, handleMenu] = useState("Name");
   const [loading, setLoading] = useState(false);
+  const [newloader, setNewloader] = useState(true);
+  const [allpage, setAllpage] = useState(1);
+  const [currentpage, setCurrentpage] = useState(0);
   const items = [
     { id: "Name", label: "Name" },
     { id: "Likes", label: "Likes" },
@@ -29,11 +37,21 @@ const SelectCategoryScreen = ({ route }) => {
   }, [menu]);
 
   const handleList = async () => {
-    categoryListAPI(cat, menu)
+    categoryListAPI(cat, currentpage, menu)
       .then((response) => {
-        if (response != null) {
-          getData(response);
-          setLoading(true);
+        if (response.data != null) {
+          if (response.currentPage <= response.allPage - 1) {
+            if (response.currentPage === 0) {
+              getData(response.data);
+            } else if (response.currentPage) {
+              const newdata = data.concat(response.data);
+              getData(newdata);
+            }
+            setCurrentpage(currentpage + 1);
+            setLoading(true);
+          } else {
+            setNewloader(false);
+          }
         }
       })
       .catch((error) => {
@@ -43,6 +61,18 @@ const SelectCategoryScreen = ({ route }) => {
 
   const onMenuPress = (id) => {
     handleMenu(id);
+  };
+
+  const isCloseToBottom = ({
+    layoutMeasurement,
+    contentOffset,
+    contentSize,
+  }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
   };
 
   return (
@@ -59,6 +89,11 @@ const SelectCategoryScreen = ({ route }) => {
         <ScrollView
           contentContainerStyle={styles.listView}
           nestedScrollEnabled={true}
+          onScroll={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              handleList();
+            }
+          }}
         >
           {loading && (
             <View style={styles.FilterView}>
@@ -97,6 +132,17 @@ const SelectCategoryScreen = ({ route }) => {
               />
             );
           })}
+          {newloader && (
+            <View
+              style={{
+                width: "100%",
+                alignItems: "center",
+                paddingBottom: toSize(10),
+              }}
+            >
+              <Feather name="loader" size={24} color="black" />
+            </View>
+          )}
         </ScrollView>
       </View>
     </View>
@@ -116,6 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     width: responsiveScreenWidth(100),
     alignItems: "center",
+    justifyContent: "center",
     marginVertical: toSize(4),
   },
   FilterView: {
@@ -143,6 +190,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: responsiveScreenWidth(5),
     width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   loadingView: {
     justifyContent: "center",
