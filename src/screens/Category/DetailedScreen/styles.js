@@ -156,7 +156,8 @@ export const styles = StyleSheet.create({
   FinalInfoView: {
     paddingTop: toSize(21),
     width: "100%",
-    justifyContent: "flex-start",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   recommendInfoView: {
     width: "100%",

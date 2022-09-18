@@ -86,7 +86,7 @@ const WishListMainScreen = () => {
             <WishPlaceForm
               data={item}
               place_name={item.title}
-              region={item.address.addr1}
+              region={item.address.addr2}
               category={item.rekorCategory}
               heartScore={item.likeCount}
               starScore={item.rating}
