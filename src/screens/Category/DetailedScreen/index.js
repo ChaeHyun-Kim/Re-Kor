@@ -31,6 +31,7 @@ const DetailedScreen = ({ route }) => {
   const { Content_ID } = route.params;
   const [Data, getData] = useState(null);
   const [ClickHeart, setHeartClick] = useState(false);
+  const [heartAdd, setHeartAdd] = useState(0);
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
   const [location, setLocation] = useState(fixedLocation);
 
@@ -67,6 +68,8 @@ const DetailedScreen = ({ route }) => {
   };
 
   const heartClick = () => {
+    if (ClickHeart) setHeartAdd(heartAdd - 1);
+    else setHeartAdd(heartAdd + 1);
     addWishListAPI(Data.spotId.id)
       .then((response) => {
         if (response != null) {
@@ -83,7 +86,10 @@ const DetailedScreen = ({ route }) => {
       {
         id: Data.spotId.id,
         placeName: Data.spotInfo.title,
-        addr: Data.spotInfo.address.addr1.split(" ")[1],
+        addr:
+          Data.spotInfo.address.addr2 !== ""
+            ? Data.spotInfo.address.addr2
+            : addr_default[addr_default.length - 2],
         cat: Data.spotInfo.rekorCategory,
         img: Data.spotInfo.images[0]
           ? { url: Data.spotInfo.images[0] }
@@ -104,6 +110,8 @@ const DetailedScreen = ({ route }) => {
     navigation.navigate("ReviewCreateScreen", { params: params });
   };
 
+  const addr_default = Data.spotInfo.address.addr1.split(", ");
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -117,7 +125,9 @@ const DetailedScreen = ({ route }) => {
           <View style={styles.placeInfoView}>
             <Text style={styles.Place_text}>{Data.spotInfo.title}</Text>
             <Text style={styles.Region_Text}>
-              {Data.spotInfo.address.addr2}
+              {Data.spotInfo.address.addr2 !== ""
+                ? Data.spotInfo.address.addr2
+                : addr_default[addr_default.length - 2]}
             </Text>
 
             <View style={styles.ScoreView}>
@@ -126,7 +136,9 @@ const DetailedScreen = ({ route }) => {
                 style={{ fontSize: toSize(16) }}
                 color="#FF7272"
               />
-              <Text style={styles.Score_Text}>{Data.spotInfo.likeCount}</Text>
+              <Text style={styles.Score_Text}>
+                {Data.spotInfo.likeCount + heartAdd}
+              </Text>
               <AntDesign
                 name="star"
                 style={{ fontSize: toSize(16) }}
