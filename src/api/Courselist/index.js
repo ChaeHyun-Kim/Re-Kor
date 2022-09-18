@@ -108,3 +108,39 @@ export const CourseOrderAPI = async (folderId, startcourse, destCourse) => {
   const data = await response.json();
   return data.status;
 };
+
+/* 코스 삭제하기 */
+export const RemoveCourseAPI = async (folderId, courseId) => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/course", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + userToken.slice(1, -1),
+    },
+    body: JSON.stringify({
+      folderId: folderId,
+      courseId: courseId,
+    }),
+  });
+  const data = await response.json();
+  console.log(data.status);
+  return data.status;
+};
+
+export const RemoveFolderAPI = async (folderId) => {
+  const userToken = await AsyncStorage.getItem("accessToken");
+  const response = await fetch(uri + "/api/course/folder", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + userToken.slice(1, -1),
+    },
+    body: JSON.stringify({
+      folderId: folderId,
+    }),
+  });
+  const data = await response.json();
+  console.log(data.status);
+  return data.status;
+};

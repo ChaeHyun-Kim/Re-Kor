@@ -45,7 +45,7 @@ export default function TagView({ data, clickTagData, changeTagData }) {
                     : { backgroundColor: "#FFCC00", color: "#fff" },
                 ]}
               >
-                {"#" + item.tagName}
+                {"#" + item.engTagName}
               </Text>
             </TouchableOpacity>
           )}

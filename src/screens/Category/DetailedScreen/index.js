@@ -129,9 +129,9 @@ const DetailedScreen = ({ route }) => {
                   <FlatList
                     numColumns={4}
                     data={Data.spotInfo.tagList}
-                    keyExtractor={(item) => item.tagName.toString()}
+                    keyExtractor={(item) => item.engTagName.toString()}
                     renderItem={({ item, index }) => (
-                      <TagForm tag={item.tagName} key={index} />
+                      <TagForm tag={item.engTagName} key={index} />
                     )}
                   />
                 )}
