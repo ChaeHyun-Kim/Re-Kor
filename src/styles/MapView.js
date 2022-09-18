@@ -11,6 +11,12 @@ export const MapStyles = StyleSheet.create({
     alignItems: "center",
     borderTopStartRadius: 45,
     borderTopEndRadius: 45,
+    borderTopColor: "#D9D9D9",
+    borderEndColor: "#D9D9D9",
+    borderStartColor: "#D9D9D9",
+    borderTopWidth: 0.5,
+    borderStartWidth: 0.5,
+    borderEndWidth: 0.5,
     justifyContent: "flex-end",
   },
   line: {

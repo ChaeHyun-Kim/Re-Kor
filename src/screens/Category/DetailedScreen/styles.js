@@ -173,7 +173,7 @@ export const styles = StyleSheet.create({
   },
   recommendImage: {
     paddingLeft: toSize(14),
-    paddingBottom: toSize(12),
+    paddingBottom: toSize(8),
     width: toSize(185),
     height: toSize(115),
     marginRight: toSize(11),
@@ -181,14 +181,13 @@ export const styles = StyleSheet.create({
   },
   recommend_Place: {
     color: "#FFFFFF",
-    fontSize: toSize(16),
+    fontSize: toSize(14),
     fontWeight: "700",
   },
   recommend_Region: {
     color: "#FFFFFF",
-    fontSize: toSize(14),
+    fontSize: toSize(12),
     fontWeight: "400",
-    marginTop: toSize(3),
   },
 });
 

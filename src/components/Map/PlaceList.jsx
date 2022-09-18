@@ -118,7 +118,7 @@ const PlaceList = ({ params, num, screenType, deleteFunction }) => {
             </Text>
 
             <Text style={styles.Region_Text}>{params.addr}</Text>
-            <CategoryColorForm category={params.cat}></CategoryColorForm>
+            <CategoryColorForm category={params.cat} />
           </View>
           {screenType === "info" && (
             <TouchableOpacity

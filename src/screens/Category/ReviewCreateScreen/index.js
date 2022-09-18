@@ -13,6 +13,7 @@ import Header from "../../../components/MyHeader";
 import { AntDesign } from "@expo/vector-icons";
 import { toSize } from "../../../globalStyle";
 import { getTagAPI } from "../../../api/Login";
+import { saveReviewAPI } from "../../../api/Category";
 import TagView from "../../../components/Category/TagView";
 
 export default function ReviewCreateScreen({ route }) {
@@ -59,29 +60,31 @@ export default function ReviewCreateScreen({ route }) {
   };
 
   const nextPage = () => {
-    if (confirmCheck === 1) {
-      let tagSaveArray = [];
-      data.map((item, index) => {
-        if (clickTagData[index] === 1) {
-          tagSaveArray.push(item.tagId.id);
-        }
-      });
-      let rating = 0;
-      starArray.map((item) => {
-        if (item === 1) rating++;
-      });
+    let tagSaveArray = [];
+    data.map((item, index) => {
+      if (clickTagData[index] === 1) {
+        tagSaveArray.push(item.tagId.id);
+      }
+    });
+    let rating = 0;
+    starArray.map((item) => {
+      if (item === 1) rating++;
+    });
 
-      saveReviewAPI(params.id, rating, review)
-        .then((response) => {
-          if (response === 1) {
-            navigation.goBack;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          Alert.alert("error");
-        });
-    }
+    saveReviewAPI(params.id, rating, review, tagSaveArray)
+      .then((response) => {
+        if (response === 1) {
+          navigation.navigate("DetailedScreen", {
+            Content_ID: params.id,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    navigation.navigate("DetailedScreen", {
+      Content_ID: params.id,
+    });
   };
 
   return (
@@ -138,7 +141,11 @@ export default function ReviewCreateScreen({ route }) {
               : { borderColor: "#FFCC00", borderWidth: 2 },
           ]}
         >
-          <TouchableOpacity activeOpacity={0.8} onPress={nextPage}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={nextPage}
+            disabled={confirmCheck !== 1}
+          >
             <Text
               style={[
                 styles.BottomButtonText,

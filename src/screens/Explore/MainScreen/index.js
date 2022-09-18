@@ -349,8 +349,8 @@ const styles = StyleSheet.create({
   tagView: {
     flexDirection: "row",
     width: "100%",
-    height: toSize(40),
     marginTop: toSize(7),
+    maxHeight: toSize(40),
   },
   line: {
     width: toSize(1),

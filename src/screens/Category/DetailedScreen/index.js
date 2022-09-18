@@ -10,6 +10,7 @@ import {
   Linking,
   FlatList,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
@@ -22,7 +23,7 @@ import { AntDesign, Octicons, Feather } from "@expo/vector-icons";
 import { toSize } from "../../../globalStyle";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
 import Review from "../../../components/Category/Review";
-import { detailedInfoAPI } from "../../../api/Category";
+import { detailedInfoAPI, similarInfoAPI } from "../../../api/Category";
 import { addWishListAPI } from "../../../api/Explore";
 const noImage = require("../../../images/noImage.png");
 
@@ -30,6 +31,7 @@ const DetailedScreen = ({ route }) => {
   const navigation = useNavigation();
   const { Content_ID } = route.params;
   const [Data, getData] = useState(null);
+  const [similarData, getSimilarData] = useState(null);
   const [ClickHeart, setHeartClick] = useState(false);
   const [heartAdd, setHeartAdd] = useState(0);
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
@@ -37,8 +39,9 @@ const DetailedScreen = ({ route }) => {
 
   useEffect(() => {
     handleList();
+    similarList();
     setLocation(fixedLocation);
-  }, []);
+  }, [route.params.Content_ID]);
 
   const handleList = async () => {
     detailedInfoAPI(Content_ID)
@@ -60,6 +63,18 @@ const DetailedScreen = ({ route }) => {
             ),
           };
           setLocation(fixedLocation);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const similarList = async () => {
+    similarInfoAPI(Content_ID)
+      .then((response) => {
+        if (response != null) {
+          getSimilarData(response);
         }
       })
       .catch((error) => {
@@ -278,32 +293,38 @@ const DetailedScreen = ({ route }) => {
             <View style={styles.separator} />
 
             {Data.detailList != null && (
-              <View style={styles.infoView}>
-                <View>
-                  <Text style={styles.TipTitleText}>A special Tip!</Text>
-                  <View style={textUnderlineStyle().container} />
+              <>
+                <View style={styles.infoView}>
+                  <View>
+                    <Text style={styles.TipTitleText}>A special Tip!</Text>
+                    <View style={textUnderlineStyle().container} />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    {Data.detailList.map((item, index) => {
+                      return (
+                        <SpecialTipForm
+                          key={index}
+                          infoName={item.infoname}
+                          infoText={item.infotext}
+                        />
+                      );
+                    })}
+                  </View>
                 </View>
-                <View style={{ flex: 1 }}>
-                  {Data.detailList.map((item, index) => {
-                    return (
-                      <SpecialTipForm
-                        key={index}
-                        infoName={item.infoname}
-                        infoText={item.infotext}
-                      />
-                    );
-                  })}
-                </View>
-              </View>
+                <View style={styles.separator} />
+              </>
             )}
-
-            <View style={styles.separator} />
 
             <View style={styles.FinalInfoView}>
               <Text style={styles.TitleText}>Review</Text>
-              <TouchableOpacity activeOpacity={0.8} onPress={gotoReviewScreen}>
-                <Octicons name="pencil" size={toSize(20)} color="black" />
-              </TouchableOpacity>
+              {!Data.checkItem.reviewed && (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={gotoReviewScreen}
+                >
+                  <Octicons name="pencil" size={toSize(20)} color="black" />
+                </TouchableOpacity>
+              )}
             </View>
 
             {Data.reviewList.length > 0 &&
@@ -311,7 +332,7 @@ const DetailedScreen = ({ route }) => {
                 return <Review data={item} key={index} />;
               })}
 
-            {/* {Data.reviewList && (
+            {similarData && (
               <View style={styles.recommendInfoView}>
                 <Text style={styles.TitleText}>Recommend a similar place</Text>
                 <View style={styles.recommendView}>
@@ -319,37 +340,33 @@ const DetailedScreen = ({ route }) => {
                     style={styles.recommendScrollView}
                     horizontal={true}
                   >
-                    <ImageBackground
-                      source={place}
-                      style={styles.recommendImage}
-                      resizeMode="cover"
-                      imageStyle={{ borderRadius: toSize(10) }}
-                    >
-                      <Text style={styles.recommend_Place}>Gapyeong pine</Text>
-                      <Text style={styles.recommend_Region}>Gapyeong</Text>
-                    </ImageBackground>
-                    <ImageBackground
-                      source={place}
-                      style={styles.recommendImage}
-                      resizeMode="cover"
-                      imageStyle={{ borderRadius: toSize(10) }}
-                    >
-                      <Text style={styles.recommend_Place}>Gapyeong pine</Text>
-                      <Text style={styles.recommend_Region}>Gapyeong</Text>
-                    </ImageBackground>
-                    <ImageBackground
-                      source={place}
-                      style={styles.recommendImage}
-                      resizeMode="cover"
-                      imageStyle={{ borderRadius: toSize(10) }}
-                    >
-                      <Text style={styles.recommend_Place}>Gapyeong pine</Text>
-                      <Text style={styles.recommend_Region}>Gapyeong</Text>
-                    </ImageBackground>
+                    {similarData.map((item, index) => {
+                      return (
+                        <ImageBackground
+                          key={index}
+                          source={{ uri: item.images[0] }}
+                          style={styles.recommendImage}
+                          resizeMode="cover"
+                          imageStyle={{ borderRadius: toSize(10) }}
+                        >
+                          <Text
+                            style={styles.recommend_Place}
+                            numberOfLines={1}
+                          >
+                            {item.title}
+                          </Text>
+                          <Text style={styles.recommend_Region}>
+                            {item.address.addr2 !== ""
+                              ? item.address.addr2
+                              : addr_default(item.address.addr1)}
+                          </Text>
+                        </ImageBackground>
+                      );
+                    })}
                   </ScrollView>
                 </View>
               </View>
-            )} */}
+            )}
           </ScrollView>
         </View>
       )}

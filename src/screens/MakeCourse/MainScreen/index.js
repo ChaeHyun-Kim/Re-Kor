@@ -19,6 +19,7 @@ export default function MakeCourseMainScreen({ route }) {
   const { params } = route.params;
   const [paramsData, setParamsData] = useState(params);
 
+
   const navigation = useNavigation();
 
   const fixedLocation = { lat: 37.619186395690605, lng: 127.05828868985176 }; // 서울역 위치
@@ -32,25 +33,7 @@ export default function MakeCourseMainScreen({ route }) {
     setIsPressed(false);
   }, [params]);
 
-  // // 뒤로가기
-  // const handleGoBack = async () => {
-  //   setCancelVisible(false);
-  //   navigation.goBack();
-  // };
-
-  // useEffect(() => {
-  //   const backHandler = BackHandler.addEventListener(
-  //     "hardwareBackPress",
-  //     () => {
-  //       setCancelVisible(true);
-  //       return true;
-  //     }
-  //   );
-  //   return () => backHandler.remove();
-  // }, []);
-
   const [isPressed, setIsPressed] = useState(false);
-  const [event, setEvent] = useState();
 
   // 네비게이션 이동 감지
   useEffect(
@@ -60,36 +43,50 @@ export default function MakeCourseMainScreen({ route }) {
           return;
         }
         e.preventDefault();
-        setEvent(e);
         setCancelVisible(true);
       }),
     [isPressed, navigation]
   );
 
   useEffect(() => {
-    if (paramsData.length === 0) {
+    if (params.length === 0) {
       setSelectView(false);
-    } else if (paramsData.length === 1) {
-      setLocation({ lat: paramsData[0].mapy, lng: paramsData[0].mapx });
+    } else {
+      setLocation({
+        lat: params[params.length - 1].mapy,
+        lng: params[params.length - 1].mapx,
+      });
     }
-  }, [paramsData]);
+  }, [params]);
 
   return (
     <View style={styles.fullscreen}>
       <MapView
         style={styles.map}
-        region={{
-          latitude: location.lat - 0.0006,
-          longitude: location.lng,
-          latitudeDelta: 0.003,
-          longitudeDelta: 0.003,
-        }}
+        region={
+          params.length !== 0
+            ? {
+                latitude: params[params.length - 1].mapy - 0.0006,
+                longitude: params[params.length - 1].mapx,
+                latitudeDelta: 0.003,
+                longitudeDelta: 0.003,
+              }
+            : {
+                latitude: location.lat - 0.0006,
+                longitude: location.lng,
+                latitudeDelta: 0.003,
+                longitudeDelta: 0.003,
+              }
+        }
       >
-        {paramsData.length === 1 && (
+        {params.length > 0 && (
           <MarkerCustom
-            location={location}
-            icon={paramsData[0].type === "wish" ? "Heart" : "wish"}
-            num={1}
+            location={{
+              lat: params[params.length - 1].mapy,
+              lng: params[params.length - 1].mapx,
+            }}
+            icon={params[params.length - 1].type === "wish" ? "Heart" : "wish"}
+            num={params.length}
           />
         )}
       </MapView>

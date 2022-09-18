@@ -50,7 +50,11 @@ export default function Bottom({ num, nextPage, visible }) {
 
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Categories")}
+            onPress={() => {
+              num === 5
+                ? nextPage(true) && visible(true)
+                : navigation.navigate("Categories");
+            }}
           >
             <View style={BottomStyles.IconView}>
               <AntDesign
@@ -74,7 +78,11 @@ export default function Bottom({ num, nextPage, visible }) {
         <View style={BottomStyles.MapIconView}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("MakeCourse", { params: [] })}
+            onPress={() => {
+              num === 5
+                ? null
+                : navigation.navigate("MakeCourse", { params: [] });
+            }}
           >
             <View style={BottomStyles.MapBackGround}>
               <WithLocalSvg
@@ -88,7 +96,11 @@ export default function Bottom({ num, nextPage, visible }) {
         <View style={BottomStyles.RightView}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("CourseList")}
+            onPress={() => {
+              num === 5
+                ? nextPage(true) && visible(true)
+                : navigation.navigate("CourseList");
+            }}
           >
             <View style={BottomStyles.IconView}>
               <Octicons
@@ -110,7 +122,11 @@ export default function Bottom({ num, nextPage, visible }) {
 
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("WishList")}
+            onPress={() => {
+              num === 5
+                ? nextPage(true) && visible(true)
+                : navigation.navigate("WishList");
+            }}
           >
             <View style={BottomStyles.IconView}>
               <MaterialCommunityIcons
