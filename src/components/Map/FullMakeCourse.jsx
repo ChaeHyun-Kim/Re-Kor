@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TouchableOpacity, FlatList } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle.js";
 import { Fontisto } from "@expo/vector-icons";
 import {

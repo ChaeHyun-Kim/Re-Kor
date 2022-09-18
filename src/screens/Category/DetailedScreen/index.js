@@ -96,6 +96,14 @@ const DetailedScreen = ({ route }) => {
     navigation.navigate("MakeCourse", { params: params });
   };
 
+  const gotoReviewScreen = () => {
+    const params = {
+      id: Data.spotId.id,
+      title: Data.spotInfo.title,
+    };
+    navigation.navigate("ReviewCreateScreen", { params: params });
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -109,7 +117,7 @@ const DetailedScreen = ({ route }) => {
           <View style={styles.placeInfoView}>
             <Text style={styles.Place_text}>{Data.spotInfo.title}</Text>
             <Text style={styles.Region_Text}>
-              {Data.spotInfo.address.addr1.split(" ")[1]}
+              {Data.spotInfo.address.addr2}
             </Text>
 
             <View style={styles.ScoreView}>
@@ -278,10 +286,7 @@ const DetailedScreen = ({ route }) => {
 
             <View style={styles.FinalInfoView}>
               <Text style={styles.TitleText}>Review</Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => navigation.navigate("ReviewCreateScreen")}
-              >
+              <TouchableOpacity activeOpacity={0.8} onPress={gotoReviewScreen}>
                 <Octicons name="pencil" size={toSize(20)} color="black" />
               </TouchableOpacity>
             </View>
