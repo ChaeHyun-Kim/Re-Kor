@@ -47,7 +47,7 @@ const SecondBigView = ({ course_info }) => {
             // place_name={item.title}
             // region={item.address.addr1.split(" ")[1]}
             // category={item.rekorCategory}
-            // tag={item.tagList.tagName}
+            // tag={item.tagList.engTagName}
             num={index + 1}
             screentype={"course_list"}
             params={{

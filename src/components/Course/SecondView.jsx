@@ -13,7 +13,11 @@ import { Feather } from "@expo/vector-icons";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 import SecondSmallView from "./SecondSmallView";
 import SecondBigView from "./SecondBigView";
-import { RenameCourseAPI } from "../../api/Courselist";
+import {
+  RenameCourseAPI,
+  RemoveCourseAPI,
+  RemoveFolderAPI,
+} from "../../api/Courselist";
 
 import { useNavigation } from "@react-navigation/native";
 const SecondView = ({
@@ -54,6 +58,12 @@ const SecondView = ({
     //     Folderindex: folderindex,
     //     Courseindex: courseindex,
     //   });
+    // }
+
+    // else if (id === "delete") {
+    //   console.log("폴", courselist[folderindex].folderId.id);
+    //   console.log("콧", partcoursedata.courseId.id);
+    //   RemoveFolderAPI(courselist[folderindex].folderId.id);
     // }
   };
 

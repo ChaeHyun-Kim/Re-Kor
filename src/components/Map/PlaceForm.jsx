@@ -86,7 +86,7 @@ const PlaceForm = ({ data, type, params }) => {
         <View style={styles.tagView}>
           {data.tagList.map((item, index) => {
             if (index < 3) {
-              return <TagForm key={index} tag={item.tagName} />;
+              return <TagForm key={index} tag={item.engTagName} />;
             }
           })}
         </View>

@@ -90,14 +90,14 @@ const PlaceForm = ({
             <View style={styles.tagView}>
               {tagList.map((item, index) => {
                 if (index < 3) {
-                  return <TagForm key={index} tag={item.tagName} />;
+                  return <TagForm key={index} tag={item.engTagName} />;
                 }
               })}
             </View>
             <View style={styles.ScoreView}>
               {tagList.map((item, index) => {
-                if (index >= 3 && index < 6 && item.tagName.length < 5) {
-                  return <TagForm key={index} tag={item.tagName} />;
+                if (index >= 3 && index < 6 && item.engTagName.length < 5) {
+                  return <TagForm key={index} tag={item.engTagName} />;
                 }
               })}
             </View>
