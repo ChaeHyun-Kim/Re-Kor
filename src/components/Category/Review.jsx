@@ -15,7 +15,7 @@ export default function Review({ data }) {
     const day = date.getDate();
     return year + "." + month + "." + day;
   };
-
+  
   return (
     <View style={[FormStyles.FormOneView, { marginVertical: toSize(20) }]}>
       <View style={FormStyles.Row}>

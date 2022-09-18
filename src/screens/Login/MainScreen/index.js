@@ -21,13 +21,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { loginAPI, formCheckAPI, refreshTokenAPI } from "../../../api/Login";
 import ToastMessage from "../../../components/Modal/Toast";
-import MessageModal from "../../../components/Modal/MessageModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginMainScreen = () => {
   const navigation = useNavigation();
-  const [phone, setPhone] = useState("12312312312");
-  const [password, setPassword] = useState("123");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [failLogin, handelFailLogin] = useState();
 
   useEffect(() => {

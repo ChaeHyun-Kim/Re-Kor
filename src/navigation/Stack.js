@@ -18,6 +18,7 @@ import MyPageScreen from "../screens/Explore/MyPageScreen/index";
 import TermsOfUse from "../screens/Login/TermsScreen/TermsOfUse/index";
 import PersonalInfoTerms from "../screens/Login/TermsScreen/PersonalInfoTerms/index";
 import SelectCategoryScreen from "../screens/Category/SelectCategoryScreen/index";
+import ReviewCreateScreen from "../screens/Category/ReviewCreateScreen";
 import DetailedScreen from "../screens/Category/DetailedScreen/index";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -44,6 +45,7 @@ const StackNavigation = () => {
         name="SelectCategoryScreen"
         component={SelectCategoryScreen}
       />
+      <Stack.Screen name="ReviewCreateScreen" component={ReviewCreateScreen} />
       <Stack.Screen name="DetailedScreen" component={DetailedScreen} />
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CourseList" component={CourseList} />

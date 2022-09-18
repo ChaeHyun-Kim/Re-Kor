@@ -227,7 +227,7 @@ const ExploreMainScreen = () => {
                         data={placeArray[placeNumber].tagList}
                         keyExtractor={(item) => item.tagName.toString()}
                         renderItem={({ item, index }) => (
-                          <TagForm tag={item.tagName} key={index} />
+                          <TagForm tag={item.engTagName} key={index} />
                         )}
                       />
                     )}

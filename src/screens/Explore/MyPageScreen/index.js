@@ -115,7 +115,7 @@ const MyPageScreen = () => {
             <View style={styles.tagView}>
               {data &&
                 data.map((item, index) => {
-                  return <TagForm tag={item.tagName} key={index} />;
+                  return <TagForm tag={item.engTagName} key={index} />;
                 })}
             </View>
             <Text style={styles.WishTitle}>Wishlist</Text>

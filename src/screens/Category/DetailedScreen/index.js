@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { styles, textUnderlineStyle } from "./styles";
-import { Text, ScrollView, View, Image, Linking, FlatList } from "react-native";
+import {
+  Text,
+  ScrollView,
+  View,
+  Image,
+  Linking,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MarkerCustom from "../../../components/Map/MarkerCustom";
 
 import BackHeader from "../../../components/BackHeader";
 import SpecialTipForm from "../../../components/SpecialTipForm";
 import TagForm from "../../../components/PlaceForm/TagForm";
-import { AntDesign } from "@expo/vector-icons";
-
-import { Feather } from "@expo/vector-icons";
+import { AntDesign, Octicons, Feather } from "@expo/vector-icons";
 
 import { toSize } from "../../../globalStyle";
 import CategoryColorForm from "../../../components/PlaceForm/CategoryColorForm";
@@ -39,7 +45,6 @@ const DetailedScreen = ({ route }) => {
         if (response != null) {
           getData(response[0]);
           setHeartClick(response[0].checkItem.wished);
-          // console.log(response[0]);
 
           const fixedLocation = {
             lat: parseFloat(
@@ -131,7 +136,7 @@ const DetailedScreen = ({ route }) => {
                     data={Data.spotInfo.tagList}
                     keyExtractor={(item) => item.tagName.toString()}
                     renderItem={({ item, index }) => (
-                      <TagForm tag={item.tagName} key={index} />
+                      <TagForm tag={item.engTagName} key={index} />
                     )}
                   />
                 )}
@@ -269,16 +274,22 @@ const DetailedScreen = ({ route }) => {
               </View>
             )}
 
-            {Data.reviewList.length > 0 && (
-              <>
-                <View style={styles.FinalInfoView}>
-                  <Text style={styles.TitleText}>Review</Text>
-                </View>
-                {Data.reviewList.map((item, index) => {
-                  return <Review data={item} key={index} />;
-                })}
-              </>
-            )}
+            <View style={styles.separator} />
+
+            <View style={styles.FinalInfoView}>
+              <Text style={styles.TitleText}>Review</Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => navigation.navigate("ReviewCreateScreen")}
+              >
+                <Octicons name="pencil" size={toSize(20)} color="black" />
+              </TouchableOpacity>
+            </View>
+
+            {Data.reviewList.length > 0 &&
+              Data.reviewList.map((item, index) => {
+                return <Review data={item} key={index} />;
+              })}
 
             {/* {Data.reviewList && (
               <View style={styles.recommendInfoView}>
