@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../../globalStyle";
 import { AntDesign } from "@expo/vector-icons";
 import TagForm from "./TagForm";
@@ -15,6 +8,7 @@ import CategoryColorForm from "./CategoryColorForm";
 import SimplePopupMenu from "react-native-simple-popup-menu";
 
 const noImage = require("../../../src/images/noImage.png");
+
 const PlaceForm = ({
   data,
   place_name,
@@ -89,7 +83,8 @@ const PlaceForm = ({
 
             <View style={styles.tagView}>
               {tagList.map((item, index) => {
-                if (index < 3) {
+
+                if (index < 3 && item.tagName.length < 5) {
                   return <TagForm key={index} tag={item.engTagName} />;
                 }
               })}
@@ -116,6 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: toSize(15),
     backgroundColor: "#fff",
     borderRadius: 17,
+    height: toSize(124),
     borderWidth: 0.5,
     borderColor: "#F5F5F5",
     shadowColor: "#000",

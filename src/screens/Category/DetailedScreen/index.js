@@ -39,6 +39,7 @@ const DetailedScreen = ({ route }) => {
         if (response != null) {
           getData(response[0]);
           setHeartClick(response[0].checkItem.wished);
+          // console.log(response[0]);
 
           const fixedLocation = {
             lat: parseFloat(
@@ -163,23 +164,27 @@ const DetailedScreen = ({ route }) => {
               </View>
             )}
 
-            <View style={styles.infoView}>
-              <Text style={styles.TitleText}>Intro</Text>
-              {Data.commonInfo.overview != null && (
-                <Text style={styles.IntroText}>
-                  {Data.commonInfo.overview
-                    .replace("<br><br>", "\n")
-                    .replace("<br /><br />", "\n")
-                    .replace("<br/><br/>", "\n")
-                    .replace("<br>", "\n")
-                    .replace("<br/>", "\n")
-                    .replace("<br />", "\n")
-                    .replace("&nbsp;", " ")}
-                </Text>
-              )}
-            </View>
+            {Data.commonInfo != null && (
+              <>
+                <View style={styles.infoView}>
+                  <Text style={styles.TitleText}>Intro</Text>
+                  {Data.commonInfo.overview != "" && (
+                    <Text style={styles.IntroText}>
+                      {Data.commonInfo.overview
+                        .replace("<br><br>", "\n")
+                        .replace("<br /><br />", "\n")
+                        .replace("<br/><br/>", "\n")
+                        .replace("<br>", "\n")
+                        .replace("<br/>", "\n")
+                        .replace("<br />", "\n")
+                        .replace("&nbsp;", " ")}
+                    </Text>
+                  )}
+                </View>
 
-            <View style={styles.separator} />
+                <View style={styles.separator} />
+              </>
+            )}
 
             <View style={styles.infoView}>
               <Text style={styles.TitleText}>Location Information</Text>
@@ -212,7 +217,7 @@ const DetailedScreen = ({ route }) => {
                 </Text>
               </View>
 
-              {Data.commonInfo.tel != "" && (
+              {Data.commonInfo != null && Data.commonInfo.tel != "" && (
                 <View style={styles.mapInfoView}>
                   <Feather name="phone" size={toSize(15)} color="#2F3036" />
                   <Text style={styles.mapInfoText}>Phone</Text>
@@ -226,7 +231,7 @@ const DetailedScreen = ({ route }) => {
                 </View>
               )}
 
-              {Data.commonInfo.homepage !== "" && (
+              {Data.commonInfo != null && Data.commonInfo.homepage !== "" && (
                 <View style={styles.mapInfoView}>
                   <Feather name="home" size={toSize(15)} color="#2F3036" />
                   <Text style={styles.mapInfoText}>HomePage</Text>

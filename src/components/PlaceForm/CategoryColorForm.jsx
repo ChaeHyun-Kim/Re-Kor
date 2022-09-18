@@ -19,6 +19,8 @@ const CategoryColor = (category) => {
       return styles.Festival_Category;
     case "K-LEISURE":
       return styles.Leisure_Category;
+    default:
+      return styles.default_Category;
   }
 };
 const CategoryColorForm = ({ category }) => {
@@ -70,5 +72,8 @@ const styles = StyleSheet.create({
   },
   Shopping_Category: {
     backgroundColor: "#A3DAFF",
+  },
+  default_Category: {
+    backgroundColor: "#D9D9D9",
   },
 });

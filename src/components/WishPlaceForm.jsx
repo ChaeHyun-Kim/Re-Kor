@@ -1,86 +1,104 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { toSize } from "../globalStyle";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
 import { AntDesign } from "@expo/vector-icons";
-import TagForm from "../components/PlaceForm/TagForm";
-
-import { WithLocalSvg } from "react-native-svg";
-import no_heart from "../icons/icon_NoHeart.svg";
-import heart from "../icons/icon_Heart.svg";
+import TagForm from "./PlaceForm/TagForm";
 import { useNavigation } from "@react-navigation/native";
-const place = require("../../src/images/place1.png");
+import CategoryColorForm from "./PlaceForm/CategoryColorForm";
+import SimplePopupMenu from "react-native-simple-popup-menu";
 
-const WishPlaceForm = ({ place_name, region, heartscore, starscore, tag }) => {
+const noImage = require("../../src/images/noImage.png");
+
+const WishPlaceForm = ({
+  data,
+  place_name,
+  region,
+  heartScore,
+  starScore,
+  tagList,
+  category,
+  menu,
+  items,
+  images,
+  onClickMenu,
+}) => {
   const navigation = useNavigation();
-  const [ClickHeart, setHeartClick] = useState(true);
-  const [HeartShow, setHeartShow] = useState(false);
 
-  const heartClick = () => {
-    setHeartClick(ClickHeart == false ? true : false);
-  };
-
-  useEffect(() => {
-    if (ClickHeart) {
-      setHeartShow(true);
-      setTimeout(function () {
-        setHeartShow(false);
-      }, 1000);
-    }
-  }, [ClickHeart]);
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      // onPress={() =>
-      //   navigation.navigate("DetailedScreen", {
-      //     Content_ID: "관광지의 Content_ID",
-      //   })
-      // }
-      style={styles.CategoryView}
-    >
-      <Image style={styles.picture} source={place} />
-      <View style={styles.PlaceView}>
-        <View style={styles.PlaceNameView}>
-          <Text style={styles.Place_Text}>{place_name}</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.left}
-            onPress={heartClick}
-          >
-            <WithLocalSvg
-              width={toSize(30)}
-              height={toSize(30)}
-              asset={ClickHeart == false ? no_heart : heart}
-            />
-          </TouchableOpacity>
-        </View>
+    <>
+      {place_name !== "" && (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() =>
+            navigation.navigate("DetailedScreen", {
+              Content_ID: data.spotId.id,
+            })
+          }
+          style={styles.CategoryView}
+        >
+          <Image
+            style={styles.picture}
+            source={images[0] ? { uri: images[0] } : noImage}
+          />
+          <View style={styles.PlaceView}>
+            <View style={styles.InfoView}>
+              <View style={styles.rowView}>
+                <Text numberOfLines={1} style={styles.Place_Text}>
+                  {place_name}
+                </Text>
+                {menu && (
+                  <SimplePopupMenu
+                    customStyles={{ Option: styles.popupText }}
+                    items={items}
+                    onSelect={(items) => onClickMenu(items.id, data.spotId.id)}
+                    onCancel={() => console.log("onCancel")}
+                    cancelLabel={"Cancel"}
+                  >
+                    <AntDesign
+                      name="ellipsis1"
+                      size={toSize(22)}
+                      color="#D4D6DD"
+                    />
+                  </SimplePopupMenu>
+                )}
+              </View>
+              <Text style={styles.Region_Text}>{region.split(" ")[1]}</Text>
 
-        <Text style={styles.Region_Text}>{region}</Text>
-        <View style={styles.ScoreView}>
-          {tag.map((item, index) => {
-            return <TagForm tag={item} key={index} />;
-          })}
-        </View>
-        <View style={styles.ScoreView}>
-          <AntDesign
-            name="heart"
-            style={{ fontSize: toSize(12) }}
-            color="#FF7272"
-          />
-          <Text style={styles.Score_Text}>{heartscore}</Text>
-          <AntDesign
-            name="star"
-            style={{ fontSize: toSize(13) }}
-            color="#FDB600"
-          />
-          <Text style={styles.Score_Text}>{starscore}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
+              <View style={styles.ScoreView}>
+                <AntDesign
+                  name="heart"
+                  style={{ fontSize: toSize(13) }}
+                  color="#FF7272"
+                />
+                <Text style={styles.Score_Text}>{heartScore}</Text>
+                <AntDesign
+                  name="star"
+                  style={{ fontSize: toSize(13) }}
+                  color="#FDB600"
+                />
+                <Text style={styles.Score_Text}>{starScore}</Text>
+              </View>
+            </View>
+            {category && <CategoryColorForm category={category} />}
+
+            <View style={styles.tagView}>
+              {tagList.map((item, index) => {
+                if (index < 3) {
+                  return <TagForm key={index} tag={item.tagName} />;
+                }
+              })}
+            </View>
+            <View style={styles.ScoreView}>
+              {tagList.map((item, index) => {
+                if (index >= 3 && index < 6 && item.tagName.length < 5) {
+                  return <TagForm key={index} tag={item.tagName} />;
+                }
+              })}
+            </View>
+          </View>
+        </TouchableOpacity>
+      )}
+    </>
   );
 };
 export default WishPlaceForm;
@@ -88,55 +106,69 @@ export default WishPlaceForm;
 const styles = StyleSheet.create({
   CategoryView: {
     width: "100%",
-    height: toSize(96),
     flexDirection: "row",
-    marginBottom: toSize(16),
-    backgroundColor: "#ffffff",
+    marginBottom: toSize(15),
+    backgroundColor: "#fff",
+    borderRadius: 17,
+    height: toSize(140),
+    borderWidth: 0.5,
+    borderColor: "#F5F5F5",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 2,
     },
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.3,
     shadowRadius: 2,
-    elevation: 3,
-    borderRadius: 17,
+    elevation: 1,
+  },
+  rowView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   picture: {
-    width: toSize(96),
-    height: toSize(96),
+    width: toSize(105),
+    height: "100%",
     borderRadius: 17,
   },
   PlaceView: {
     flex: 1,
-    marginHorizontal: toSize(9),
+    paddingHorizontal: toSize(12),
     justifyContent: "center",
   },
-  PlaceNameView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
+  InfoView: {
+    marginBottom: toSize(6),
+  },
+  Place_Text: {
+    fontSize: toSize(14),
+    fontWeight: "700",
+    color: "#1F2024",
+  },
+  Region_Text: {
+    fontSize: toSize(12),
+    color: "#71727A",
+    fontWeight: "400",
+    marginVertical: toSize(1),
   },
   ScoreView: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    marginVertical: toSize(1),
-  },
-
-  Place_Text: {
-    fontSize: toSize(14),
-    fontWeight: "800",
-  },
-  Region_Text: {
-    fontSize: toSize(10),
-    color: "#71727A",
-    fontWeight: "400",
-    marginVertical: toSize(1),
   },
   Score_Text: {
-    marginLeft: 5,
-    marginRight: 10,
+    marginLeft: toSize(5),
+    marginRight: toSize(8),
+    fontSize: toSize(12),
+    color: "#000000",
+    fontWeight: "700",
+  },
+  tagView: {
+    flexDirection: "row",
+    marginTop: toSize(4),
+    width: "100%",
+  },
+  popupText: {
+    fontWeight: "400",
+    size: toSize(17),
   },
 });

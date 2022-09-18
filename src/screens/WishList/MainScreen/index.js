@@ -5,7 +5,7 @@ import Header from "../../../components/Header";
 import Bottom from "../../../components/Bottom";
 import TitleInfo from "../../../components/common/TitleInfoScreen";
 import { toSize } from "../../../globalStyle";
-import PlaceForm from "../../../components/PlaceForm/PlaceForm";
+import WishPlaceForm from "../../../components/WishPlaceForm";
 import { responsiveScreenWidth } from "react-native-responsive-dimensions";
 import { wishListAPI } from "../../../api/WishList";
 import React, { useEffect, useState } from "react";
@@ -83,7 +83,7 @@ const WishListMainScreen = () => {
         <TitleInfo title={"Wishlist"} content={"Check your own place "} />
         {Data.map((item, index) => {
           return (
-            <PlaceForm
+            <WishPlaceForm
               data={item}
               place_name={item.title}
               region={item.address.addr1}

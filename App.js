@@ -11,19 +11,7 @@ TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
 
 export default class extends React.Component {
-  state = {
-    isLoading: true,
-  };
-  componentDidMount = async () => {
-    setTimeout(() => {
-      this.setState({ isLoading: false });
-    }, 3000);
-  };
   render() {
-    if (this.state.isLoading) {
-      return <Loading />;
-    } else {
-      return <App />;
-    }
+    return <App />;
   }
 }
