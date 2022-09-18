@@ -32,3 +32,21 @@ export const detailedInfoAPI = async (spotId) => {
   const data = await response.json();
   return data.data;
 };
+
+/* 리뷰 저장하기 */
+export const saveReviewAPI = async (spotId, rating, text) => {
+  const response = await fetch(uri + "/api/review", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      spotId: String(spotId),
+      rating: String(rating),
+      text: text,
+    }),
+  });
+  const data = await response.json();
+  const putValue = data.status === "SUCCESS" ? 1 : 0;
+  return putValue;
+};
