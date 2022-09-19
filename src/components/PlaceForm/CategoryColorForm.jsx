@@ -26,9 +26,15 @@ const CategoryColor = (category) => {
 const CategoryColorForm = ({ category }) => {
   return (
     <View style={styles.tagView}>
-      <Text style={[styles.commonText, CategoryColor(category)]}>
-        {category}
-      </Text>
+      {(category == "K-LEISURE" && (
+        <Text style={[styles.commonText, CategoryColor(category)]}>
+          K-ENTERTAINMENT
+        </Text>
+      )) || (
+        <Text style={[styles.commonText, CategoryColor(category)]}>
+          {category}
+        </Text>
+      )}
     </View>
   );
 };
