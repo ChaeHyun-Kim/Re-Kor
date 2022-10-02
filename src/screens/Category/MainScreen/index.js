@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   ButtonView: { flex: 1, marginHorizontal: toSize(9) },
   HorizontalView: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
     marginBottom: toSize(18),
   },

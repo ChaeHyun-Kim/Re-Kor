@@ -20,7 +20,7 @@ export default function Header({ heartClick, ClickHeart, handleNextScreen }) {
           style={{ fontSize: toSize(20) }}
           color="#2F3036"
           onPress={() => {
-            navigation.navigate("WishList");
+            navigation.goBack();
           }}
         />
         <View style={styles.iconView}>

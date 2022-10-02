@@ -30,7 +30,7 @@ const MoveFolder = ({ route }) => {
     destid = courseList[destid].folderId.id;
     MoveFolderAPI(Courseid, Folderid, destid)
       .then((response) => {
-        console.log("폴더이동", response);
+        console.log("폴더이동");
 
         navigation.navigate("CourseList");
       })

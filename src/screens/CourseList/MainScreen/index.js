@@ -42,7 +42,7 @@ const CourseListMainScreen = () => {
   const AddFolder = async () => {
     AddFolderAPI()
       .then((response) => {
-        console.log("폴더 추가", response);
+        console.log("폴더 추가");
       })
       .catch((error) => {
         console.log("에러", error);
@@ -50,7 +50,6 @@ const CourseListMainScreen = () => {
   };
 
   useEffect(() => {
-    console.log("새로고침");
     handleList();
   }, [isFocused]);
 
