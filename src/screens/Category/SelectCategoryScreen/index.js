@@ -60,6 +60,8 @@ const SelectCategoryScreen = ({ route }) => {
   };
 
   const onMenuPress = (id) => {
+    setLoading(false);
+    setCurrentpage(0);
     handleMenu(id);
   };
 
@@ -85,7 +87,6 @@ const SelectCategoryScreen = ({ route }) => {
             <Feather name="loader" size={toSize(30)} color="#5F5F5F" />
           </View>
         )}
-
         <ScrollView
           contentContainerStyle={styles.listView}
           nestedScrollEnabled={true}
@@ -166,9 +167,12 @@ const styles = StyleSheet.create({
     marginVertical: toSize(4),
   },
   FilterView: {
+    width: responsiveScreenWidth(90),
     marginBottom: toSize(13),
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
   },
-  button: { alignItems: "flex-end" },
+  button: { alignItems: "flex-end", justifyContent: "flex-end" },
   filterMenuView: {
     paddingHorizontal: toSize(12),
     paddingVertical: toSize(8),

@@ -48,7 +48,7 @@ export default function SetMakeCourse({
         });
         MakeCourseAPI(courseName, newList)
           .then((response) => {
-            console.log(response);
+            console.log("MakeCourse");
           })
           .catch((error) => {
             console.log(error);
