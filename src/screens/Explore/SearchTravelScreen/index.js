@@ -1,28 +1,21 @@
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Text, ScrollView, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import ic_loading from "../../../icons/ic_loading.svg";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-} from "react-native-responsive-dimensions";
-import { toSize } from "../../../globalStyle";
-import { WithLocalSvg } from "react-native-svg";
-import SearchView from "../../../components/SearchView";
-import RecentView from "../../../components/RecentView";
-import PlaceForm from "../../../components/PlaceForm/PlaceForm";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { searchPlaceAPI } from "../../../api/Explore";
+import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { View, Text, ScrollView } from 'react-native';
+import ic_loading from '../../../icons/ic_loading.svg';
+import { WithLocalSvg } from 'react-native-svg';
+import SearchView from '../../../components/SearchView';
+import PlaceForm from '../../../components/PlaceForm/PlaceForm';
+import { searchPlaceAPI } from '../../../api/Explore';
+import { styles } from './styles';
 
 const SearchTravelScreen = () => {
-  const [search, setChangeSearch] = useState("");
+  const [search, setChangeSearch] = useState('');
   const [showPlace, handelShowPlace] = useState(true);
   const [searchArray, setSearchArray] = useState([]);
   const [searchData, getSearchData] = useState([]);
 
   const handelSearchPlace = () => {
-    if (search !== "") {
+    if (search !== '') {
       const newData = {
         content: search,
       };
@@ -49,9 +42,9 @@ const SearchTravelScreen = () => {
         <View style={styles.rowView}>
           <SearchView
             search={search}
-            placeholder={"Search for tags or travel destinations"}
+            placeholder={'Search for tags or travel destinations'}
             setChangeSearch={setChangeSearch}
-            rightIcon={"arrowleft"}
+            rightIcon={'arrowleft'}
             onclick={handelSearchPlace}
           />
         </View>
@@ -92,39 +85,3 @@ const SearchTravelScreen = () => {
   );
 };
 export default SearchTravelScreen;
-
-const styles = StyleSheet.create({
-  fullscreen: {
-    height: responsiveScreenHeight(100),
-    width: responsiveScreenWidth(100),
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  container: {
-    width: "90%",
-    marginTop: toSize(50),
-  },
-  RecentSearchView: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: toSize(200),
-  },
-  recentMainText: {
-    fontWeight: "600",
-    fontSize: toSize(12),
-    color: "#5F5F5F",
-    paddingVertical: toSize(7),
-  },
-  rowView: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  MainView: {
-    flexGrow: 1,
-  },
-  ScrollView: {
-    height: toSize(650),
-    marginVertical: toSize(30),
-  },
-});

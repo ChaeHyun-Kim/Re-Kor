@@ -1,19 +1,18 @@
-import React, { useEffect, useState, Component } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import FolderView from "../../../components/Course/FolderView";
-import { toSize } from "../../../globalStyle";
-import CourseBackHeader from "../../../components/CourseBackHeader";
-import AutoScrollView from "react-native-auto-scroll-view";
-import { useNavigation } from "@react-navigation/native";
-import { MoveFolderAPI } from "../../../api/Courselist";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Text, View, TouchableOpacity } from 'react-native';
+import FolderView from '../../../components/Course/FolderView';
+import { toSize } from '../../../globalStyle';
+import CourseBackHeader from '../../../components/CourseBackHeader';
+import AutoScrollView from 'react-native-auto-scroll-view';
+import { useNavigation } from '@react-navigation/native';
+import { MoveFolderAPI } from '../../../api/Courselist';
+import { styles } from './styles';
 
 const MoveFolder = ({ route }) => {
   const Courseid = route.params.Courseid;
   const Folderid = route.params.Folderid;
-  // const courseindex = route.params.Courseindex;
-  // const folderindex = route.params.Folderindex;
+
   const courseList = route.params.courseList;
   const [onlyone, setOnlyone] = useState(Array(courseList.length).fill(false));
 
@@ -30,9 +29,9 @@ const MoveFolder = ({ route }) => {
     destid = courseList[destid].folderId.id;
     MoveFolderAPI(Courseid, Folderid, destid)
       .then((response) => {
-        console.log("폴더이동");
+        console.log('폴더이동');
 
-        navigation.navigate("CourseList");
+        navigation.navigate('CourseList');
       })
       .catch((error) => {
         console.log(error);
@@ -61,14 +60,14 @@ const MoveFolder = ({ route }) => {
         })}
         <View style={{ height: toSize(50) }}></View>
       </AutoScrollView>
-      <View style={{ width: "100%", alignItems: "center" }}>
+      <View style={{ width: '100%', alignItems: 'center' }}>
         <TouchableOpacity
           activeOpacity={0.8}
           style={[
             styles.BottomView,
             confirmCheck
-              ? { backgroundColor: "#FFCC00" }
-              : { borderColor: "#FFCC00", borderWidth: 2 },
+              ? { backgroundColor: '#FFCC00' }
+              : { borderColor: '#FFCC00', borderWidth: 2 },
           ]}
           onPress={() => {
             confirmCheck && handleSelect();
@@ -77,7 +76,7 @@ const MoveFolder = ({ route }) => {
           <Text
             style={[
               styles.BottomButtonText,
-              confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
+              confirmCheck ? { color: '#FFFFFF' } : { color: '#FFCC00' },
             ]}
           >
             Select
@@ -88,38 +87,3 @@ const MoveFolder = ({ route }) => {
   );
 };
 export default MoveFolder;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  MainView: {
-    flex: 1,
-    backgroundColor: "#fff",
-    marginBottom: toSize(80),
-    paddingHorizontal: toSize(22),
-    paddingTop: toSize(22),
-  },
-  main_text: {
-    fontSize: toSize(24),
-    fontWeight: "700",
-    color: "black",
-  },
-  BottomView: {
-    backgroundColor: "#fff",
-    width: "90%",
-    height: toSize(48),
-    marginVertical: toSize(24),
-    borderRadius: 12,
-    position: "absolute",
-    bottom: 0,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  BottomButtonText: {
-    fontSize: toSize(16),
-    fontWeight: "600",
-  },
-});
