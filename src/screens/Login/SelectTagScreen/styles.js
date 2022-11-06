@@ -13,40 +13,43 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  fullOpacity: {
-    backgroundColor: 'white',
-    height: responsiveScreenHeight(100),
-    width: responsiveScreenWidth(100),
-    alignItems: 'center',
-    opacity: 0.4,
-    flex: 1,
-  },
   container: {
     width: responsiveScreenWidth(100) - toSize(48),
     flex: 1,
   },
-  FormView: { marginTop: toSize(34) },
-  FormOneView: {
-    borderWidth: 3,
-  },
-  RowView: {
-    flexDirection: 'row',
+  FirstView: {
+    width: '80%',
+    justifyContent: 'space-between',
+    marginTop: toSize(24),
   },
   BottomTextView: {
     marginLeft: toSize(12),
   },
   buttonView: {
+    marginVertical: toSize(24),
+    position: 'absolute',
+  },
+  BottomView: {
     width: '100%',
+    height: toSize(48),
+    marginVertical: toSize(24),
+    borderRadius: 12,
     position: 'absolute',
     bottom: 0,
-    marginVertical: toSize(24),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   BottomButtonText: {
     fontSize: toSize(16),
     fontWeight: '600',
   },
-  marginTop: {
-    marginTop: toSize(10),
+
+  LikedView: {
+    marginTop: toSize(29),
+  },
+  LikedMainText: {
+    fontWeight: '700',
+    fontSize: toSize(14),
   },
 });

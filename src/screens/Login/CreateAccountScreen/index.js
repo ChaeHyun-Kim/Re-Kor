@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { NavigationContext, useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import { Text, View, TextInput, TouchableOpacity } from "react-native";
-import { styles } from "./styles";
-import { FormStyles } from "../../../styles/FormView";
-import { phoneCheckAPI } from "../../../api/Login";
-import { toSize } from "../../../globalStyle";
-import ToastMessage from "../../../components/Modal/Toast";
-import SignupModal from "../../../components/Modal/SignupModal";
-import Header from "../../../components/MyHeader";
+import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { styles } from './styles';
+import { FormStyles } from '../../../styles/FormView';
+import { phoneCheckAPI } from '../../../api/Login';
+import { toSize } from '../../../globalStyle';
+import ToastMessage from '../../../components/Modal/Toast';
+import SignupModal from '../../../components/Modal/SignupModal';
+import Header from '../../../components/MyHeader';
+import RKButton from '../../../components/rk/button';
+import RKText from '../../../components/rk/text';
 
 export default function CreateAccountScreen() {
   const navigation = useNavigation();
-  const [phone, setChangePhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [checkPW, setCheckPW] = useState("");
+  const [phone, setChangePhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [checkPW, setCheckPW] = useState('');
 
   const [confirmCheckPhone, setConfirmCheckPhone] = useState(true);
   const [confirmCheckPW, setConfirmCheckPW] = useState(0);
@@ -29,7 +31,7 @@ export default function CreateAccountScreen() {
   }, [phone, password, checkPW, confirmCheckPhone, confirmCheckPW]);
 
   useEffect(() => {
-    if (password != "" && password === checkPW) {
+    if (password != '' && password === checkPW) {
       setConfirmCheckPW(1);
     } else {
       setConfirmCheckPW(0);
@@ -51,37 +53,47 @@ export default function CreateAccountScreen() {
   return (
     <View style={styles.fullscreen}>
       <StatusBar style="auto" />
+      <ToastMessage
+        visible={confirmCheckPhone}
+        handleFunction={setConfirmCheckPhone}
+        title={'Success'}
+        content={'Validation verified'}
+      />
+      <ToastMessage
+        visible={confirmCheckPW}
+        handleFunction={setConfirmCheckPW}
+        title={'Success'}
+        content={'Validation verified'}
+      />
       {checkTerm && <SignupModal phone={phone} password={password} />}
       <Header />
+
       <View style={styles.container}>
-        <Text style={styles.MainText}>Create Account</Text>
-        <Text style={styles.MainSubText}>
+        <RKText size={20} weight={'800'}>
+          Create Account
+        </RKText>
+        <RKText weight={'400'} style={{ marginTop: toSize(8) }}>
           Please fill out your phone number and password
-        </Text>
-        <ToastMessage
-          visible={confirmCheckPhone}
-          handleFunction={setConfirmCheckPhone}
-          title={"Success"}
-          content={"Validation verified"}
-        />
-        <ToastMessage
-          visible={confirmCheckPW}
-          handleFunction={setConfirmCheckPW}
-          title={"Success"}
-          content={"Validation verified"}
-        />
+        </RKText>
         <View style={styles.FormView}>
           <View style={FormStyles.FormOneView}>
-            <Text style={FormStyles.FormTitleText}>Phone Number</Text>
+            <RKText
+              size={12}
+              color={'#000'}
+              weight={'700'}
+              style={{ marginBottom: toSize(8) }}
+            >
+              Phone Number
+            </RKText>
             <View
               style={[
                 FormStyles.FormInput,
                 FormStyles.RowView,
-                phone == "" || confirmCheckPhone === true
-                  ? { borderColor: "#8F9098" }
+                phone == '' || confirmCheckPhone === true
+                  ? { borderColor: '#8F9098' }
                   : confirmCheckPhone === 0
-                  ? { borderColor: "#FF0000" }
-                  : { borderColor: "#23A047" },
+                  ? { borderColor: '#FF0000' }
+                  : { borderColor: '#23A047' },
               ]}
             >
               <TextInput
@@ -98,13 +110,15 @@ export default function CreateAccountScreen() {
                 style={FormStyles.checkNickName}
                 onPress={handleCheckPhone}
               >
-                <Text style={FormStyles.checkText}>Check Availability</Text>
+                <RKText size={8} color={'#fff'} weight={'700'}>
+                  Check Availability
+                </RKText>
               </TouchableOpacity>
             </View>
 
             {confirmCheckPhone === 2 && (
               <View style={FormStyles.hideView}>
-                <Text style={[FormStyles.hideText, { color: "#FF453A" }]}>
+                <Text style={[FormStyles.hideText, { color: '#FF453A' }]}>
                   The same nickname exists. Please write another nickname
                 </Text>
               </View>
@@ -112,13 +126,20 @@ export default function CreateAccountScreen() {
           </View>
 
           <View style={FormStyles.FormOneView}>
-            <Text style={FormStyles.FormTitleText}>Password</Text>
+            <RKText
+              size={12}
+              color={'#000'}
+              weight={'700'}
+              style={{ marginBottom: toSize(8) }}
+            >
+              Password
+            </RKText>
 
             <TextInput
               style={[
                 FormStyles.FormInput,
                 FormStyles.RowView,
-                { borderColor: "#8F9098" },
+                { borderColor: '#8F9098' },
               ]}
               onChangeText={setPassword}
               value={password.toString()}
@@ -135,52 +156,40 @@ export default function CreateAccountScreen() {
                 FormStyles.FormInput,
                 FormStyles.RowView,
                 styles.marginTop,
-                checkPW == ""
-                  ? { borderColor: "#8F9098" }
+                checkPW == ''
+                  ? { borderColor: '#8F9098' }
                   : confirmCheckPW === 0
-                  ? { borderColor: "#FF0000" }
-                  : { borderColor: "#23A047" },
+                  ? { borderColor: '#FF0000' }
+                  : { borderColor: '#23A047' },
               ]}
             />
-            {checkPW != "" && (
+            {checkPW != '' && (
               <View style={FormStyles.hideView}>
                 <Text
                   style={[
                     FormStyles.hideText,
                     confirmCheckPW === 0
-                      ? { color: "#FF453A" }
-                      : { color: "#23A047" },
+                      ? { color: '#FF453A' }
+                      : { color: '#23A047' },
                   ]}
                 >
                   {confirmCheckPW === 0
-                    ? "Please make sure your passwords match"
-                    : "Passwords match"}
+                    ? 'Please make sure your passwords match'
+                    : 'Passwords match'}
                 </Text>
               </View>
             )}
           </View>
         </View>
-        <TouchableOpacity
-          style={[
-            styles.BottomView,
-            confirmCheck
-              ? { backgroundColor: "#FFCC00" }
-              : { borderColor: "#FFCC00", borderWidth: 2 },
-          ]}
-          activeOpacity={0.8}
-          onPress={() => {
-            confirmCheck && setCheckTerm(true);
-          }}
-        >
-          <Text
-            style={[
-              styles.BottomButtonText,
-              confirmCheck ? { color: "#FFFFFF" } : { color: "#FFCC00" },
-            ]}
-          >
-            Next
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonView}>
+          <RKButton
+            text={'Next'}
+            disabled={!confirmCheck}
+            onPress={() => {
+              confirmCheck && setCheckTerm(true);
+            }}
+          />
+        </View>
       </View>
     </View>
   );
