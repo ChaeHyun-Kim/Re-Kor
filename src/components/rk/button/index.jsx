@@ -18,7 +18,6 @@ const RKButton = ({
   children,
   ...props
 }) => {
-  console.log(disabled);
   return (
     <TouchableOpacity
       activeOpacity={0.7}
