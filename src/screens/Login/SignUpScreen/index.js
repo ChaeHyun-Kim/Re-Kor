@@ -5,9 +5,8 @@ import { styles } from './styles';
 import { toSize } from '../../../globalStyle';
 import ModalView from '../../../components/ModalView';
 import { FormStyles } from '../../../styles/FormView';
-
+import Header from '../../../components/MyHeader';
 import { Foundation } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { NicknameCheckAPI } from '../../../api/Login';
 import Country from '../../../components/Login/CountrySelect';
@@ -41,8 +40,13 @@ export default function SignUpScreen({ navigation }) {
   // const [checkBox, setChangeCheckBox] = useState(false);
   const [background, setChangeBackGround] = useState(false);
   const [confirmCheck, setConfirmCheck] = useState('00000');
-  const [confirmNickName, setConfirmNickName] = useState(0);
+  const [confirmNickName, setConfirmNickName] = useState(false);
   const [confirmBirth, setConfirmBirth] = useState(0);
+  const [btn, setBtn] = useState(false);
+
+  useEffect(() => {
+    confirmNickName && setConfirmNickName(false);
+  }, [nickname]);
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
@@ -58,18 +62,14 @@ export default function SignUpScreen({ navigation }) {
     changeArray(1);
   };
 
-  // const ClickCheckBox = () => {
-  //   checkBox == false ? setChangeCheckBox(true) : setChangeCheckBox(false);
-  // };
-
   const handleCheckNickName = async () => {
     NicknameCheckAPI(nickname)
       .then((response) => {
         if (response === 1) {
           changeArray(0);
-          setConfirmNickName(1);
+          setBtn(true);
         } else {
-          setConfirmNickName(0);
+          setConfirmNickName(true);
           Alert.alert('nickname overlap');
         }
       })
@@ -89,12 +89,12 @@ export default function SignUpScreen({ navigation }) {
     setConfirmCheck(array.toString().replace(/,/g, ''));
   };
   useEffect(() => {
-    if (confirmNickName != 0) changeArray(0);
+    if (btn) changeArray(0);
     if (confirmBirth != 0) changeArray(1);
     if (gender != 0) changeArray(2);
     if (country != null) changeArray(3);
     if (language != '') changeArray(4);
-  }, [gender, country, language, nickname, confirmBirth]);
+  }, [gender, country, language, btn, confirmBirth]);
 
   const handleSubmit = async () => {
     if (confirmCheck == 11111) {
@@ -122,18 +122,21 @@ export default function SignUpScreen({ navigation }) {
     }
   };
 
+  console.log(confirmCheck[0]);
+
   return (
     <View style={background === false ? styles.fullscreen : styles.fullOpacity}>
       <StatusBar style="auto" />
+      <Header />
       <View style={styles.container}>
         <Text style={styles.MainText}>Join us</Text>
         <Text style={styles.MainSubText}>Create an account to get started</Text>
-        <ToastMessage
+        {/* <ToastMessage
           visible={confirmNickName}
           handleFunction={setConfirmNickName}
           title={'Success'}
           content={'Validation verified'}
-        />
+        /> */}
         <View style={styles.FormView}>
           <View style={FormStyles.FormOneView}>
             <View style={styles.RowView}>
@@ -144,21 +147,24 @@ export default function SignUpScreen({ navigation }) {
               style={[
                 FormStyles.FormInput,
                 FormStyles.RowView,
-                confirmCheck[0] == 0
+                !confirmNickName
                   ? { borderColor: '#8F9098' }
-                  : confirmCheck == 2
-                  ? { borderColor: '#FF0000' }
-                  : { borderColor: '#23A047' },
+                  : { borderColor: '#FF0000' },
               ]}
             >
               <TextInput
                 onChangeText={setChangeNickname}
                 value={nickname}
+                color={btn ? '#DCDCDC' : '#000'}
+                editable={!btn}
                 placeholder="NickName"
               />
               <TouchableOpacity
                 activeOpacity={0.8}
-                style={FormStyles.checkNickName}
+                style={[
+                  FormStyles.checkNickName,
+                  { backgroundColor: btn ? '#DCDCDC' : '#FFCC00' },
+                ]}
                 onPress={handleCheckNickName}
               >
                 <Text style={FormStyles.checkText}>Check Availability</Text>

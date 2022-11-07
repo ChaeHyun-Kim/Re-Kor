@@ -28,6 +28,8 @@ export const styles = StyleSheet.create({
   buttonView: {
     marginVertical: toSize(24),
     position: 'absolute',
+    bottom: 0,
+    width: '100%',
   },
   BottomView: {
     width: '100%',

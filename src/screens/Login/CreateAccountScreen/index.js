@@ -16,19 +16,21 @@ export default function CreateAccountScreen() {
   const navigation = useNavigation();
   const [phone, setChangePhone] = useState('');
   const [password, setPassword] = useState('');
+  const [btn, setBtn] = useState(false);
   const [checkPW, setCheckPW] = useState('');
 
-  const [confirmCheckPhone, setConfirmCheckPhone] = useState(true);
+  const [confirmCheckPhone, setConfirmCheckPhone] = useState(false);
   const [confirmCheckPW, setConfirmCheckPW] = useState(0);
   const [confirmCheck, setConfirmCheck] = useState(0);
   const [checkTerm, setCheckTerm] = useState(false);
 
   useEffect(() => {
-    let check = 0;
-    if (confirmCheckPhone != 3) check++;
-    if (confirmCheckPW != 3) check++;
-    check === 0 ? setConfirmCheck(1) : setConfirmCheck(0);
-  }, [phone, password, checkPW, confirmCheckPhone, confirmCheckPW]);
+    confirmCheckPhone && setConfirmCheckPhone(false);
+  }, [phone]);
+
+  useEffect(() => {
+    setConfirmCheck(confirmCheckPW === 1 && btn);
+  }, [btn, confirmCheckPW]);
 
   useEffect(() => {
     if (password != '' && password === checkPW) {
@@ -42,7 +44,8 @@ export default function CreateAccountScreen() {
     if (isNaN(phone) === false && (phone.length == 10 || phone.length == 11)) {
       phoneCheckAPI(phone)
         .then((response) => {
-          setConfirmCheckPhone(response);
+          console.log(response);
+          response ? setBtn(true) : setConfirmCheckPhone(true);
         })
         .catch((error) => {
           console.log(error);
@@ -56,15 +59,17 @@ export default function CreateAccountScreen() {
       <ToastMessage
         visible={confirmCheckPhone}
         handleFunction={setConfirmCheckPhone}
-        title={'Success'}
+        title={'Fail'}
         content={'Validation verified'}
+        fail
       />
-      <ToastMessage
+      {/* <ToastMessage
         visible={confirmCheckPW}
         handleFunction={setConfirmCheckPW}
         title={'Success'}
         content={'Validation verified'}
-      />
+      /> */}
+
       {checkTerm && <SignupModal phone={phone} password={password} />}
       <Header />
 
@@ -89,25 +94,28 @@ export default function CreateAccountScreen() {
               style={[
                 FormStyles.FormInput,
                 FormStyles.RowView,
-                phone == '' || confirmCheckPhone === true
+                !confirmCheckPhone
                   ? { borderColor: '#8F9098' }
-                  : confirmCheckPhone === 0
-                  ? { borderColor: '#FF0000' }
-                  : { borderColor: '#23A047' },
+                  : { borderColor: '#FF0000' },
               ]}
             >
               <TextInput
                 onChangeText={setChangePhone}
                 value={phone.toString()}
+                color={btn ? '#8F9098' : '#000'}
                 style={{ width: toSize(200) }}
                 maxLength={11}
                 returnKeyType="done"
                 keyboardType="number-pad"
                 placeholder="Phone Number"
+                editable={!btn}
               />
               <TouchableOpacity
                 activeOpacity={0.8}
-                style={FormStyles.checkNickName}
+                style={[
+                  FormStyles.checkNickName,
+                  { backgroundColor: btn ? '#DCDCDC' : '#FFCC00' },
+                ]}
                 onPress={handleCheckPhone}
               >
                 <RKText size={8} color={'#fff'} weight={'700'}>

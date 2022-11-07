@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, View } from 'react-native';
 import { styles } from './styles';
 import { toSize } from '../../../globalStyle';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import RKText from '../../rk/text';
 
 const ToastMessage = ({
@@ -35,10 +35,6 @@ const ToastMessage = ({
         useNativeDriver: true,
       }).start();
     }, 2000);
-
-    setTimeout(() => {
-      handleFunction(false);
-    }, 2500);
   };
 
   return (
@@ -50,10 +46,10 @@ const ToastMessage = ({
       ]}
     >
       <View style={styles.flexRow}>
-        <FontAwesome5
-          name={fail ? 'error' : 'check-circle'}
+        <FontAwesome
+          name={fail ? 'remove' : 'check'}
           size={toSize(24)}
-          color="#23A047"
+          color={fail ? '#FF0000' : '#23A047'}
         />
         <View style={styles.textView}>
           <RKText size={16} weight={'800'} style={{ marginBottom: toSize(4) }}>

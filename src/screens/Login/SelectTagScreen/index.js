@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
@@ -16,24 +17,21 @@ export default function SelectTagScreen() {
   const [data, getData] = useState([]);
 
   useEffect(() => {
-    let clickCheck = 0;
-    clickTagData.map((item) => {
-      if (item === 1) clickCheck++;
-    });
-
-    clickCheck > 0 ? setConfirmCheck(1) : setConfirmCheck(0);
-  }, [clickTagData]);
-
-  useEffect(() => {
     handleTagList();
   }, []);
+
+  useEffect(() => {
+    let clickCheck = 0;
+    clickTagData.map((item) => {
+      item === 1 && clickCheck++;
+    });
+    setConfirmCheck(clickCheck > 0 ? 1 : 0);
+  }, [clickTagData]);
 
   const handleTagList = async () => {
     getTagAPI()
       .then((response) => {
-        if (response != null) {
-          getData(response.slice(0, 21));
-        }
+        response != null && getData(response.slice(0, 21));
       })
       .catch((error) => {
         console.log(error);
@@ -44,16 +42,12 @@ export default function SelectTagScreen() {
     if (confirmCheck === 1) {
       let tagSaveArray = [];
       data.map((item, index) => {
-        if (clickTagData[index] === 1) {
-          tagSaveArray.push(item.tagId.id);
-        }
+        clickTagData[index] === 1 && tagSaveArray.push(item.tagId.id);
       });
 
       saveTagAPI(tagSaveArray)
         .then((response) => {
-          if (response === 'SUCCESS') {
-            navigation.navigate('Explore');
-          }
+          response === 'SUCCESS' && navigation.navigate('Explore');
         })
         .catch((error) => {
           console.log(error);
