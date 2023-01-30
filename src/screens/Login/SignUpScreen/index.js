@@ -1,48 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
-import { styles } from "./styles";
-import { toSize } from "../../../globalStyle";
-import ModalView from "../../../components/ModalView";
-import { FormStyles } from "../../../styles/FormView";
-
-import { Foundation } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { NicknameCheckAPI } from "../../../api/Login";
-import Country from "../../../components/Login/CountrySelect";
-import { FormJoinAPI } from "../../../api/Login";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import ToastMessage from "../../../components/Modal/Toast";
+import React, { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { styles } from './styles';
+import { toSize } from '../../../globalStyle';
+import ModalView from '../../../components/ModalView';
+import { FormStyles } from '../../../styles/FormView';
+import Header from '../../../components/MyHeader';
+import { Foundation } from '@expo/vector-icons';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { NicknameCheckAPI } from '../../../api/Login';
+import Country from '../../../components/Login/CountrySelect';
+import { FormJoinAPI } from '../../../api/Login';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ToastMessage from '../../../components/Modal/Toast';
 
 const monthNames = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ];
 
 export default function SignUpScreen({ navigation }) {
-  const [nickname, setChangeNickname] = useState("");
-  const [birth, setChangeBirth] = useState("Day / Month / Year");
-  const [DB_putBirth, set_putBirth] = useState("");
+  const [nickname, setChangeNickname] = useState('');
+  const [birth, setChangeBirth] = useState('Day / Month / Year');
+  const [DB_putBirth, set_putBirth] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [gender, setChangeGender] = useState(0);
   const [country, setCountry] = useState(null);
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState('');
   // const [checkBox, setChangeCheckBox] = useState(false);
   const [background, setChangeBackGround] = useState(false);
-  const [confirmCheck, setConfirmCheck] = useState("00000");
-  const [confirmNickName, setConfirmNickName] = useState(0);
+  const [confirmCheck, setConfirmCheck] = useState('00000');
+  const [confirmNickName, setConfirmNickName] = useState(false);
   const [confirmBirth, setConfirmBirth] = useState(0);
+  const [btn, setBtn] = useState(false);
+
+  useEffect(() => {
+    confirmNickName && setConfirmNickName(false);
+  }, [nickname]);
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
@@ -50,27 +54,23 @@ export default function SignUpScreen({ navigation }) {
   const handleConfirm = (date) => {
     hideDatePicker();
     let year = String(date.getFullYear());
-    let month = String(date.getMonth()).padStart(2, "0");
-    let day = String(date.getDate()).padStart(2, "0");
+    let month = String(date.getMonth()).padStart(2, '0');
+    let day = String(date.getDate()).padStart(2, '0');
     setConfirmBirth(1);
-    setChangeBirth(day + " " + monthNames[date.getMonth()] + " " + year);
-    set_putBirth(year + "-" + month + "-" + day);
+    setChangeBirth(day + ' ' + monthNames[date.getMonth()] + ' ' + year);
+    set_putBirth(year + '-' + month + '-' + day);
     changeArray(1);
   };
-
-  // const ClickCheckBox = () => {
-  //   checkBox == false ? setChangeCheckBox(true) : setChangeCheckBox(false);
-  // };
 
   const handleCheckNickName = async () => {
     NicknameCheckAPI(nickname)
       .then((response) => {
         if (response === 1) {
           changeArray(0);
-          setConfirmNickName(1);
+          setBtn(true);
         } else {
-          setConfirmNickName(0);
-          Alert.alert("nickname overlap");
+          setConfirmNickName(true);
+          Alert.alert('nickname overlap');
         }
       })
       .catch((error) => {
@@ -81,20 +81,20 @@ export default function SignUpScreen({ navigation }) {
     const array = [];
     for (let i = 0; i < 6; i++) {
       if (index === i) {
-        array.push("1");
+        array.push('1');
       } else {
         array.push(confirmCheck[i]);
       }
     }
-    setConfirmCheck(array.toString().replace(/,/g, ""));
+    setConfirmCheck(array.toString().replace(/,/g, ''));
   };
   useEffect(() => {
-    if (confirmNickName != 0) changeArray(0);
+    if (btn) changeArray(0);
     if (confirmBirth != 0) changeArray(1);
     if (gender != 0) changeArray(2);
     if (country != null) changeArray(3);
-    if (language != "") changeArray(4);
-  }, [gender, country, language, nickname, confirmBirth]);
+    if (language != '') changeArray(4);
+  }, [gender, country, language, btn, confirmBirth]);
 
   const handleSubmit = async () => {
     if (confirmCheck == 11111) {
@@ -103,17 +103,17 @@ export default function SignUpScreen({ navigation }) {
         birth: DB_putBirth,
         gender: gender === 2 ? 0 : 1,
         country: country.name,
-        language: language === "Korean" ? 0 : 1,
+        language: language === 'Korean' ? 0 : 1,
       };
       FormJoinAPI(userData)
         .then((response) => {
           if (response != null) {
             if (response === 1) {
-              AsyncStorage.setItem("userNickName", JSON.stringify(nickname));
-              navigation.navigate("SelectTagScreen");
-            } else Alert.alert("login fail");
+              AsyncStorage.setItem('userNickName', JSON.stringify(nickname));
+              navigation.navigate('SelectTagScreen');
+            } else Alert.alert('login fail');
           } else {
-            Alert.alert("login fail");
+            Alert.alert('login fail');
           }
         })
         .catch((error) => {
@@ -122,18 +122,21 @@ export default function SignUpScreen({ navigation }) {
     }
   };
 
+  console.log(confirmCheck[0]);
+
   return (
     <View style={background === false ? styles.fullscreen : styles.fullOpacity}>
       <StatusBar style="auto" />
+      <Header />
       <View style={styles.container}>
         <Text style={styles.MainText}>Join us</Text>
         <Text style={styles.MainSubText}>Create an account to get started</Text>
-        <ToastMessage
+        {/* <ToastMessage
           visible={confirmNickName}
           handleFunction={setConfirmNickName}
-          title={"Success"}
-          content={"Validation verified"}
-        />
+          title={'Success'}
+          content={'Validation verified'}
+        /> */}
         <View style={styles.FormView}>
           <View style={FormStyles.FormOneView}>
             <View style={styles.RowView}>
@@ -144,21 +147,24 @@ export default function SignUpScreen({ navigation }) {
               style={[
                 FormStyles.FormInput,
                 FormStyles.RowView,
-                confirmCheck[0] == 0
-                  ? { borderColor: "#8F9098" }
-                  : confirmCheck == 2
-                  ? { borderColor: "#FF0000" }
-                  : { borderColor: "#23A047" },
+                !confirmNickName
+                  ? { borderColor: '#8F9098' }
+                  : { borderColor: '#FF0000' },
               ]}
             >
               <TextInput
                 onChangeText={setChangeNickname}
                 value={nickname}
+                color={btn ? '#DCDCDC' : '#000'}
+                editable={!btn}
                 placeholder="NickName"
               />
               <TouchableOpacity
                 activeOpacity={0.8}
-                style={FormStyles.checkNickName}
+                style={[
+                  FormStyles.checkNickName,
+                  { backgroundColor: btn ? '#DCDCDC' : '#FFCC00' },
+                ]}
                 onPress={handleCheckNickName}
               >
                 <Text style={FormStyles.checkText}>Check Availability</Text>
@@ -187,7 +193,7 @@ export default function SignUpScreen({ navigation }) {
               <View style={FormStyles.FormItemSelectView}>
                 <Text
                   style={
-                    birth == "Day / Month / Year"
+                    birth == 'Day / Month / Year'
                       ? FormStyles.DefaultText
                       : FormStyles.BirthInputText
                   }
@@ -225,7 +231,7 @@ export default function SignUpScreen({ navigation }) {
                 <Foundation
                   name="male-symbol"
                   size={toSize(20)}
-                  color={gender == 1 ? "#FFCC00" : "#8F9098"}
+                  color={gender == 1 ? '#FFCC00' : '#8F9098'}
                   style={{ marginRight: toSize(5) }}
                 />
 
@@ -251,7 +257,7 @@ export default function SignUpScreen({ navigation }) {
                 <Foundation
                   name="female-symbol"
                   size={toSize(20)}
-                  color={gender == 2 ? "#FFCC00" : "#8F9098"}
+                  color={gender == 2 ? '#FFCC00' : '#8F9098'}
                   style={{ marginRight: toSize(4) }}
                 />
 
@@ -282,9 +288,9 @@ export default function SignUpScreen({ navigation }) {
         <TouchableOpacity
           style={[
             styles.BottomView,
-            confirmCheck != "11111"
-              ? { borderColor: "#FFCC00", borderWidth: 2 }
-              : { backgroundColor: "#FFCC00" },
+            confirmCheck != '11111'
+              ? { borderColor: '#FFCC00', borderWidth: 2 }
+              : { backgroundColor: '#FFCC00' },
           ]}
           activeOpacity={0.8}
           onPress={handleSubmit}
@@ -292,9 +298,9 @@ export default function SignUpScreen({ navigation }) {
           <Text
             style={[
               styles.BottomButtonText,
-              confirmCheck != "11111"
-                ? { color: "#FFCC00" }
-                : { color: "#fff" },
+              confirmCheck != '11111'
+                ? { color: '#FFCC00' }
+                : { color: '#fff' },
             ]}
           >
             Submit

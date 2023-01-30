@@ -1,22 +1,17 @@
-import React, { useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-} from "react-native-responsive-dimensions";
-import { WebView } from "react-native-webview";
-import { toSize } from "../../../globalStyle";
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { View } from 'react-native';
+import { styles } from './styles';
+import { WebView } from 'react-native-webview';
 
 const LoginKakaoScreen = () => {
-  const REST_API_KEY = "7bbd786d5c3c8d3701c44a4b860efd30";
-  const REDIRECT_URI = "http://localhost:8080/kakao";
+  const REST_API_KEY = '7bbd786d5c3c8d3701c44a4b860efd30';
+  const REDIRECT_URI = 'http://localhost:8080/kakao';
 
   const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`;
 
   const getCode = (target) => {
-    const exp = "code=";
+    const exp = 'code=';
     const condition = target.indexOf(exp);
     if (condition !== -1) {
       const requestCode = target.substring(condition + exp.length);
@@ -44,10 +39,3 @@ const LoginKakaoScreen = () => {
 };
 
 export default LoginKakaoScreen;
-
-export const styles = StyleSheet.create({
-  fullscreen: {
-    flex: 1,
-    marginTop: toSize(44),
-  },
-});

@@ -1,23 +1,16 @@
-import React from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { toSize } from "../../globalStyle";
+import React from 'react';
+import { StyleSheet, View, FlatList, TouchableOpacity } from 'react-native';
+import { toSize } from '../../globalStyle';
+import RKText from '../rk/text';
 
 export default function TagView({ data, clickTagData, changeTagData }) {
   const clickTag = (index) => () => {
     const array = [];
     clickTagData.map((item, i) => {
       if (index === i) {
-        item === 0 ? array.push(1) : array.push(0);
-      } else if (item === 1) {
-        array.push(1);
+        array.push(item === 0 ? 1 : 0);
       } else {
-        array.push(0);
+        array.push(item === 1 ? 1 : 0);
       }
     });
     changeTagData(array);
@@ -28,7 +21,7 @@ export default function TagView({ data, clickTagData, changeTagData }) {
       <View style={styles.TagView}>
         <FlatList
           columnWrapperStyle={{
-            justifyContent: "center",
+            justifyContent: 'center',
             marginBottom: toSize(23),
           }}
           indicatorStyle={{ marginHorizontal: toSize(16) }}
@@ -36,18 +29,21 @@ export default function TagView({ data, clickTagData, changeTagData }) {
           data={data}
           keyExtractor={(item) => item.tagId.id.toString()}
           renderItem={({ item, index }) => (
-            <TouchableOpacity onPress={clickTag(index)}>
-              <Text
-                key={index}
+            <TouchableOpacity key={index} onPress={clickTag(index)}>
+              <RKText
+                size={13}
+                weight={'600'}
+                color={clickTagData[index] === 0 ? '#FFCC00' : '#FFF'}
                 style={[
                   styles.Tag,
-                  clickTagData[index] === 0
-                    ? { backgroundColor: "#FFF6D3", color: "#FFCC00" }
-                    : { backgroundColor: "#FFCC00", color: "#fff" },
+                  {
+                    backgroundColor:
+                      clickTagData[index] === 0 ? '#FFF6D3' : '#FFCC00',
+                  },
                 ]}
               >
-                {"#" + item.engTagName}
-              </Text>
+                {'#' + item.engTagName}
+              </RKText>
             </TouchableOpacity>
           )}
         />
@@ -61,18 +57,16 @@ const styles = StyleSheet.create({
     marginTop: toSize(20),
   },
   TagView: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   Tag: {
     paddingHorizontal: toSize(10),
     paddingVertical: toSize(8),
-    borderRadius: toSize(12),
-    textAlign: "center",
-    fontWeight: "600",
-    fontSize: toSize(13),
+    borderRadius: 12,
+    overflow: 'hidden',
     marginHorizontal: toSize(8),
   },
 });

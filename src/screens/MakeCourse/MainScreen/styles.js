@@ -7,46 +7,40 @@ import { toSize } from '../../../globalStyle';
 
 export const styles = StyleSheet.create({
   fullscreen: {
-    backgroundColor: 'white',
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
     alignItems: 'center',
     flex: 1,
   },
-  fullOpacity: {
-    backgroundColor: 'white',
+  map: {
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
-    alignItems: 'center',
-    opacity: 0.4,
-    flex: 1,
   },
   container: {
-    width: responsiveScreenWidth(100) - toSize(48),
+    position: 'absolute',
+    width: '90%',
+    marginTop: toSize(44),
     flex: 1,
   },
-  FormView: { marginTop: toSize(34) },
-  FormOneView: {
-    borderWidth: 3,
+  MainView: {
+    flex: 1,
+    marginHorizontal: toSize(24),
+    marginVertical: toSize(22),
   },
-  RowView: {
+  rowView: {
+    position: 'absolute',
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  BottomTextView: {
-    marginLeft: toSize(12),
-  },
-  buttonView: {
-    width: '100%',
+  bottomView: {
     position: 'absolute',
     bottom: 0,
-    marginVertical: toSize(24),
+    width: '100%',
   },
-
-  BottomButtonText: {
-    fontSize: toSize(16),
-    fontWeight: '600',
-  },
-  marginTop: {
-    marginTop: toSize(10),
+  backText: {
+    fontWeight: '400',
+    fontSize: toSize(13),
+    color: '#000',
   },
 });
